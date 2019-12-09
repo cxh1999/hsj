@@ -1,0 +1,10 @@
+<foreach name="list" item="v">
+    <tr>
+        <th align="center" abbr="id" axis="col3" class="">
+            <div style="text-align: center; width: 200px;" class="">{$v.money}</div>
+        </th>
+        <th align="center" abbr="ordersn" axis="col4" class="">
+            <a href="{:U('User/bonus_detail',array('tid'=>$v.id,'ordersn'=>$v.ordersn))}">详情</a>
+        </th>
+    </tr>
+</foreach>

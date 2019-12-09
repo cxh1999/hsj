@@ -1,0 +1,96 @@
+<include file="public/header"/>
+<style>
+    .content-head {
+        width: 100%;
+    }
+    .t {
+        text-align: center;
+    }
+    .content-head .top {
+        height: 84px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content-head .title {
+        font-size: 14px;
+        margin: 0 auto;
+    }
+
+    .content-head .total {
+        font-size: 38px;
+        color: #f75429;
+        text-align: center;
+    }
+    .content {
+        padding: 0 20px;
+        margin-top: 20px;
+    }
+    .content .list-item {
+        display: flex;
+        justify-content: space-between;
+    }
+    .content .left {
+        color: #8C8C8C;
+    }
+    .content .right{
+        max-width: 70%;
+        line-height: 2;
+    }
+</style>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">奖励详情</div>
+            <div class="h-right">
+                <aside class="top_bar">
+                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</header>
+<include file="public/menu"/>
+<div id="tbh5v0">
+    <div class="pbox">
+        <div class="content-head">
+            <div class="top">
+                <div class="t">
+                    <div class="title">奖励金额</div>
+                    <div class="total">{$detail.money}</div>
+                </div>
+            </div>
+        </div>
+        <ul class="content">
+            <li class="list-item">
+                <div class="left">订单号</div>
+                <div class="right">{$detail.ordersn}</div>
+            </li>
+            <li class="list-item">
+                <div class="left">交易金额</div>
+                <div class="right">{$detail.money}</div>
+            </li>
+            <li class="list-item">
+                <div class="left">交易时间</div>
+                <div class="right">{$detail.time|date="Y-m-d H:i",###}</div>
+            </li>
+            <li class="list-item">
+                <div class="left">交易详情</div>
+                <div class="right">{$detail.remark}</div>
+            </li>
+            <li class="list-item">
+                <div class="left">奖励状态</div>
+                <div class="right">
+                    <if condition="$detail.bonus_status eq 2">已撤单<elseif condition="$detail.bonus_status eq 0"/>已冻结<else/>已到账</if>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <include file="public/footer_nav"/>
+</div>
+</body>
+</html>
+

@@ -1,0 +1,99 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="toolTipLayer" style="position: absolute; z-index: 9999; display: none; visibility: visible; left: 95px; top: 573px;"></div>
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title"><a class="back" href="javascript:history.back();" title="返回列表"><i class="fa fa-arrow-circle-o-left"></i></a>
+            <div class="subject">
+                <h3>新增区域代理</h3>
+                <h5>商城区域代理相关设定与管理</h5>
+            </div>
+        </div>
+    </div>
+    <form class="form-horizontal" id="handleposition" action="{:U('User/addApply')}" method="post">
+        <input type="hidden" name="sg_id" value="{$info.sg_id}">
+        <dd class="ncap-form-default">
+            <dl class="row">
+                <dt class="tit">
+                    <label for="mobile"><em>*</em>代理人手机号</label>
+                </dt>
+                <dd class="opt">
+                    <input type="text" id="mobile" name="mobile" value="{$info.mobile}" class="input-txt">
+                    <span class="err"></span>
+                    <p class="notic">代理人需绑定手机号,否则无法设置代理</p>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="type"><em>*</em>代理类型</label>
+                </dt>
+                <dd class="opt">
+                    <input type="radio" class="type" name="type" checked="">
+                    <span class="type" >省代理</span>
+                    <input type="radio" class="type" name="type">
+                    <span class="type" >市代理</span>
+                    <input type="radio" class="type" name="type">
+                    <span class="type" >区/县代理</span>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="type"><em>*</em>代理区域</label>
+                </dt>
+                <dd class="opt">
+                <select class="province_select"  name="company_province" id="province" onChange="get_city(this,0)">
+                    <option value="0">请选择</option>
+                    <volist name="province" id="vo">
+                        <option selected value="{$vo.id}">{$vo.name}</option>
+                    </volist>
+                </select>
+                <select name="company_city" id="city" onChange="get_area(this)">
+                    <option  value="0">请选择</option>
+                    <volist name="city" id="vo">
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    </volist>
+                </select>
+                <select name="company_district" id="district" onChange="get_twon(this)">
+                    <option  value="0">请选择</option>
+                    <volist name="district" id="vo">
+                        <option value="{$vo.id}">{$vo.name}</option>
+                    </volist>
+                </select>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="type"></label>
+                </dt>
+                <dd class="opt">
+                    <div class="field submit-btn">
+                        <a type="button" name="area" onclick="doDistrict()">添加区</a>
+                    </div>
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="tit">
+                    <label for="type"></label>
+                </dt>
+                <dd class="opt">
+                    <div class="field submit-btn">
+                        <input type="submit" value="开通" class="btn_big1"/>
+                    </div>
+                </dd>
+            </dl>
+        </dd>
+    </form>
+</div>
+<script type="text/javascript">
+    function adsubmit(){
+        if($('#mobile').val()==''){
+            alert('手机号不能为空');
+            return false;
+        }
+        $('#handleposition').submit();
+    }
+</script>
+</body>
+</html>

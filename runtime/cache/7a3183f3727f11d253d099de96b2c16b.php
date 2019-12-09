@@ -1,0 +1,3 @@
+<?php
+//000031104000a:4:{i:0;a:4:{s:2:"id";i:2;s:7:"cat_id1";i:1;s:4:"logo";s:68:"/public/upload/brand/2019/02-17/7cf1857623c81bf7c66767bcfb2ca04d.jpg";s:6:"is_hot";i:1;}i:1;a:4:{s:2:"id";i:3;s:7:"cat_id1";i:1;s:4:"logo";s:68:"/public/upload/brand/2019/02-17/eb6bb366d22d1adbb85957ca42b1be5f.png";s:6:"is_hot";i:1;}i:2;a:4:{s:2:"id";i:4;s:7:"cat_id1";i:1;s:4:"logo";s:68:"/public/upload/brand/2019/02-17/0a5db4ec1e308a13efc0c61130865f20.png";s:6:"is_hot";i:1;}i:3;a:4:{s:2:"id";i:5;s:7:"cat_id1";i:1;s:4:"logo";s:68:"/public/upload/brand/2019/02-17/b96478bc1dcd122b06dc1618b3c891bb.jpg";s:6:"is_hot";i:0;}}
+?>

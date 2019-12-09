@@ -1,0 +1,169 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>找回密码</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="__PUBLIC__/static/css/login.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery.SuperSlide.2.1.2.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/static/js/jquery.validation.min.js"></script>
+</head>
+
+<body>
+<div class="backPwd_layout" style="height:445px">
+    <form action="" method="post" id="theForm">
+        <div class="backPwd_form">
+            <div class="title">找回密码</div>
+            <div id="error"></div>
+            <div class="formInfo">
+                <div class="formText">
+                    <input type="text" name="user_name" autocomplete="off" class="input-text" value=""
+                           placeholder="输入管理员账号" style="width: 160px"/>
+                    <span id="errors"></span>
+                </div>
+                <div class="formText">
+                    <input type="text" name="phone" autocomplete="off" class="input-text" value=""
+                           placeholder="输入绑定店铺手机号" style="width: 160px"/>
+                    <span id="errore"></span>
+                </div>
+                <div class="formText">
+                    <input type="password" name="password" autocomplete="off" class="input-text" value=""
+                           placeholder="请输入要修改的密码" style="width: 160px"/>
+                </div>
+                <div class="formText">
+                    <input type="text" name="code" autocomplete="off" class="input-text" value="" placeholder="请输入验证码"
+                           style="width: 100px"/>
+                    <span class="sms"><a class="feachBtn" onclick="sms()" style="font-size: 10px">获取验证码</a></span>
+                </div>
+                <div class="formText btn_div">
+                    <input type="button" name="submit" class="sub" value="找回密码"/>
+                    <input type="reset" name="qx" class="cancel" value="取消"/>
+                </div>
+                <div class="formText">
+                    <a href="{:U('Admin/login')}" class="return">返回登录</a>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="action" value="get_pwd"/>
+        <input type="hidden" name="act" value="forget_pwd"/>
+    </form>
+    <script type="text/javascript">
+        /*  @author-bylu 找回密码输入验证 start  */
+        $('#theForm input[name=user_name]').on('blur', function () {
+            var userName = $('#theForm input[name=user_name]').val();
+            $.getJSON('/index.php?m=seller&c=Admin&a=forget_pwd&type=1&user_name=' + userName, function (result) {
+                if (result.code == 0) {
+                    $('#error').html('<span class="error_msg">' + result.msg + '</span>');
+                    $('#errors').html('');
+                    return false;
+                } else {
+                    $('#error').html('');
+                    $('#errors').html('<img width="20" height="20" src="__PUBLIC__/images/yes.png">');
+                }
+            });
+        });
+
+        $('#theForm input[name=phone]').on('blur', function () {
+            var phone = $('#theForm input[name=phone]').val();
+            $.getJSON('/index.php?m=seller&c=Admin&a=forget_pwd&type=2&phone=' + phone + '&user_name=' + $('#theForm input[name=user_name]').val(), function (result) {
+                if (result.code == 0) {
+                    $('#error').html('<span class="error_msg">' + result.msg + '</span>');
+                    $('#errore').html('');
+                    return false;
+                } else {
+                    $('#error').html('');
+                    $('#errore').html('<img width="20" height="20" src="__PUBLIC__/images/yes.png">');
+                }
+            });
+        });
+
+        function sms() {
+            var phone = $('#theForm input[name=phone]').val();
+            var pattern = /^1[0-9]{10}$/;
+            if(!pattern.test(phone)){
+                $('#error').html('<span class="error_msg">请输入正确的手机号</span>');
+                return;
+            }
+            $.getJSON('/index.php?m=seller&c=Admin&a=forget_pwd&type=3&phone='+phone, function (result) {
+                if (result.code == 1) {
+                    $('#error').html('  ');
+                    flas();
+                }else {
+                    $('#error').html('<span class="error_msg">' + result.msg + '</span>');
+                    $('#errors').html('<img width="20" height="20" src="__PUBLIC__/images/yes.png">');
+                    $('#errore').html('<img width="20" height="20" src="__PUBLIC__/images/yes.png">');
+                }
+            })
+
+        }
+        //短信倒计时
+        function flas(){
+            let count = 60;
+            const countDown = setInterval(() => {
+                if (count === 0) {
+                    $('.sms').html('');
+                    $('.sms').html('<a class="feachBtn" onclick="sms()" style="font-size: 10px">获取验证码</a>');
+                    clearInterval(countDown);
+                } else {
+                    $('.sms').html('');
+                    $('.sms').html('<a style="font-size: 10px">'+count +'秒重新获取</a>');
+                }
+                count--;
+            }, 1000);
+        }
+
+
+        $('#theForm input[name=submit]').on('click', function () {
+
+            $.ajax({
+                type : "POST",
+                url:"/index.php?m=seller&c=Admin&a=forget_pwd&type=4",//+tab,
+			    data : $('#theForm').serialize(),// 你的formid 搜索表单 序列化提交
+                dataType:'json',
+                success: function(result)
+                {
+                   if (result.code == 1){
+                       $('#error').html('<span class="error_msg">' + result.msg + '</span>');
+                       alert(result.msg);
+                       window.location.href="{:U('Admin/login')}"
+                   } else {
+                       $('#error').html('<span class="error_msg">' + result.msg + '</span>');
+                   }
+                }
+            });
+        });
+        /*  @author-bylu  end  */
+    </script>
+
+
+</div>
+<div id="bannerBox">
+    <ul id="slideBanner" class="slideBanner">
+        <li><img src="__PUBLIC__/static/images/banner_1.jpg"></li>
+        <li><img src="__PUBLIC__/static/images/banner_2.jpg"></li>
+        <li><img src="__PUBLIC__/static/images/banner_3.jpg"></li>
+        <li><img src="__PUBLIC__/static/images/banner_4.jpg"></li>
+        <li><img src="__PUBLIC__/static/images/banner_5.jpg"></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $("#bannerBox").slide({
+        mainCell: ".slideBanner",
+        effect: "fold",
+        interTime: 3500,
+        delayTime: 500,
+        autoPlay: true,
+        autoPage: true,
+        endFun: function (i, c, s) {
+            $(window).resize(function () {
+                var width = $(window).width();
+                var height = $(window).height();
+                s.find(".slideBanner,.slideBanner li").css({"width": width, "height": height});
+            });
+        }
+    });
+</script>
+</body>
+</html>

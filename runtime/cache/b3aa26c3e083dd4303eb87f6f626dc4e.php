@@ -1,0 +1,3 @@
+<?php
+//000000000000a:14:{s:8:"site_url";s:21:"http://www.tp-shop.cn";s:9:"record_no";s:18:"粤00-703522188号";s:10:"store_name";s:9:"花手眷";s:10:"store_logo";s:67:"/public/upload/logo/2019/02-17/86b7d53f0a6f9e8fbbbf0c4c41e87925.png";s:11:"store_title";s:9:"花手眷";s:10:"store_desc";s:45:"中国商户和粉丝连接最大共享平台";s:13:"store_keyword";s:27:"商家 引流 红包 返利";s:7:"contact";s:9:"彭先生";s:5:"phone";s:11:"17782164512";s:7:"address";s:34:"重庆市渝北区美源国际22-5";s:2:"qq";s:8:"12345678";s:3:"qq2";s:8:"12345678";s:3:"qq3";s:8:"12345678";s:11:"form_submit";s:2:"ok";}
+?>

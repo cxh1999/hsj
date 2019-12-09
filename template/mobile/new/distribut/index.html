@@ -1,0 +1,195 @@
+<include file="public/header"/>
+<style>
+    .top-img {
+        width: 100%;
+        height: 400px;
+    }
+
+    .top-img img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .Wallet1 {
+        position: relative;
+        margin-top: 5px;
+        width: 90px;
+        height: 90px;
+    }
+
+    .Wallet1 .ww {
+        width: 100%;
+        height: 100%;
+    }
+
+    .avatar {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+    }
+
+    .contetn-wrap {
+        display: flex;
+    }
+
+    .wrap-right {
+        padding-top: 5px;
+    }
+
+    .wrap-right p {
+        font-size: 15px;
+        line-height: 2;
+    }
+
+    .img-wrap {
+        margin-top: 5px;
+    }
+
+    /*.img-wrap img {*/
+    /*    !*margin-top: 5px;*!*/
+    /*    width: 100%;*/
+    /*    height: 100%;*/
+    /*}*/
+</style>
+<body>
+<div id="tbh5v0">
+    <div class="user_com">
+        <include file="public/uer_topnav"/>
+        <div class="Wallet">
+            <div class="ss_million">
+                <a class="dj_mill"><em class="Icon j_million"></em>
+                    <dl class="b">
+                        <dt>我的团队</dt>
+                        <dd><span class="million_num">{$lower_count[1]}人</span></dd>
+                    </dl>
+                </a>
+                <div class="show_million">
+                    <a href="{:U('Distribut/lower_list',array('user_id'=>$user_id,'nickname'=>$nickname))}"><em
+                            class="Icon"></em>
+                        <dl class="b">
+                            <dt>我的直接分享人</dt>
+                            <dd style="color:#aaaaaa;"><span>{$lower_count[2]}人</span></dd>
+                        </dl>
+                    </a>
+                </div>
+            </div>
+            <div class="img-wrap" id="img-wrap">
+                <!--<a href="{:U('Distribut/withdrawals')}"><em class="Icon j_million"></em><dl class="b"><dt>申请提现</dt><dd>&nbsp;</dd></dl></a>-->
+                <div class="top-img">
+                    <img id="img1"
+                         src="{$qrCodePoster}"
+                         alt="">
+                </div>
+                <!--        <div class="endorse_hend">-->
+                <!--            <p>推广二维码</p>-->
+                <!--        </div>-->
+                <div class="contetn-wrap">
+                    <div class="Wallet1" style="text-align:center;">
+                        <img id="img2" alt="扫码推广" class="ww" src="{$url}"/>
+                        <img class="avatar" src="{$user_image}">
+                    </div>
+                    <div class="wrap-right">
+                        <p>商客共享,互惠互利</p>
+                        <p>360行无缝链接</p>
+                        <!--                        <p>测试</p>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <include file="public/footer"/>
+</div>
+<include file="public/footer_nav"/>
+</body>
+<script type="text/javascript" src="__PUBLIC__/static/js/html2canvas.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/canvas2image.js"></script>
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    // 收缩展开节点
+    $('.dj_mill').click(function () {
+      $(this).siblings('.show_million').toggle(300);
+    });
+  });
+  $(function () {
+
+    convert2canvas();
+
+    function convert2canvas() {
+      // alert('测试222')
+      var cntElem = document.querySelector("#img-wrap")
+      // var img1 = document.querySelector("#img1")
+      // var img2 = document.querySelector("#img2")
+      // img1.setAttribute("crossOrigin", 'Anonymous')
+      // img2.setAttribute("crossOrigin", 'Anonymous')
+      //
+      // // alert(img1)
+      // // // alert(base641)
+      // // setTimeout(function () {
+      //   var base641 = getBase64Image(img1);
+      //   var base642 = getBase64Image(img2);
+      //   img1.src = base641
+      //   img2.src = base642
+
+      var shareContent = cntElem;//需要截图的包裹的（原生的）DOM 对象
+      var width = shareContent.offsetWidth; //获取dom 宽度
+      var height = shareContent.offsetHeight; //获取dom 高度
+      var canvas = document.createElement("canvas"); //创建一个canvas节点
+      var scale = 1; //定义任意放大倍数 支持小数
+      canvas.width = width * scale; //定义canvas 宽度 * 缩放
+      canvas.height = height * scale; //定义canvas高度 *缩放
+      canvas.getContext("2d").scale(scale, scale); //获取context,设置scale
+      html2canvas(cntElem, {
+        scale: scale, // 添加的scale 参数
+        canvas: canvas, //自定义 canvas
+        // logging: true, //日志开关，便于查看html2canvas的内部执行流程
+        width: width, //dom 原始宽度
+        height: height,
+        useCORS: true, // 【重要】开启跨域配置
+        allowTaint: true
+      }).then(function (canvas) {
+        // var imgSrc = canvas.toDataURL("image/png")
+        // console.log(imgSrc)
+        var context = canvas.getContext('2d');
+        // 【重要】关闭抗锯齿
+        context.mozImageSmoothingEnabled = false;
+        context.webkitImageSmoothingEnabled = false;
+        context.msImageSmoothingEnabled = false;
+        context.imageSmoothingEnabled = false;
+
+        // 【重要】默认转化的格式为png,也可设置为其他格式
+        var img = Canvas2Image.convertToJPEG(canvas, canvas.width, canvas.height);
+        console.log(img)
+        // $('#img-wrap').appendChild(img);
+        // var img = "<img src=" + imgSrc + ">"
+        // $('#qr-code').html(img)
+        $('#img-wrap').html(img);
+        // alert(img)
+        // console.log('测试')
+        // $(img).css({
+        //   "width": canvas.width / 2 + "px",
+        //   "height": canvas.height / 2 + "px",
+        // }).addClass('f-full');
+
+      });
+
+      // }, 1000)
+
+    }
+
+    function getBase64Image(img) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+      var dataURL = canvas.toDataURL("image/" + ext);
+      return dataURL;
+    }
+  })
+</script>
+</html>

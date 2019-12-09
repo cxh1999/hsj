@@ -1,0 +1,53 @@
+<style>
+	.indicate {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: rgba(37, 25, 25, 0.6);
+		overflow: hidden;
+		z-index: 1000;
+	}
+	.indicate .bg-left {
+		position: absolute;
+		width: 94px;
+		right: 30px;
+		top: 3px;
+		z-index: 1001;
+	}
+	.indicate .bg-center {
+		position: absolute;
+		width: 315px;
+		left: 50%;
+		top: 210px;
+		transform: translateX(-50%);
+		z-index: 1001;
+	}
+	.indicate .bg-bootom {
+		position: absolute;
+		width: 150px;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 120px;
+		z-index: 1001;
+	}
+</style>
+<div id="pro_share" class="share"></div>
+<div class="indicate" id="indicate" style="display: none">
+	<img class="bg-left" src="__PUBLIC__/hongbao/image/bg-left.png" alt="">
+	<img class="bg-center" src="__PUBLIC__/hongbao/image/bg-center.png" alt="">
+	<img class="bg-bootom" id="closeHint" src="__PUBLIC__/hongbao/image/bg-bottom.png" alt="">
+</div>
+<script>
+	$("#pro_share").click(function () {
+		$("#indicate").show();
+	});
+</script>
+<script>
+	$(function () {
+		$("#closeHint").click(function(){
+			$("#indicate").fadeOut(500)
+		})
+	})
+</script>

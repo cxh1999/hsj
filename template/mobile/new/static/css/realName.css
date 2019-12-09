@@ -1,0 +1,37 @@
+@charset "utf-8";
+/* 认证页面 */
+p {
+    display: -webkit-inline-box;
+    width: 25%;
+    font-size: 13pt;
+    line-height: 3;
+    font-weight: bold;
+}
+
+input {
+    border: 0;
+   
+}
+
+.smrz {
+    margin: 10pt
+}
+
+.tjxx > button {
+    width: 90%;
+    padding: 5pt;
+    border-radius: 20pt;
+    background: #E85B4D;
+    border: 0;
+    color: white
+}
+
+.yzm > button {
+    border-radius: 20pt;
+    background: #E85B4D;
+    color: white;
+    border: 0;
+    padding: 4pt;
+    font-size: 9pt;
+    width: 22%;
+}

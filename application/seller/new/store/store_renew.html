@@ -1,0 +1,86 @@
+<include file="public/head"/>
+<style type="text/css">
+    .grade-dl
+    {
+        height: 160px;
+        border: none;
+    }
+    .detail{
+        display: none;
+    }
+</style>
+<div class="ncsc-layout wrapper">
+    <include file="public/left"/>
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>店铺<i class="icon-angle-right"></i>店铺续费</div>
+        <div class="main-content" id="mainContent">
+
+            <div class="tabmenu">
+                <ul class="tab pngFix">
+                    <li class="active"><a  href="">店铺续费</a></li>
+                    <!-- li class="normal"><a  href="">装修图库</a></li -->
+                </ul>
+            </div>
+            <div class="ncsc-form-default">
+                <form id="form_setting" method="post" action="">
+                    <dl class="grade-dl">
+                        <dt>续费店铺时长：</dt>
+
+                        <dd>
+                            <label for="store_decoration_switch_on" class="mr30">1年
+                            </label>
+                        </dd>
+                    </dl>
+                    <dl class="grade-dl">
+                        <dt>续费店铺等级:</dt>
+                        <dd>
+                            <foreach name="store_grade" item="vo" key="k">
+                                <label for="store_decoration_switch_on" class="mr30">
+                                    <input id="store_decoration_switch_on" type="radio" class="radio vm mr5" name="grade_id" value="{$vo[sg_id]}">
+                                    {$vo[sg_name]}</label>
+                                <br/>
+                                <p class="hint detail" id="grade_detail{$vo[sg_id]}">
+                                    权益说明:{$vo[sg_description]}
+                                </p>
+                            </foreach>
+                        </dd>
+                    </dl>
+                    <div class="bottom">
+                        <label class="submit-border">
+                            <input id="btn_submit" type="button" class="submit" value="确认续费" />
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.radio').click(function () {
+        $("input[name='grade_id']").removeAttr("checked");
+        $(this).attr("checked", "true");
+        $('.radio:not(this)').parent().siblings('.hint').hide();
+        $("#grade_detail" + $(this).val() ).show();
+
+    })
+
+    $('#btn_submit').click(function(){
+        var sg_id =$("input[name='grade_id'][checked]").val();
+        if (sg_id == undefined ) {
+            layer.alert('请选择您要续费的店铺等级', {icon: 2});
+            return false;
+        }
+        var url = "/index.php/seller/Store/store_renewpay/sg_id/"+sg_id+".html";
+        layer.open({
+            type: 2,
+            title: '店铺续费',
+            shadeClose: true,
+            shade: 0.5,
+            area: ['1020px', '85%'],
+            content: url,
+        });
+    });
+</script>
+<include file="public/foot"/>
+</body>
+</html>

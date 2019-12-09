@@ -1,0 +1,147 @@
+<include file="public/min-header"/>
+<div class="ncsc-layout wrapper" style="width: 1000px;margin: 0px;">
+    <div class="ncsc-form-default">
+            <input type="hidden" name="id" id="id" value="{$redpacket.id}">
+            <input type="hidden" name="store_id" id="store_id" value="{$redpacket.store_id}">
+            <dl>
+                <dt><i class="required">*</i>商品名称：</dt>
+                <dd>
+                    <span class="w400 text">{$goods.goods_name}</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>商品售价：</dt>
+                <dd>
+                    <span class="w400 text">{$goods.shop_price} 元</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>商品简介：</dt>
+                <dd>
+                    <textarea name="goods_remark" class="textarea h60 w400">{$goods.goods_remark}</textarea>
+                    <span id="err_goods_remark"></span>
+                    <p class="hint">商品简介最长不能超过140个汉字</p>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>红包名称：</dt>
+                <dd>
+                    <span class="w400 text">{$redpacket.name}</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>红包发放个数：</dt>
+                <dd>
+                    <span class="w400 text">{$redpacket.createnum} 个红包</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>每个红包金额：</dt>
+                <dd>
+                    <span class="w400 text">{$redpacket.one_money} 元</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>红包总金额：</dt>
+                <dd>
+                    <span class="w400 text">{$redpacket.all_money} 元</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt>发放类型：</dt>
+                <dd>
+                    <if condition="$redpacket['type'] eq 1">
+                        <span class="w400 text">所有的人都可领取</span>
+                        <else/>
+                        <span class="w400 text">发放给指定的粉丝</span>
+                    </if>
+                </dd>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>红包生成时间：</dt>
+                <dd>
+                    <span class="w400 text">{$redpacket.send_end_time|date='Y-m-d H:i:s',###}</span>
+                </dd>
+            </dl>
+
+            <dl>
+                <dt><i class="required">*</i>红包描述：</dt>
+                <dd>
+                    <textarea name="redpaket_info"
+                              class="textarea w400 h600 valid">{$redpacket.redpaket_info}</textarea>
+                    <span></span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>平台费需要支付：</dt>
+                <dd>
+                    <span class="w400 text">{$redpacket.all_money}(红包总价)  x  {$platformfee} %(平台服务费) = {$money}(元)</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><em class="pngFix"></em>状态：</dt>
+                <dd>
+                    <if condition="$redpacket[status] eq 1">
+                        <span class="w400 text">有效</span>
+                        <elseif condition="$redpacket[status] eq -1"/>
+                        <span class="w400 text">已结束</span>
+                        <else/>
+                        <span class="w400 text">无效</span>
+                    </if>
+
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>支付状态：</dt>
+                <dd>
+                    <span class="w400 text "><i class="red" id="pay_no"><if condition="$redpacket['pay_status'] eq 0">未支付<else/>已支付</if></i></span>
+                    <span class="w400 text "><i class="red" id="pay_sse" style="display: none">已支付</i></span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>总共需要支付：</dt>
+                <dd>
+                    <span class="w400 text"><i class="red">{$moneyall}(元)</i></span>
+                </dd>
+            </dl>
+        <if condition="$redpacket['pay_status'] eq 0">
+            <div class="bottom">
+                <p class="submit-border">
+                    <span class="w400 text red">请扫码支付</span>
+                </p>
+                <p class="submit-border">
+                <img src="/index.php?m=Home&c=Index&a=qr_code&data={$code_str}" alt="">
+               </p>
+            </div>
+        </if>
+    </div>
+</div>
+<script type="text/javascript">
+    /**
+     * 检查订单状态
+     */
+    function ajax_check_pay_status() {
+        var id=$('#id').val();
+        var store_id=$('#store_id').val();
+        $.ajax({
+            type: "post",
+            // url: "{:U('Home/Api/check_order_pay_status')}",
+            url: "{:U('seller/Redpacket/pay_status')}",
+            data: {store_id: store_id, redpacket_id: id},
+            dataType: 'json',
+            success: function (data) {
+                if (data.pay_status == 1) {
+                    $('.bottom').hide();
+                    $('#pay_no').hide();
+                    $('#pay_sse').show();
+                    clearInterval(interval);
+                }
+            }
+        });
+    }
+    var interval = setInterval(ajax_check_pay_status, 1000);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<include file="public/header"/>
+<style>
+    .content-head {
+        width: 100%;
+        background-color: #f75429;
+    }
+
+    .content-head .top {
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content-head .title {
+        font-size: 15px;
+        color: #ffffff;
+        margin: 0 auto;
+    }
+
+    .content-head .total {
+        font-size: 42px;
+        color: #ffffff;
+        text-align: center;
+        line-height: 1.1;
+    }
+    .content {
+        padding: 0 10px;
+    }
+    .content .list-item {
+        display: flex;
+        background-color: #fff;
+        justify-content: space-between;
+        padding: 0 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+        height: 54px;
+        box-sizing: border-box;
+    }
+    .content .left {
+        line-height: 54px;
+        font-size: 20px;
+    }
+    .content .right a {
+        font-size: 13px;
+        line-height: 22px;
+        text-align: left;
+    }
+    .detail {
+        height: 22px;
+        text-align: right;
+        color: #8C8C8C;
+    }
+    .content .right .time {
+        font-size: 12px;
+        color: #8C8C8C;
+    }
+</style>
+<body style="background-color:#f0f0f0;">
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">奖励查看</div>
+            <div class="h-right">
+                <aside class="top_bar">
+                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
+                            href="javascript:;"></a></div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</header>
+<include file="public/menu"/>
+<div id="tbh5v0">
+    <div class="pbox" >
+        <div class="content-head">
+            <div class="top">
+                <div class="t">
+                    <div class="title">我的奖励总额</div>
+                    <div class="total">{$total}</div>
+                </div>
+            </div>
+        </div>
+        <ul class="content">
+            <foreach name="list" item="v">
+            <li class="list-item">
+                <div class="left">{$v.money}</div>
+                <div class="right">
+                    <div class="detail"><a href="{:U('User/bonus_detail',array('tid'=>$v.id,'ordersn'=>$v.ordersn))}">详情</a>
+                    </div>
+                    <div class="time">{$v.time|date="Y-m-d H:i",###}</div>
+                </div>
+            </li>
+            </foreach>
+            <!--<li class="list-item">-->
+                <!--<div class="left">$999</div>-->
+                <!--<div class="right">-->
+                    <!--<div class="detail"><a href="{:U('User/bonus_detail',array('tid'=>$v.id,'ordersn'=>$v.ordersn))}">详情</a>-->
+                    <!--</div>-->
+                    <!--<div class="time">2019-8-8 24:44:44</div>-->
+                <!--</div>-->
+            <!--</li>-->
+            <empty name="list">
+                <div id="list_0_0" class="font12">您没有任何奖励数据哦！</div>
+            </empty>
+        </ul>
+
+        <!--        <div class="hDiv">-->
+        <!--            <div class="hDivBox">-->
+        <!--                <table cellspacing="0" cellpadding="0">-->
+        <!--                    <thead>-->
+        <!--                    <tr>-->
+        <!--                        <th align="center" abbr="id" axis="col3" class="">-->
+        <!--                            <div style="text-align: center; width: 200px;" class="">奖励总额</div>-->
+        <!--                        </th>-->
+        <!--                        <th align="center" abbr="ordersn" axis="col4" class="">-->
+        <!--                            <div style="text-align: center; width: 200px;" class=""></div>-->
+        <!--                        </th>-->
+        <!--                    </tr>-->
+        <!--                    <tr>-->
+        <!--                        <th align="center" abbr="id" axis="col3" class="">-->
+        <!--                            <div style="text-align: center; width: 200px;" class="">100</div>-->
+        <!--                        </th>-->
+        <!--                        <th align="center" abbr="ordersn" axis="col4" class="">-->
+        <!--                            <a href="{:U('User/bonus_detail',array('tid'=>$v.id,'ordersn'=>$v.ordersn))}">详情</a>-->
+        <!--                        </th>-->
+        <!--                    </tr>-->
+        <!--                    <tr>-->
+        <!--                        <th align="center" abbr="id" axis="col3" class="">-->
+        <!--                            <div style="text-align: center; width: 200px;" class="">100</div>-->
+        <!--                        </th>-->
+        <!--                        <th align="center" abbr="ordersn" axis="col4" class="">-->
+        <!--                            <a href="{:U('User/bonus_detail',array('tid'=>$v.id,'ordersn'=>$v.ordersn))}">详情</a>-->
+        <!--                        </th>-->
+        <!--                    </tr>-->
+        <!--                    </thead>-->
+        <!--                </table>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <notempty name="list">
+            <!-- 下滑加载无更多样式 S-->
+            <div id="getmore"
+                 style="font-size:.24rem;text-align: center;color:#888;padding:.25rem .24rem .4rem; clear:both">
+                <a href="javascript:void(0)" onClick="ajax_sourch_submit()">点击加载更多</a>
+            </div>
+            <!-- 下滑加载无更多样式 E-->
+        </notempty>
+    </div>
+    <script>
+      var page = 1;
+
+      /*** ajax 提交表单 查询订单列表结果*/
+      function ajax_sourch_submit() {
+        page += 1;
+        $.ajax({
+          type: "GET",
+          url: "/index.php?m=Mobile&c=User&a=bonus_list&is_ajax=1&p=" + page,//+tab,
+//			url:"{:U('Mobile/User/points',null,'')}/is_ajax/1/p/"+page,//+tab,
+//			data : $('#filter_form').serialize(),// 你的formid 搜索表单 序列化提交
+          success: function (data) {
+            if ($.trim(data) == '')
+              $('#getmore').hide();
+            else
+              $("#J_il_list_1").append(data);
+          }
+        });
+      }
+    </script>
+    <include file="public/footer_nav"/>
+</div>
+</body>
+</html>
+

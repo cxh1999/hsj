@@ -1,0 +1,3 @@
+<?php
+//000000000000a:11:{s:10:"sms_appkey";s:2:"11";s:13:"sms_secretKey";s:2:"22";s:11:"sms_product";s:12:"搜豹TPSHOP";s:16:"sms_templateCode";s:2:"SM";s:16:"regis_sms_enable";s:1:"0";s:12:"sms_time_out";s:4:"1800";s:21:"forget_pwd_sms_enable";s:1:"0";s:22:"bind_mobile_sms_enable";s:1:"0";s:20:"order_add_sms_enable";s:1:"1";s:20:"order_pay_sms_enable";s:1:"1";s:25:"order_shipping_sms_enable";s:1:"1";}
+?>

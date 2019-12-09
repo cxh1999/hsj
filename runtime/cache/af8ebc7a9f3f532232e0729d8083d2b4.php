@@ -1,0 +1,3 @@
+<?php
+//000031104000a:1:{i:0;a:13:{s:8:"store_id";i:29;s:11:"store_phone";s:11:"18423283487";s:10:"store_logo";N;s:10:"store_name";s:6:"球球";s:16:"store_desccredit";s:4:"0.00";s:19:"store_servicecredit";s:4:"0.00";s:20:"store_deliverycredit";s:4:"0.00";s:13:"store_address";s:18:"重庆美源国际";s:14:"store_location";s:20:"29.603861,106.518707";s:13:"province_name";s:9:"江苏省";s:9:"city_name";s:9:"徐州市";s:13:"district_name";s:9:"云龙区";s:11:"goods_array";i:0;}}
+?>

@@ -1,0 +1,75 @@
+<include file="public/min-header"/>
+<div class="ncsc-layout wrapper" style="width: 1000px;margin: 0px;">
+    <div id="layoutRight" class="ncsc-layout-right">
+        <div class="main-content" id="mainContent">
+            <form method="post" action="" id="form-user">
+                <input type="hidden" name="cid" id="cid" value="{$cid}">
+                <table class="ncsc-default-table">
+				    <thead>
+				    <tr>
+				        <th class="w30 tl"></th>
+				        <th class="w100">商品名称</th>
+				        <th class="w100">价格</th>
+				        <th class="w100 tl">库存</th>
+				    </tr>
+				    </thead>
+				    <if condition="empty($orderList) eq true">
+				  	<tbody>
+				  		<tr>
+				      		<td colspan="20" class="norecord"><div class="warning-option"><i class="icon-warning-sign"></i><span>暂无符合条件的数据记录</span></div></td>
+				    	</tr>
+				      </tbody>
+				  <else/> 
+				    <tbody>
+				    <volist name="goodsList" id="list">
+				        <tr class="bd-line">
+				            <td class="tl"></td>
+				            <td>{$list.goods_name}</td>
+				            <td>{$list.shop_price}</td>
+				            <td class="tl">{$list.store_count}</td>
+				        </tr>
+				    </volist>
+				    </tbody>
+				    </if>
+				    <tfoot>
+				    <tr>
+				        <td colspan="20">
+				            {$page}
+				        </td>
+				    </tr>
+				    </tfoot>
+				</table>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function(){
+        ajax_get_table('search-form2',1);
+    });
+
+    // ajax 抓取页面
+    function ajax_get_table(tab,page){
+        cur_page = page; //当前页面 保存为全局变量
+        $.ajax({
+            type : "POST",
+            url:"/index.php/Seller/Coupon/ajax_get_user/p/"+page,//+tab,
+            data : $('#'+tab).serialize(),// 你的formid
+            success: function(data){
+                $("#ajax_return").html('').append(data);
+            }
+        });
+    }
+
+    function doconfirm(){
+        if($("input[type='checkbox']:checked").length == 0)
+        {
+            layer.alert('请选择会员', {icon: 2}); //alert('请选择商品');
+            return false;
+        }else{
+            $('#form-user').submit();
+        }
+    }
+</script>
+</body>
+</html>

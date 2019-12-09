@@ -1,0 +1,249 @@
+<html>
+<head>
+    <meta name="Generator" content="tpshop"/>
+    <meta charset="utf-8">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport"
+          content="minimal-ui=yes,width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <title>商品列表-{$tpshop_config['shop_info_store_title']}</title>
+    <meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}"/>
+    <meta name="description" content="{$tpshop_config['shop_info_store_desc']}"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/group_buy.css"/>
+    <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/layer.js"></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+      var page = 1;
+      wx.config(
+        {$jsConfig}
+      );
+      // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在 页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready 函数中。
+      wx.ready(function () {
+        wx.getLocation({
+          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          success: function (res) {
+            let latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            let longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            requery(latitude, longitude, 1);
+            $("#getmore").html('<a href="javascript:void(0)" id="wgs" onclick="requery(' + latitude + ',' + longitude + ',1)">点击加载更多</a>')
+          },
+          fail: function (e) {
+            requery();
+            $("#getmore").html('<a href="javascript:void(0)" id="wgs" onclick="requery()">点击加载更多</a>')
+          }
+        });
+        // }
+      });
+
+      function requery(latitude = 0, longitude = 0, type = 0) {
+        $.ajax({
+          type: "get",
+          url: "/index.php?m=Mobile&c=Redpacket&a=ajaxRedPacket&p=" + page + "&lat=" + latitude + "&long=" + longitude + "&type=" + type,
+          dataType: 'json',
+          success: function (data) {
+            if (data) {
+              $("#good_list").append(data);
+              page++;
+              $('.get_more').hide();
+            } else {
+              $('.get_more').hide();
+              $('#getmore').remove();
+            }
+          }
+        });
+      }
+    </script>
+    <style>
+        .ellipsis {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .list-wrapper {
+            padding: 10px;
+        }
+
+        .list-item {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #dddddd;
+            display: flex;
+            padding-bottom: 10px;
+        }
+
+        .list-item .left {
+            width: 100px;
+            height: 100px;
+            overflow: hidden;
+            min-width: 100px;
+            min-height: 100px;
+            border-radius: 5px;
+        }
+
+        .list-item .left img {
+            width: 100%;
+            height: auto;
+        }
+
+        .list-item .right {
+            width: 100%;
+            padding: 0 15px;
+            overflow: hidden;
+        }
+
+        .right .title {
+            font-size: 15px;
+            margin-top: -10px;
+        }
+
+        .right .top {
+            margin-top: -12px;
+            color: #FF2233;
+            font-size: 14px;
+        }
+
+        .right .top .price {
+            font-size: 15px;
+
+        }
+
+        .right .desc {
+            line-height: 1.6;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .right .desc .dist {
+            font-size: 13px;
+        }
+
+        .right .bottom {
+            color: #999;
+            font-size: 12px;
+        }
+        .sale-num {
+            color: #999;
+        }
+
+        .discount {
+            height: 14px;
+            line-height: 14px;
+            font-size: 12px;
+            color: #fff;
+            width: 35px;
+            text-align: center;
+            position: relative;
+            background: #e12228;
+            margin-right: 8px;
+            padding: 0 6px;
+        }
+
+        .discount:after {
+            content: "";
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            font-size: 0;
+            display: inline-block;
+            border-left: 4px solid #e12228;
+            border-bottom: 4px dashed transparent;
+            position: absolute;
+            bottom: -3px;
+            left: 0
+        }
+    </style>
+</head>
+<body style="background:#FFF;">
+<div class="tab_nav">
+    <div class="header">
+        <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+        <div class="h-mid">分享有奖</div>
+        <div class="h-right">
+            <aside class="top_bar">
+                <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>
+<include file="public/menu"/>
+<!--
+<div class="u-brand">
+  <div class="p-relative"> <a href="affiche.php?ad_id=37&uri=" class="u-brand-pic J_item-list"> <img src="data/afficheimg/1442790291652215474.jpg" class="BrandMer_star"> </a>
+  <div class="u-brand-pms">刷出“唇”在感！</div>  </div>
+  <div class="u-brand-msg e-border-b clearfix">
+    <p class="u-brand-name f-left"><span class="u-brand-discount"><span class="salebg2">4.9折</span></span>菲丽菲拉（PERIPERA）炫彩染色唇彩</p>
+    <div class="u-brand-time f-right">剩85天</div>
+  </div>
+</div>
+ -->
+<h3 class="sg_box_tit">分享有奖</h3>
+<ul class="list-wrapper" id="good_list">
+    <!--<li class="list-item">-->
+        <!--<div class="left">-->
+            <!--<img src="//img.alicdn.com/imgextra/i4/100607985/O1CN01Q5KNsQ28rB9GPCYgW_!!0-saturn_solar.jpg_220x220.jpg_.webp"-->
+                 <!--alt="">-->
+        <!--</div>-->
+        <!--<div class="right">-->
+            <!--<div class="title">标题</div>-->
+            <!--<div class="top">-->
+                <!--<i class="discount" style="display:;">红包</i>-->
+                <!--<span class="price">￥99元</span>-->
+            <!--</div>-->
+            <!--<div class="desc">-->
+                <!--<div class="sale-num">已售8件</div>-->
+                <!--<div class="dist">5.6km</div>-->
+            <!--</div>-->
+            <!--<div class="bottom ellipsis" >-->
+                <!--商品介绍:红包活动红包活动红包活动红包活动红包活动红包活动红包活动红包活动红包活动红包活动红包活动红包活动红包活动-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</li>-->
+</ul>
+<a href="javascript:;" class="get_more" style="text-align:center; display:block;">
+    <img src='__STATIC__/images/category/loader.gif' width="12" height="12"> </a>
+<div id="getmore" style="font-size:.24rem;text-align: center;color:#888;padding:.25rem .24rem .4rem;">
+    <!--<a href="javascript:void(0)" onClick="getMoreList()">点击加载更多</a>-->
+</div>
+
+<script>
+  function goTop() {
+    $('html,body').animate({'scrollTop': 0}, 600);
+  }
+
+
+  // $(function () {
+  //     //$('#J_ItemList').more({'address': url});
+  //     getMoreList();
+  // });
+
+  // var page = 1;
+  //
+  // function getMoreList() {
+  //     $('.get_more').show();
+  //     $.ajax({
+  //         type: "get",
+  //         url: "/index.php?m=Mobile&c=Redpacket&a=ajaxRedPacket&p=" + page,
+  //         dataType: 'json',
+  //         success: function (data) {
+  //             console.log(data);
+  //             if (data) {
+  //                 $("#good_list").append(data);
+  //                 page++;
+  //                 $('.get_more').hide();
+  //             } else {
+  //                 $('.get_more').hide();
+  //                 $('#getmore').remove();
+  //             }
+  //         }
+  //     });
+  // }
+</script>
+<a href="javascript:goTop();" class="gotop"><img src="__STATIC__/images/topup.png"></a>
+<include file="public/footer"/>
+<include file="public/footer_nav"/>
+</body>
+</html>

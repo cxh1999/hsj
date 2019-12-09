@@ -1,0 +1,11 @@
+<foreach name="goods_list" item="vo">
+    <li>
+        <a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+            <img src="{:C('qiniu.url')}{$vo.original_img}" alt="{:C('qiniu.url')}{$vo.original_img}" srcset="{:C('qiniu.url')}{$vo.original_img}"
+                 srcd="{:C('qiniu.url')}{$vo.original_img}">
+
+            <p> {$vo.goods_name|getSubstr=0,20} </p>
+            <span>￥{$vo.shop_price}元</span>
+        </a>
+    </li>
+</foreach>

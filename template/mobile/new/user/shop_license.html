@@ -1,0 +1,317 @@
+<include file="public/header"/>
+<style type="text/css">
+	#base_see
+	{
+		font-size: 12px;
+	    margin-left: 10px;
+	    line-height: 25px;
+	    color: #ccc;
+	}
+	#base_see span
+	{
+		color: #746F7D;
+	    font-weight: bold;
+	}
+	#grade_detail
+	{
+	    height: 80px;
+	    line-height: 30px;
+	    font-size: 12px;
+	    display:none;
+	}
+	#shopnature
+	{
+		background: #FFF;
+		font-size: 12px;
+		height: 48px;
+    width: 60%;
+	}
+  #shopnature1
+  {
+    background: #FFF;
+    font-size: 12px;
+    height: 48px;
+    width: 60%;
+  }
+	#select_adr select
+	{
+
+	    width: 80px;
+	    font-size: 12px;
+	    background: #FFF;
+	    height: 48px;
+	}
+	#select_adr
+	{
+		height: 100px;
+	}
+	.btn_big1
+	{
+		background: #E71F19;
+	 	display: block;
+	    margin: auto;
+	    font-size: 14px;
+	    line-height: 40px;
+	    border: 0px;
+	    color: #FFF;
+	    width: 40%;
+	    margin: auto;
+	    margin-top: 30px;
+	    margin-bottom: 10px;
+	    border-radius: 3px;
+	    font-family: "微软雅黑";
+      float: right;
+      margin-right: 30px;
+	}
+
+  #btn_big2
+  {
+    background: #ccc;
+    display: block;
+      margin: auto;
+      font-size: 14px;
+      line-height: 40px;
+      border: 0px;
+      color: #FFF;
+      width: 20%;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      font-family: "微软雅黑";
+      float: left;
+      margin-left: 30px;
+  }
+  .license_msg
+  {
+    font-size: 12px;
+    float: right;
+    color: #ccc;
+  }
+  #number1
+  {
+    height: 145px;
+  }
+   #number2
+  {
+    height: 145px;
+    display:none;
+  }
+   #number3
+  {
+    height: 145px;
+  }
+  #number4
+  {
+    height: 92px;
+    border: none;
+  }
+  #number5
+  {
+    height: 160px;
+  }
+  #number1 input
+  {
+    width: 80%;
+  }
+  #number2 input
+  {
+    width: 80%;
+  }
+  #number3 input
+  {
+    width: 80%;
+  }
+  #number4 input
+  {
+    width: 30%;
+  }
+  #number5 textarea
+  {  
+    width: 100%;
+    height: 100px;
+    border: 1px solid #eeeeee;
+  }
+  #hr-div{
+    border-bottom: 1px solid #eeeeee;
+  }
+  #license_sure
+  {
+    font-size: 14px;
+    color: #666;
+    margin-left: 10px;
+  }
+  .noonetoone
+  {
+    display:none;
+  }
+</style>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">营业执照信息</div>
+            <div class="h-right">
+                <aside class="top_bar">
+                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
+                            href="javascript:;"></a></div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</header>
+<include file="public/menu"/>
+    <div class="Personal">
+        <div id="tbh5v0">
+            <div class="innercontent1">
+                <form method="post" action="{:U('Mobile/User/shop_license')}" id="edit_profile" onSubmit="return checkinfo()">
+                  <div class="name1"><span>一证一码商家</span>
+                      <ul>
+                          <li class='<if condition="$apply[threeinone] eq 1">on</if>'>
+                              <label for="sex0">
+                                  <input type="radio" class="radio" name="supplier[threeinone]" value="1"/>
+                                  是</label>
+                          </li>
+                          <li class='<if condition="$apply[threeinone] eq 0">on</if>'>
+                              <label for="sex1">
+                                  <input type="radio" class="radio" name="supplier[threeinone]" value="0"/>
+                                  否</label>
+                          </li>  
+                      </ul>
+                  </div>
+                  <div class="name">
+                    <span>注册资金</span>
+                    <input type="text" id="regCapital" name="supplier[reg_capital]" value="{$apply.reg_capital}" class="c-f-text">
+                    <span>万元(人民币)</span>
+                  </div>
+                  <!--<div class="name" id="number1">-->
+                    <!--<p><if condition="$apply[threeinone] eq 0">营业执照注册号<else/>统一社会信用代码</if></p>-->
+                   <!--<input type="text" id="corpLicenceNumber" name="supplier[business_licence_number]" value="{$apply.business_licence_number}" class="c-f-text">-->
+                    <!--<p class="license_msg">-->
+                      <!--<if condition="$apply[threeinone] eq 0">-->
+                        <!--请输入数字组成的营业执照号，长度为不超过20个字符-->
+                      <!--<else/>-->
+                        <!--请输入18位数字或字母组成的统一社会信用代码-->
+                      <!--</if>-->
+                    <!--</p>-->
+                  <!--</div>-->
+                  <div class="name" id="number3">
+                    <p>法人姓名</p>
+                   <input type="text" id="legal_person" name="supplier[legal_person]" value="{$apply.legal_person}" class="c-f-text">
+                   <p class="license_msg">法人姓名 即 法定代表人姓名</p>
+                  </div>
+                  <div class="name" id="number4">
+                    <p>营业执照有效期</p>
+                      <input type="date" id="business_date_start" name="supplier[business_date_start]" value="{$apply.business_date_start}" class="c-f-text">
+                      -  
+                      <input type="date" id="business_date_end" name="supplier[business_date_end]" value="{$apply.business_date_end}" class="c-f-text">
+                  </div>
+                  <div id="hr-div"></div>
+                  <div class="name" id="number5">
+                    <p>营业执照经营范围</p>
+                     <textarea id="business_scope" name="supplier[business_scope]" autocomplete="off">{$apply.business_scope}</textarea>
+                  </div>
+                  <div class="name noonetoone">
+                    <span>组织机构代码</span>
+                    <input type="text" id="orgnizationCode" name="supplier[orgnization_code]" value="{$apply.orgnization_code}" class="c-f-text">
+                  </div>
+                  <div class="name noonetoone">
+                    <span>税务登记号码</span>
+                    <input type="text" id="attachedTaxNumber" name="supplier[attached_tax_number]" value="{$apply.attached_tax_number}" class="c-f-text">
+                  </div>
+                  <div class="name"><span>纳税人类型</span>
+                        <select id="shopnature" name="supplier[taxpayer]">
+                            <option value="">请选择</option>
+                            <option value="1" <if condition="$apply[taxpayer] eq 1">selected</if> >一般纳税人</option>
+                            <option value="2" <if condition="$apply[taxpayer] eq 2">selected</if> >小规模纳税人</option>
+                            <option value="3" <if condition="$apply[taxpayer] eq 3">selected</if> >非增值税纳税人</option>
+                    </select>
+                  </div>
+                  <div class="name"><span>纳税类型税码</span>
+                        <select id="shopnature1" name="supplier[tax_rate]">
+                          <foreach name="rate_list" item="vo" key="k">
+                              <option value="{$k}" <if condition="$apply[tax_rate] eq $k">selected</if>>{$vo}%</option>
+                            </foreach>
+                    </select>
+                  </div>
+
+                  <div class="field submit-btn">
+                      <input type="button" value="上一步" id="btn_big2" onclick="preStep()" />
+                      <input type="submit" value="下一步,店铺信息" class="btn_big1"/>
+                  </div>
+                </form>
+            </div>   
+        </div>
+    </div>
+
+    <script>
+        $('.name1 ul li').click(function () {
+            $(this).find("input").attr("checked", "checked");
+            $('.name1 ul li').removeClass("on");
+            $(this).addClass("on");
+            if ( $(this).find("input").val() == 1 ) {
+                $("#number1").children(":first").html('统一社会信用代码');
+                $("#number1").find(".license_msg").html('请输入18位数字或字母组成的统一社会信用代码');
+                $(".noonetoone").hide();
+            } else {  
+                $("#number1").children(":first").html('营业执照注册号');
+                $("#number1").find(".license_msg").html('请输入数字组成的营业执照号，长度为不超过20个字符');
+                $(".noonetoone").show();
+            }
+        })
+
+        function preStep(){
+          location.href = "{:U('Mobile/User/base_shopinfor')}";
+        }
+
+        function checkinfo(){
+          if ( $("#regCapital").val() == "" ) {
+            alert("请输入注册资金");
+            return false;
+          }
+          // if ( $("#corpLicenceNumber").val() == "" ) {
+          //   alert("请输入营业执照注册号/统一社会信用代码");
+          //   return false;
+          // }
+          if ( $("#legal_person").val() == "" ) {
+            alert("请输入法定代表人姓名");
+            return false;
+          }
+          if ( $("#business_date_start").val() == "" ) {
+            alert("请输入营业执照有效期开始时间");
+            return false;
+          }
+          if ( $("#business_date_end").val() == "" ) {
+            alert("请输入营业执照有效期结束时间");
+            return false;
+          }
+          if ( $("#business_date_end").val() <= $("#business_date_start").val() ) {
+            alert("营业执照有效期开始日期不能晚于结束日期");
+            return false;
+          } 
+          if ( $("#business_scope").val() == "" ) {
+            alert("请输入营业执照经营范围");
+            return false;
+          }
+          if ( $(".on").find('input').val() == 0 ) {
+            if ( $("#orgnizationCode").val() == "" ) {
+              alert("请输入组织机构代码");
+              return false;
+            }
+            if ( $("#attachedTaxNumber").val() == "" ) {
+              alert("请输入税务登记号码");
+              return false;
+            }
+          }
+          if ( $("#shopnature").val() == "" ) {
+            alert("请选择纳税人类型");
+            return false;
+          }
+        }
+    </script>
+
+<script language="javascript">
+</script>
+</body>
+</html>

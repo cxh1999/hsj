@@ -1,0 +1,197 @@
+<include file="public/header"/>
+<style type="text/css">
+    #base_see
+    {
+        font-size: 12px;
+        margin-left: 10px;
+        line-height: 25px;
+        color: #ccc;
+    }
+    #base_see span
+    {
+        color: #746F7D;
+        font-weight: bold;
+    }
+    #grade_detail
+    {
+        height: 80px;
+        line-height: 30px;
+        font-size: 12px;
+        display:none;
+    }
+    #shopnature
+    {
+        background: #FFF;
+        font-size: 12px;
+        height: 48px;
+        width: 60%;
+    }
+    #select_adr select
+    {
+
+        width: 80px;
+        font-size: 12px;
+        background: #FFF;
+        height: 48px;
+    }
+    #select_adr
+    {
+        height: 50px;
+    }
+    .btn_big1
+    {
+        background: #E71F19;
+        display: block;
+        margin: auto;
+        font-size: 14px;
+        line-height: 40px;
+        border: 0px;
+        color: #FFF;
+        width: 95%;
+        margin: auto;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        border-radius: 3px;
+        font-family: "微软雅黑";
+    }
+</style>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">基本信息</div>
+            <div class="h-right">
+                <aside class="top_bar">
+                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
+                            href="javascript:;"></a></div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</header>
+<include file="public/menu"/>
+<div class="Personal">
+    <div id="tbh5v0">
+        <div class="innercontent1">
+            <form method="post" action="{:U('Mobile/User/base_shopinfor')}" id="edit_profile" onSubmit="return checkinfo()">
+                <p id="base_see">
+                    <span>卖家入驻联系人信息</span>
+                    用于入驻过程中接收平台官方反馈的入驻通知，请务必填写正确
+                </p>
+                <div class="name"><span>联系人姓名</span>
+                    <input type="text" id="contacterName" name="contacts_name" value="{$apply.contacts_name}" class="c-f-text">
+                </div>
+                <div class="name"><span>联系人手机</span>
+                    <input type="text" id="contacterMobile" name="contacts_mobile" value="{$apply.contacts_mobile}"
+                           class="c-f-text">
+                </div>
+                <div class="name"><span>公司名称</span>
+                    <input type="text" name="company_name" id="corpName" value="{$apply.company_name}"
+                           class="c-f-text">
+                </div>
+                <div class="name"><span>公司性质</span>
+                    <select id="shopnature" name="company_type">
+                        <option value="">请选择</option>
+                        <foreach name="company_type" item="v" key="k">
+                            <option value="{$k}" <if condition="$apply[company_type] eq $k">selected</if>>{$v}</option>
+                        </foreach>
+                    </select>
+                </div>
+                <div class="name" id="select_adr" ><span>公司所在地</span>
+                    <select class="province_select"  name="company_province" id="province" onChange="get_city(this,0)">
+                        <option value="0">请选择</option>
+                        <volist name="province" id="vo">
+                            <option <if condition="$vo[id] eq $apply[company_province]">selected</if> value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <select name="company_city" id="city" onChange="get_area(this)">
+                        <option  value="0">请选择</option>
+                        <volist name="city" id="vo">
+                            <option <if condition="$vo[id] eq $apply[company_city]">selected</if> value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                    <select name="company_district" id="district" onChange="get_twon(this)">
+                        <option  value="0">请选择</option>
+                        <volist name="district" id="vo">
+                            <option <if condition="$vo[id] eq $apply[company_district]">selected</if> value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                </div>
+                <div class="name"><span>公司详细地址</span>
+                    <input type="text" name="company_address" id="corpAddress" value="{$apply.company_address}" class="c-f-text">
+                </div>
+                <div class="name"><span>固定电话</span>
+                    <input type="text" name="company_telephone" id="contacterPhoneNumber" value="{$apply.company_telephone}"
+                           class="c-f-text">
+                </div>
+                <div class="name"><span>邮政编码</span>
+                    <input type="text" name="company_zipcode" id="zipCode" value="{$apply.company_zipcode}"
+                           class="c-f-text">
+                </div>
+                <div class="field submit-btn">
+                    <input type="submit" value="下一步,填写营业执照信息" class="btn_big1"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="mobileRegex" value="^(13[0-9]{9})|(14[57][0-9]{8})|(15[012356789][0-9]{8})|(170[0-9]{8})|(18[0-9]{9})$"/>
+<script>
+    $('.name1 ul li').click(function () {
+        $(this).find("input").attr("checked", "checked");
+        $('.name1 ul li').removeClass("on");
+        $(this).addClass("on");
+    })
+
+    function checkinfo(){
+        var _mobile = new RegExp(document.getElementById("mobileRegex").value);
+        var _phone = /^((\+?[0-9]{2,4}\-[0-9]{3,4}\-)|([0-9]{3,4}\-))?([0-9]{7,8})(\-[0-9]+)?$/;
+        var _zip = /^[0-9][0-9]{5}$/;
+        if ( $("#contacterName").val() == "" ) {
+            alert("请输入联系人姓名");
+            return false;
+        }
+        if ( !( _mobile.test( $("#contacterMobile").val() ) ) ) {
+            alert("请输入正确的联系人手机");
+            return false;
+        }
+        if ( $("#corpName").val() == "" ) {
+            alert("请输入公司名称");
+            return false;
+        }
+        if ( $("#shopnature").val() == "" ) {
+            alert("请选择公司性质");
+            return false;
+        }
+        if ( $("#province").val() == 0 ) {
+            alert("请选择公司所在省");
+            return false;
+        }
+        if ( $("#city").val() == 0 ) {
+            alert("请选择公司所在市");
+            return false;
+        }
+        if ( $("#district").val() == "选择区域" ) {
+            alert("请选择公司所在区/县");
+            return false;
+        }
+        if ( $("#corpAddress").val() == "" ) {
+            alert("请输入公司详细地址");
+            return false;
+        }
+        if ( !( _phone.test( $("#contacterPhoneNumber").val() ) ) ) {
+            alert("请输入正确的固定电话");
+            return false;
+        }
+        if ( !( _zip.test( $("#zipCode").val() ) ) ) {
+            alert("请输入正确的邮政编码");
+            return false;
+        }
+    }
+</script>
+
+<script language="javascript">
+</script>
+</body>
+</html>

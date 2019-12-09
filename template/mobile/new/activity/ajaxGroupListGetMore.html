@@ -1,0 +1,41 @@
+<foreach name="list" item="v" key="k" >
+	<li class="list-item">
+		<div class="left">
+		<!-- 			<if condition="$v[prom_img] neq ''">
+			<a href="{:U('Mobile/Activity/group',array('id'=>$v[goods_id]))}">
+				<img src="{:C('qiniu.url')}{$v[prom_img]}"
+					 alt="">
+			</a>
+			<else/>
+			<a href="{:U('Mobile/Activity/group',array('id'=>$v[goods_id]))}">
+				<img src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png"
+					 alt="">
+			</a>
+		</if> -->
+		<a href="{:U('Mobile/Activity/group',array('id'=>$v[goods_id]))}">
+			<img src="http://qiniu.baoliy168.com/da0ae4f1d5cd8ac4a46f289b9ee257fc.jpg" alt="">
+		</a>
+		</div>
+		<div class="right">
+			<div class="title">{$v[title]|getSubstr=0,30}</div>
+			<div class="top">
+				<i class="discount" style="display:;">{$v[rebate]}折</i>
+				<span class="price">￥{$v.price}元</span>
+				<span class="old-price">￥{$v.goods_price}元</span>
+			</div>
+			<div class="desc">
+				<div class="sale-num">{$v[virtual_num] + $v[buy_num]}人已参加</div>
+			</div>
+			<div class="bottom ellipsis" >
+              <span class="sg_g_time last_g_time" id="jstimerBox31">
+                 倒计时<span id="surplus_text{$v[goods_id]}"></span>
+              </span>
+			</div>
+		</div>
+	</li>
+	<script>
+		Tday['{$v[goods_id]}'] = new Date('{$v.end_time|date="Y/m/d H:i:s",###}');
+		window.setInterval(function()
+		{clock11('{$v[goods_id]}');}, 1000);
+	</script>
+</foreach>

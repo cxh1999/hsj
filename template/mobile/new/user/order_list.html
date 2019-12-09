@@ -1,0 +1,217 @@
+<include file="public/header"/>
+<body>
+<style type="text/css">
+.anniu span{
+  margin-right: 15px;
+  border-radius: 15px;
+}
+
+.anniu a{
+  margin-right: 15px;
+  border-radius: 15px;
+}
+
+.order_list dt img
+{
+  border-radius: 5px;
+  height: 85px;
+}
+
+.order_div
+{
+  border-radius: 15px;
+  margin-top: 10px;
+}
+
+.order_div h2 #img-dianpu
+{
+  width: 30px;
+  height: 30px;
+}
+
+.order_div h2 span
+{
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.order_list h2
+{
+  border:none;
+}
+
+.order_list dl
+{
+  border:none;
+}
+
+.order_list .pic
+{
+  border:none;
+}
+
+/* .order_div h2 a strong
+{
+  margin-right: 230px;
+  width: 15px;
+  height: 15px;
+} */
+
+/* .order_div h2 a strong img
+{
+  width: 15px;
+  height: 15px;
+} */
+
+ .order_div h2 .span_status
+{
+  font-size: 14px;
+  font-weight: normal;
+  color: #F30;
+  float: right;
+}
+
+
+.order_div h2 a strong img
+{
+  width: 15px;
+  height: 15px;
+  margin-right: 180px;
+}
+
+</style>
+<header>
+<div class="tab_nav">
+   <div class="header">
+     <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+     <div class="h-mid">我的订单</div>
+     <div class="h-right">
+       <aside class="top_bar">
+         <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+       </aside>
+     </div>
+   </div>
+ </div>
+</header>
+<include file="public/menu"/>
+
+<div id="tbh5v0">
+<!--------筛选 form 表单 开始-------------->
+<form action="{:U('Mobile/order_list/ajax_order_list')}" name="filter_form" id="filter_form">  
+      <div class="Evaluation2">
+            <ul>
+              <li><a href="{:U('/Mobile/User/order_list')}" class="tab_head <if condition="$_GET[type] eq ''">on</if>"  >全部</a></li>
+              <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITPAY'))}"      class="tab_head <if condition="$_GET[type] eq 'WAITPAY'">on</if>">待付款</a></li>
+              <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITSEND'))}"     class="tab_head <if condition="$_GET[type] eq 'WAITSEND'">on</if>">待发货</a></li>
+              <li><a href="{:U('/Mobile/User/order_list',array('type'=>'WAITRECEIVE'))}"  class="tab_head <if condition="$_GET[type] eq 'WAITRECEIVE'">on</if>">待收货</a></li>
+              <li><a href="{:U('/Mobile/User/comment',array('status'=>'0'))}" class="tab_head ">待评价</a></li>
+            </ul>
+      </div>     
+      
+	<div class="order ajax_return">
+	   <volist name="lists" id="list">
+       <div class="order_list order_div">
+          <h2> 
+            <img src="__STATIC__/images/dianpu.png" id="img-dianpu" /><span>{$storeList[$list['store_id']]['store_name']}</span>                  
+            <!-- <a href="mqqwpa://im/chat?chat_type=wpa&uin={$storeList[$list['store_id']]['store_qq']}&version=1&src_type=web&web_src=oicqzone.com">
+                 <img src="__PUBLIC__/images/qq.gif" />
+               </a>  --> 
+              <span class="span_status">
+                <if condition="$list.pay_status eq 0 and $list.order_status eq 0">待付款</if>
+                <if condition="$list.pay_status eq 1 and in_array($list['order_status'], array(0, 1)) and $list.shipping_status neq 1">待发货</if>
+                <if condition="$list.shipping_status eq 1 and $list.order_status eq 1">待收货</if>
+                <if condition="$list.order_status eq 2">待评价</if>
+                <if condition="$list.order_status eq 3">已取消</if>
+                <if condition="$list.order_status eq 4">已完成</if>
+              </span>  
+              <a href="{:U('/Mobile/Store/index',array('store_id'=>$storeList[$list['store_id']]['store_id']))}">    
+                 <strong><img src="__STATIC__/images/icojiantou1.png" /></strong>
+              </a>  
+          </h2>
+         	<a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">
+	          <volist name="list.goods_list" id="good">
+		          <dl>  
+		          <dt style="width: 25%;">
+                <if condition="$good[original_img] neq ''">
+                  <img src="{:C('qiniu.url')}{$good[original_img]}"
+                       alt="">
+                <else/>
+                  <img src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png"
+                       alt="">
+                </if>
+              </dt>
+		          <dd class="name"><strong>{$good.goods_name}</strong>
+		          <span>{$good.spec_key_name} </span></dd>
+		          <dd class="pice">￥{$good['member_goods_price']}元<em>x{$good['goods_num']}</em></dd>
+				      <dd class="pice" style="float:right">                  
+              	<em>
+                <!--   <if condition="($list[return_btn] eq 1) and ($good[is_send] lt 2)"></if>     -->  
+                  <if condition="$list.pay_status eq 1 and in_array($list['order_status'], array(0, 1)) and $list.shipping_status neq 1">
+                    <a href="{:U('Mobile/User/return_goods',array('order_id'=>$list[order_id],'order_sn'=>$list[order_sn],'goods_id'=>$good[goods_id],'spec_key'=>$good['spec_key']))}" style="color:#999;">申请退款</a>
+                  </if>
+                  <if condition="$list.shipping_status eq 1 and $list.order_status eq 1">
+                    <a href="{:U('Mobile/User/return_goods',array('order_id'=>$list[order_id],'order_sn'=>$list[order_sn],'goods_id'=>$good[goods_id],'spec_key'=>$good['spec_key']))}" style="color:#999;">申请退款</a>
+                  </if>
+                </em>
+              </dd>                    
+		          </dl>
+	          </volist>
+          	</a>
+          <div class="pic">共{$list.goods_list|count}件商品<span>应付：</span><strong>￥{$list['order_amount']}元</strong></div>
+          <div class="anniu" style="width:95%">
+                <if condition="$list.cancel_btn eq 1"><span onClick="cancel_order({$list.order_id})">取消订单</span></if>
+                <if condition="$list.pay_btn eq 1"><a href="{:U('Mobile/Cart/cart4',array('order_id'=>$list['order_id']))}">立即付款</a></if>
+                <if condition="$list.receive_btn eq 1"><a href="{:U('Mobile/User/order_confirm',array('id'=>$list['order_id']))}">确认收货</a></if>    
+                <!--<if condition="$list.comment_btn eq 1"><a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">评价</a></if>-->
+                <if condition="$list.comment_btn eq 1"><a href="{:U('Mobile/User/comment_list',array('order_id'=>$list['order_id'],'store_id'=>$list['store_id'],'goods_id'=>$vo['goods_id']))}">评价</a></if>
+                <if condition="$list.shipping_btn eq 1"><a href="http://www.kuaidi100.com/" target="_blank">查看物流</a></if>
+                <if condition="$list.return_btn eq 1"><a href="tel:{$storeList[$list['store_id']]['store_phone']}">联系客服</a></if>                        
+          </div>
+       </div>
+		</volist>  
+    </div>
+  <!--查询条件-->
+  <input type="hidden" name="type" value="<?php echo $_GET['type'];?>" />
+</form>   
+<notempty name="lists"> 
+   <div id="getmore" style="font-size:.24rem;text-align: center;color:#888;padding:.25rem .24rem .4rem; clear:both">
+  		<a href="javascript:void(0)" onClick="ajax_sourch_submit()">点击加载更多</a>
+  </div>         
+</notempty>    
+</div>
+
+
+<script language="javascript">
+var  page = 1;
+ 
+ /*** ajax 提交表单 查询订单列表结果*/  
+ function ajax_sourch_submit()
+ {	 	
+ 		page += 1; 	 
+		$.ajax({
+			type : "GET",
+			url:"{:U('Mobile/User/order_list',array('type'=>$_GET['type']),'')}/is_ajax/1/p/"+page,//+tab,			
+			//data : $('#filter_form').serialize(),
+			success: function(data)
+			{
+				if(data == '')
+					$('#getmore').hide();
+				else  
+				{
+					$(".ajax_return").append(data);			
+					$(".m_loading").hide();
+				}
+			}
+		}); 
+ }
+ 
+//取消订单
+function cancel_order(id){
+	if(!confirm("确定取消订单?"))
+		return false;
+	location.href = "/index.php?m=Mobile&c=User&a=cancel_order&id="+id;
+}
+
+</script>
+</body>
+</html>

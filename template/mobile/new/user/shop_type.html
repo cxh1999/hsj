@@ -1,0 +1,150 @@
+<include file="public/header"/>
+<style type="text/css">
+	#base_see
+	{
+		font-size: 12px;
+	    margin-left: 10px;
+	    line-height: 25px;
+	    color: #ccc;
+	}
+	#base_see span
+	{
+		color: #746F7D;
+	    font-weight: bold;
+	}
+	.name_detail
+	{
+	    line-height: 30px;
+	    font-size: 12px;
+      display:none;
+      color: #52bf7f;
+	}
+	#shopnature
+	{
+		background: #FFF;
+		font-size: 12px;
+		height: 48px;
+		width: 60%;
+	}
+	#select_adr select
+	{
+
+	    width: 80px;
+	    font-size: 12px;
+	    background: #FFF;
+	    height: 48px;
+	}
+	#select_adr
+	{
+		height: 100px;
+	}
+	.btn_big1
+  {
+    background: #E71F19;
+    display: block;
+      margin: auto;
+      font-size: 14px;
+      line-height: 40px;
+      border: 0px;
+      color: #FFF;
+      width: 40%;
+      margin: auto;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      border-radius: 3px;
+      font-family: "微软雅黑";
+      float: right;
+      margin-right: 30px;
+  }
+
+  #btn_big2
+  {
+    background: #ccc;
+    display: block;
+    margin: auto;
+    font-size: 14px;
+    line-height: 40px;
+    border: 0px;
+    color: #FFF;
+    width: 20%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    border-radius: 3px;
+    font-family: "微软雅黑";
+    float: left;
+    margin-left: 30px;
+  }
+  #grade
+  {
+      height: 200px;
+      border:none;
+  }
+</style>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">店铺等级</div>
+            <div class="h-right">
+                <aside class="top_bar">
+                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
+                            href="javascript:;"></a></div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</header>
+<include file="public/menu"/>
+    <div class="Personal">
+        <div id="tbh5v0">
+            <div class="innercontent1">
+                <form method="post" action="{:U('Mobile/User/shop_type')}" id="edit_profile" onSubmit="return checkinfo()">
+                	<p id="base_see">
+                		<span>不同等级商家</span>
+                		入驻费,平台服务费,享受权益等各有不同
+                	</p>             
+                  <div class="name1" id="grade"><span>申请等级</span>
+                      <ul>
+                        <foreach name="store_grade" item="vo" key="k">
+                          <li class='<if condition="$apply[sg_id] eq $vo[sg_id]">on</if>' li-id="{$vo[sg_id]}">
+                              <label for="sex1">
+                                  <input type="radio" name="sg_id" value="{$vo[sg_id]}" tabindex="3" class="radio"/>
+                                  {$vo[sg_name]}</label>
+                                  <input type="hidden" name="sg_name" value="{$vo[sg_name]}"/>
+                          </li>
+                          <br/>
+                          <p class="name_detail" id="grade_detail{$vo[sg_id]}" style='<if condition="$apply[sg_id] eq $vo[sg_id]">display:block;</if>'>
+                            权益说明:{$vo[sg_description]}
+                          </p>
+                        </foreach>
+                      </ul>
+                  </div>
+                    <div class="field submit-btn">
+                      <input type="button" value="上一步" id="btn_big2" onclick="preStep()"/>
+                      <input type="submit" value="确认申请" class="btn_big1"/>
+                  </div>
+                </form>
+            </div>   
+        </div>
+    </div>
+
+    <script>
+        $('.name1 ul li').click(function () {
+            $(this).find("input").attr("checked", "checked");
+            $('.name1 ul li').removeClass("on");
+            $(this).addClass("on");
+            $('.name1 ul li:not(this)').siblings('.name_detail').hide();
+            $("#grade_detail" + $(this).attr("li-id") ).show();
+            
+        })
+        function preStep(){
+          location.href = "{:U('Mobile/User/qualificy_shopset')}";
+         }
+    </script>
+
+<script language="javascript">
+</script>
+</body>
+</html>

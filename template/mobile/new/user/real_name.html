@@ -1,0 +1,271 @@
+<include file="public/header"/>
+<body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+<!--<script>-->
+    <!--$(function () {-->
+        <!--layer.open({-->
+            <!--title: '花手眷',-->
+            <!--skin: 'layui-layer-demo', //样式类名-->
+            <!--closeBtn: 1, //不显示关闭按钮-->
+            <!--anim: 5,-->
+            <!--// area: ['200px', '200px'],-->
+            <!--shadeClose: true, //开启遮罩关闭-->
+            <!--content: '切换平台',-->
+            <!--btn:['确定'],-->
+            <!--yes: function(index, data){-->
+                <!--window.location.href = "http://huasj.baoliy168.com/index.php/mobile/User/real_name/od/{$Think.session.user.openid}/ud/{$Think.session.user.user_id}/rd/{$Think.session.user.referrer_id}.html"-->
+            <!--}-->
+        <!--});-->
+    <!--})-->
+<!--</script>-->
+<if condition="empty($is_type)">
+    <style>
+        body, html {
+            background-color: #fff;
+        }
+
+        .Personal {
+            background-color: #fff;
+        }
+
+        .h-mid {
+            width: 100%;
+        }
+
+        .name input {
+            border: none;
+            width: 100%;
+            border-radius: 6px;
+            padding-left: 24px;
+            box-sizing: border-box;
+            line-height: 40px;
+            height: 40px;
+            background-color: #f0f1f2;
+        }
+
+        .Personal .innercontent1 .name {
+            border: none;
+            position: relative;
+            line-height: 40px;
+            height: 40px;
+            margin: 6px auto;
+        }
+
+        .input-title {
+            font-size: 14px;
+            padding: 0 10px;
+            line-height: 1.6;
+        }
+
+        .icongeren {
+            position: absolute;
+            left: 5px;
+            top: -2px;
+        }
+
+        .submit-btn {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 40px;
+        }
+
+        .btn_big1 {
+            border-radius: 20px;
+        }
+
+        .binding-wrap {
+            background-color: #fff;
+            margin: 100px auto;
+            display: flex;
+            flex-direction: column;
+            /*justify-items: center;*/
+            /*justify-content: center;*/
+            align-items: center;
+        }
+
+        .binding-wrap .img {
+            width: 66px;
+            height: 66px;
+        }
+
+        .binding-wrap .img img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .binding-wrap .desc {
+            font-size: 14px;
+            color: #333333;
+            line-height: 24px;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1477791_xew34bzyzb.css"/>
+    <div class="Personal">
+        <div id="tbh5v0">
+            <div class="binding-wrap">
+                <div class="img">
+                    <img src="__STATIC__/images/binding.png" alt="">
+                </div>
+                <div class="desc">您已经实名认证了</div>
+            </div>
+            <div class="innercontent1">
+                <div class="field submit-btn">
+                    <input type="submit" onclick="ok()" value="确认" class="btn_big1"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function ok() {
+            window.location.href = "{:U('mobile/Index/index')}";
+        }
+    </script>
+    <else/>
+    <style>
+        p {
+            display: -webkit-inline-box;
+            width: 25%;
+            font-size: 13pt;
+            line-height: 3;
+            font-weight: bold;
+        }
+
+        input {
+            border: 0
+        }
+
+        .smrz {
+            margin: 10pt
+        }
+
+        .tjxx > button {
+            width: 90%;
+            padding: 5pt;
+            border-radius: 20pt;
+            background: #E85B4D;
+            border: 0;
+            color: white
+        }
+
+        .yzm > button {
+            border-radius: 20pt;
+            background: #E85B4D;
+            color: white;
+            border: 0;
+            padding: 4pt;
+            font-size: 9pt;
+            width: 22%;
+        }
+    </style>
+    <header>
+        <div class="tab_nav">
+            <div class="header">
+                <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+                <div class="h-mid">实名认证</div>
+                <div class="h-right">
+                    <!--<aside class="top_bar">-->
+                    <!--<div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a-->
+                    <!--href="javascript:;"></a></div>-->
+                    <!--</aside>-->
+                </div>
+            </div>
+        </div>
+        <!-- 实名认证 -->
+        <form action="" id="real-form" class="real-form" method="post">
+            <div class="smrz">
+
+                <div>
+                    <p>姓名</p><input type="text" id="name" name="name" placeholder="请输入姓名">
+                </div>
+                <div>
+                    <p>手机号</p><input type="text" id="phone" name="phone" placeholder="请输入手机号">
+                </div>
+                <div class="yzm">
+                    <p>验证码</p><input type="text" id="check" name="check" placeholder="请输入验证码">
+                    <a type="buttom" style="border-radius: 20pt;
+                background: #E85B4D;
+                color: white;
+                border: 0;
+                padding: 4pt 7pt;
+                font-size: 9pt;
+                width: 22%;" id="sryzm" class="sryzm">获取验证码</a>
+                </div>
+            </div>
+        </form>
+        <div class="tjxx" style="text-align: center;border-top: 1pt solid #ece1e1;
+    padding-top: 10pt;
+">
+            <button id="submit">提交信息</button>
+        </div>
+        <!--end  -->
+        <script type="text/javascript">
+            $("#submit").click(function (e) {
+                if ($('#name').val() == "") {
+                    layer.msg('请输入真实姓名', {offset: ['100px', '30%']});
+                    return false;
+                }
+                if ($('#phone').val() == "") {
+                    layer.msg('请输入手机号', {offset: ['100px', '30%']});
+                    return false;
+                }
+                if ($('#check').val() == "") {
+                    layer.msg('请输入验证码', {offset: ['100px', '30%']});
+                    return false;
+                }
+                $('#real-form').submit();
+            });
+            $("#sryzm").click(function (e) {
+                var phone = $("#phone").val();
+                if (phone == "") {
+                    layer.msg('请输入手机号', {offset: ['100px', '30%']});
+                    return false;
+                }
+                if (!isPhone(phone)) {
+                    layer.msg('请输入正确的手机号', {offset: ['100px', '30%']});
+                    return false;
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: "{:U('User/realNameSms')}",
+                    data: {'phone': phone},
+                    dataType: 'JSON',
+                    success: function (res) {
+                        if (res.code == 1) {
+                            miao();
+                            layer.msg(res.data, {offset: ['100px', '30%']});
+                        } else {
+                            layer.msg(res.data, {offset: ['100px', '30%']});
+                        }
+                    }
+                })
+            })
+
+            function miao() {
+                $(".sryzm").css("background", "#999")
+                $(".sryzm").css("pointer-events", "none")
+                var a = $(".sryzm")
+                var i = 60
+                var time = setInterval(function () {
+                    if (i == 0) {
+                        a[0].innerHTML = `获取验证码`
+                        $(".sryzm").css("background", "#E85B4D")
+                        $(".sryzm").css("pointer-events", "auto")
+                        clearInterval(time)
+                    } else {
+                        a[0].innerHTML = `重新获取${i}`
+                        --i;
+                    }
+                }, 1000);
+            }
+
+            // 验证手机号
+            function isPhone(phone) {
+                var pattern = /^1[3456789]\d{9}$/;
+                return pattern.test(phone);
+            }
+        </script>
+    </header>
+</if>
+</body>

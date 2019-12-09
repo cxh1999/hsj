@@ -1,0 +1,142 @@
+<include file="public/layout" />
+<body style="background-color: #FFF; overflow: auto;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>红包设置</h3>
+                <h5>广告红包提成比例选项设置</h5>
+            </div>
+            <ul class="tab-base nc-row">
+                <li><a href="{:U('System/index')}"><span>商城信息</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'basic'))}" ><span>基本设置</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'shopping'))}"><span>购物流程</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'sms'))}" ><span>短信设置</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'smtp'))}" ><span>邮件设置</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'water'))}" ><span>水印设置</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'settled'))}"><span>入驻设置</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'flow'))}" ><span>流水设置</span></a></li>
+                <li><a href="{:U('System/index',array('inc_type'=>'envelopes'))}" class="current"><span>红包设置</span></a></li>
+                <!--<li><a href="{:U('System/index',array('inc_type'=>'wap'))}" ><span>WAP设置</span></a></li>-->
+                <!--<li><a href="{:U('System/index',array('inc_type'=>'extend'))}" ><span>扩展设置</span></a></li>-->
+            </ul>
+        </div>
+    </div>
+    <!-- 操作说明 -->
+    <div class="explanation" id="explanation">
+        <div class="title" id="checkZoom"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span id="explanationZoom" title="收起提示"></span> </div>
+        <ul>
+            <!--<li>如果分销开关关闭，那么不会平台启用分销模块</li>-->
+            <li>网站全局基本设置，商城及其他模块相关内容在其各自栏目设置项内进行操作。</li>
+        </ul>
+    </div>
+    <form method="post" enctype="multipart/form-data" name="form1" id="handlepost" action="{:U('System/set_envelopes')}">
+        <input type="hidden" name="inc_type" value="{$inc_type}">
+        <div class="ncap-form-default">
+            <div id="switch_on_off">
+                <dl class="row">
+                    <dt class="tit">
+                        <label>省代理广告红包提成</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="province" id="province" value="{$config.province|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>市代理广告红包提成</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="city" id="city" value="{$config.city|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>区/县代理广告红包提成</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="district" id="district" value="{$config.district|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>平台服务费</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="platform_fee" id="platform_fee" value="{$config.platform_fee|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>分享红包奖励比例</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="share_red_packet" id="share_red_packet" value="{$config.share_red_packet|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>分享朋友圈获得商品返利比例</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="share_real_buy" id="share_real_buy" value="{$config.share_real_buy|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>答题红包比例</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="packet_answer_scale" id="packet_answer_scale" value="{$config.packet_answer_scale|default=0}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">默认为0表示0%，最大为100表示100%</p>
+                    </dd>
+                </dl>
+                <dl class="row">
+                    <dt class="tit">
+                        <label>红包引流率</label>
+                    </dt>
+                    <dd class="opt">
+                        <input name="red_packet_drainage" id="red_packet_drainage" value="{$config.red_packet_drainage|default=100}" class="input-txt" type="text"  onpaste="this.value=this.value.replace(/[^\d]/g,'')" onkeyup="this.value=this.value.replace(/[^\d]/g,'')" >
+                        <p class="notic">最小为100表示100%</p>
+                    </dd>
+                </dl>
+            </div>
+            <div class="bot">
+                <input type="hidden" name="inc_type" value="{$inc_type}">
+                <a href="JavaScript:void(0);" class="ncap-btn-big ncap-btn-green" onclick="formsubmit()">确认提交</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div id="goTop"> <a href="JavaScript:void(0);" id="btntop"><i class="fa fa-angle-up"></i></a><a href="JavaScript:void(0);" id="btnbottom"><i class="fa fa-angle-down"></i></a></div>
+<script type="text/javascript">
+
+    function formsubmit(){
+        var distribut_first_rate  = $.trim($('#distribut_first_rate').val());
+        var distribut_second_rate = $.trim($('#distribut_second_rate').val());
+        var distribut_third_rate  = $.trim($('#distribut_third_rate').val());
+
+        var rate = parseInt(distribut_first_rate) + parseInt(distribut_second_rate) + parseInt(distribut_third_rate);
+        if(rate > 100)
+        {
+            layer.msg('三个分销商比例总和不得超过100%', {icon: 2,time: 2000});//alert('少年，邮箱不能为空！');
+            // alert('三个分销商比例总和不得超过100%');
+            return false;
+        }
+
+        $('#handlepost').submit();
+    }
+
+</script>
+</body>
+</html>

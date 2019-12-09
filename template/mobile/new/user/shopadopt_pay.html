@@ -1,0 +1,208 @@
+<include file="public/header"/>
+<style type="text/css">
+	#base_see
+	{
+		font-size: 12px;
+	    margin-left: 10px;
+	    line-height: 25px;
+	    color: #52BF7F;
+    	font-weight: bold;
+	}
+	#base_see span
+	{
+		color: #746F7D;
+	    font-weight: bold;
+	}
+	#grade_detail
+	{
+	    height: 80px;
+	    line-height: 30px;
+	    font-size: 12px;
+	    display:none;
+	}
+	#shopnature
+	{
+		background: #FFF;
+		font-size: 12px;
+		height: 48px;
+		width: 60%;
+	}
+	#select_adr select
+	{
+
+	    width: 80px;
+	    font-size: 12px;
+	    background: #FFF;
+	    height: 48px;
+	}
+	#select_adr
+	{
+		height: 100px;
+	}
+	.btn_big1
+	{
+		background: #E71F19;
+	 	display: block;
+	    margin: auto;
+	    font-size: 16px;
+	    line-height: 40px;
+	    border: 0px;
+	    color: #FFF;
+	    width: 95%;
+	    margin: auto;
+	    margin-top: 30px;
+	    margin-bottom: 10px;
+	    border-radius: 3px;
+	    font-family: "微软雅黑";
+	}
+	#store_grade
+	{
+		font-size: 22px;
+	    color: #52bf7f;
+	    margin-top: 20px;
+	    text-shadow: 5px 4px 11px #0C0C0C;
+	    text-align: center;
+	    font-weight: bold;
+	}
+
+	#number1
+	{
+		height: 90px;
+	}
+	#number2
+	{
+		height: 90px;
+	}
+	#number3
+	{
+		height: 90px;
+	}
+	#number4
+	{
+		height: 110px;
+	}
+
+	#number1 input
+	{
+		width: 80%;
+	}
+	#number2 input
+	{
+		width: 80%;
+	}
+	#number3 input
+	{
+		width: 80%;
+	}
+	#verify_code2
+	{
+	    margin-right: 75px;
+	}
+</style>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="header">
+            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+            <div class="h-mid">缴纳入驻金</div>
+            <div class="h-right">
+                <aside class="top_bar">
+                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
+                            href="javascript:;"></a></div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</header>
+<include file="public/menu"/>
+    <div class="Personal">
+        <div id="tbh5v0">
+            <div class="innercontent1">
+                <form method="post" action="{:U('Mobile/Payment/shopPay')}" id="edit_profile" onSubmit="return checkinfo()">
+					<div id="base_see">
+                		<span>尊敬的用户,您好!您的入驻申请已经审核通过,请完善以下信息并妥善保存,且支付相应的入驻金即可开通店铺!</span>
+						<p>温馨提示:请妥善保存好您的卖家账号,店主账号,登录密码!</p>
+						<p>温馨提示:卖家账号和登录密码将用于商家管理后台的登录!</p>
+                	</div>  
+					<div class="name">
+	                    <span>卖家账号</span>
+	                    <input type="text" id="seller_name" name="seller_name" value="{$apply.seller_name}" class="c-f-text" disabled="disabled">
+	                </div>
+                  	<div class="name" id="number1">
+	                    <p>店主账号</p>
+	                    <input type="text" id="user_name" name="user_name" value="{$user_name}" class="c-f-text" placeholder="11位手机号格式的账号">
+	                </div>
+                  	<div class="name" id="number2">
+	                    <p>登录密码</p>
+	                    <input type="password" id="password" name="password" value="" class="c-f-text" placeholder="6-16位大小写英文字母,数字或符号的组合">
+	                </div>
+                  	<div class="name" id="number3">
+	                    <p>确认密码</p>
+	                    <input type="password" id="pwdsure" name="pwdsure" value="" class="c-f-text" placeholder="请再次输入密码">
+                  	</div>
+                  	<div class="name" id="number4">
+	                    <p>图像验证码</p>
+						<input type="text" class="inp imgcode J_imgcode" placeholder="图像验证码" id="verify_code2" name="verify_code" required=""/>
+						<img width="115" height="40" src="/index.php/Home/User/verify/type/user_reg.html" id="reflsh_code2" class="po-ab to0">
+                        <a><img onclick="verify('reflsh_code2')" src="__STATIC__/images/chg_image.png" class="ma-le-210"></a>                   
+                  	</div>
+	                    <p id="store_grade">您的店铺等级为:{$sg_name}</p>                    	               
+                    <div class="field submit-btn">
+                    	<input type="hidden" name="ordersn" value="{$ordersn}" />
+                    	<input type="hidden" name="pay_radio" value="pay_code=weixin"/>
+                    	<input type="hidden" name="user_id" value="{$apply['user_id']}" />
+                        <input type="button" value="确认支付¥{$sg_price}元" class="btn_big1" onClick="pay()"/>
+                    </div>                    
+                </form>
+            </div>   
+        </div>
+    </div>
+    <script type="text/javascript">
+    	// 普通 图形验证码 
+	    function verify(id){
+	        $('#'+id).attr('src','/index.php?m=Home&c=User&a=verify&type=user_reg&r='+Math.random());
+	    }
+
+	    function pay(){
+	        $('#edit_profile').submit();
+	        return;
+	        //微信JS支付
+    	}
+
+
+	    function checkinfo(){
+	        var seller_name = $('#seller_name').val();
+	        var user_name = $('#user_name').val();
+	        var password = $('#password').val();
+	        var pwdsure = $('#pwdsure').val();
+	        var verify_code = $('input[name="verify_code"]').val();		
+	       	if ( !checkMobile( user_name ) ) {
+	       		alert('请输入正确格式的店主账号');
+	       		return false;
+	       	}
+	       	if ( password == '' || password.length < 6 ) {
+	       		alert('请设置符合格式的登录密码');
+	       		return false;
+	       	}
+	       	if ( pwdsure != password ) {
+	       		alert('确认密码与登录密码不一致');
+	       		return false;
+	       	}
+	       	if ( verify_code == '' ) {
+	       		alert('请输入图像验证码');
+	       		return false;
+	       	}  	   	
+    	}
+
+
+    	function checkMobile(tel) {
+	        var reg = /(^1[3|4|5|7|8][0-9]{9}$)/;
+	        if (reg.test(tel)) {
+	            return true;
+	        }else{
+	            return false;
+	        };
+	    }
+	</script>
+</body>
+</html>

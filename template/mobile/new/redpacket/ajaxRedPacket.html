@@ -1,0 +1,21 @@
+<foreach name="list" item="v" key="k">
+    <li class="list-item" onclick="location.href='{:U(\'Redpacket/details\',array(\'id\'=>$v[goods_id]))}'">
+        <div class="left">
+            <img src="{$v.original_img}" alt="红包">
+        </div>
+        <div class="right">
+            <div class="title">{$v['goods_name']}</div>
+            <div class="top">
+                <i class="discount" style="display:;">红包</i>
+                <span class="price">￥{$v['shop_price']}元</span>
+            </div>
+            <div class="desc">
+                <div class="sale-num">已售{$v['sales_sum']}件</div>
+                <div class="dist"><if condition="$v.distance neq null">{$v.distance}km</if></div>
+            </div>
+            <div class="bottom ellipsis">
+                商品介绍:{$v['goods_remark']}
+            </div>
+        </div>
+    </li>
+</foreach>

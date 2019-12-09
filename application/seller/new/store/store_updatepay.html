@@ -1,0 +1,67 @@
+<include file="public/min-header"/>
+<div class="ncsc-layout wrapper" style="width: 1000px;margin: 0px;">
+    <div class="ncsc-form-default">
+            <input type="hidden" name="orderSn" id="orderSn" value="{$orderSn}">        
+            <dl>
+                <dt><i class="required">*</i>店铺升级名称：</dt>
+                <dd>
+                    <span class="w400 text">{$store_grade.sg_name}</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>店铺享受权益：</dt>
+                <dd>
+                    <span class="w400 text">{$store_grade.sg_description}</span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>支付状态：</dt>
+                <dd>
+                    <span class="w400 text "><i class="red" id="pay_no">未支付</i></span>
+                    <span class="w400 text "><i class="red" id="pay_sse" style="display: none">已支付</i></span>
+                </dd>
+            </dl>
+            <dl>
+                <dt><i class="required">*</i>总共需要支付：</dt>
+                <dd>
+                    <span class="w400 text"><i class="red">{$store_grade.sg_price}(元)</i></span>
+                </dd>
+            </dl>
+            <div class="bottom">
+                <p class="submit-border">
+                    <span class="w400 text red">请微信扫码支付</span>
+                </p>
+                <p class="submit-border">
+                <img src="/index.php?m=Home&c=Index&a=qr_code&data={$code_str}" alt="">
+               </p>
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+    /**
+     * 检查订单状态
+     */
+    function ajax_check_pay_status() {
+        var orderSn=$('#orderSn').val();
+        $.ajax({
+            type: "post",
+            url: "{:U('seller/Store/pay_status')}",
+            data: {orderSn: orderSn},
+            dataType: 'json',
+            success: function (data) {
+                console.log(data);
+                return false;
+                if (data.id > 0 ) {
+                    $('.bottom').hide();
+                    $('#pay_no').hide();
+                    $('#pay_sse').show();
+                    clearInterval(interval);
+                }
+            }
+        });
+    }
+    var interval = setInterval(ajax_check_pay_status, 1000);
+
+</script>
+</body>
+</html>

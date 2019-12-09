@@ -1,0 +1,60 @@
+<volist name="lists" id="list">
+       <div class="order_list order_div">
+        <h2> 
+            <img src="__STATIC__/images/dianpu.png" id="img-dianpu" /><span>{$storeList[$list['store_id']]['store_name']}</span>                  
+            <!-- <a href="mqqwpa://im/chat?chat_type=wpa&uin={$storeList[$list['store_id']]['store_qq']}&version=1&src_type=web&web_src=oicqzone.com">
+                 <img src="__PUBLIC__/images/qq.gif" />
+               </a>  --> 
+              <span class="span_status">
+                <if condition="$list.pay_status eq 0 and $list.order_status eq 0">待付款</if>
+                <if condition="$list.pay_status eq 1 and in_array($list['order_status'], array(0, 1)) and $list.shipping_status neq 1">待发货</if>
+                <if condition="$list.shipping_status eq 1 and $list.order_status eq 1">待收货</if>
+                <if condition="$list.order_status eq 2">待评价</if>
+                <if condition="$list.order_status eq 3">已取消</if>
+                <if condition="$list.order_status eq 4">已完成</if>
+              </span>  
+              <a href="{:U('/Mobile/Store/index',array('store_id'=>$storeList[$list['store_id']]['store_id']))}">    
+                 <strong><img src="__STATIC__/images/icojiantou1.png" /></strong>
+              </a>  
+          </h2>
+         	<a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">
+	          <volist name="list.goods_list" id="good">
+		          <dl>  
+		          <dt>
+                 <if condition="$good[original_img] neq ''">
+                  <img src="{:C('qiniu.url')}{$good[original_img]}"
+                       alt="">
+                <else/>
+                  <img src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png"
+                       alt="">
+                </if>
+              </dt>
+		          <dd class="name"><strong>{$good.goods_name}</strong>
+		          <span>{$good.spec_key_name} </span></dd>
+		          <dd class="pice">￥{$good['member_goods_price']}元<em>x{$good['goods_num']}</em></dd>
+               <dd class="pice" style="float:right">                  
+                <em>
+                <!--   <if condition="($list[return_btn] eq 1) and ($good[is_send] lt 2)"></if>     -->  
+                  <if condition="$list.pay_status eq 1 and in_array($list['order_status'], array(0, 1)) and $list.shipping_status neq 1">
+                    <a href="{:U('Mobile/User/return_goods',array('order_id'=>$list[order_id],'order_sn'=>$list[order_sn],'goods_id'=>$good[goods_id],'spec_key'=>$good['spec_key']))}" style="color:#999;">申请退款</a>
+                  </if>
+                  <if condition="$list.shipping_status eq 1 and $list.order_status eq 1">
+                    <a href="{:U('Mobile/User/return_goods',array('order_id'=>$list[order_id],'order_sn'=>$list[order_sn],'goods_id'=>$good[goods_id],'spec_key'=>$good['spec_key']))}" style="color:#999;">申请退款</a>
+                  </if>
+                </em>
+              </dd>      
+		          </dl>
+	          </volist>
+          	</a>
+          <div class="pic">共{$list.goods_list|count}件商品<span>应付：</span><strong>￥{$list['order_amount']}元</strong></div>
+          <div class="anniu" style="width:95%">
+                <if condition="$list.cancel_btn eq 1"><span onClick="cancel_order({$list.order_id})">取消订单</span></if>
+                <if condition="$list.pay_btn eq 1"><a href="{:U('Mobile/Cart/cart4',array('order_id'=>$list['order_id']))}">立即付款</a></if>
+                <if condition="$list.receive_btn eq 1"><a href="{:U('Mobile/User/order_confirm',array('id'=>$list['order_id']))}">收货确认</a></if>    
+                <!--<if condition="$list.comment_btn eq 1"><a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">评价</a></if>-->
+                <if condition="$list.comment_btn eq 1"><a href="{:U('Mobile/User/comment_list',array('order_id'=>$list['order_id'],'store_id'=>$list['store_id'],'goods_id'=>$vo['goods_id']))}">评价</a></if>
+                <if condition="$list.shipping_btn eq 1"><a href="http://www.kuaidi100.com/" target="_blank">查看物流</a></if>
+                <if condition="$list.return_btn eq 1"><a href="mqqwpa://im/chat?chat_type=wpa&uin={$storeList[$list['store_id']]['store_qq']}&version=1&src_type=web&web_src=oicqzone.com" target="_blank">联系客服</a></if>                        
+          </div>
+       </div>
+</volist>  

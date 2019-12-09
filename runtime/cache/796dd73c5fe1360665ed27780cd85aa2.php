@@ -1,0 +1,3 @@
+<?php
+//000031104000a:1:{i:0;a:16:{s:5:"ad_id";i:22;s:3:"pid";i:51323;s:10:"media_type";i:0;s:7:"ad_name";s:30:"首页店铺入驻广告banner";s:7:"ad_link";s:33:"mobile/User/notice_shopentry.html";s:7:"ad_code";s:36:"5691d5f8d12cebdd7815ed86b82d42a5.png";s:10:"start_time";i:1451577600;s:8:"end_time";i:1546272000;s:8:"link_man";s:0:"";s:10:"link_email";s:0:"";s:10:"link_phone";s:0:"";s:11:"click_count";i:0;s:7:"enabled";i:1;s:7:"orderby";i:0;s:6:"target";i:0;s:7:"bgcolor";s:7:"#000000";}}
+?>

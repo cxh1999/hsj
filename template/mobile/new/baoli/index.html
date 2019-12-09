@@ -1,0 +1,146 @@
+<include file="public/header"/>
+<style>
+    body, html {
+        background-color: #fff;
+    }
+
+    .h-mid {
+        width: 100%;
+    }
+
+    .name input {
+        border: none;
+        width: 100%;
+        border-radius: 6px;
+        padding-left: 24px;
+        box-sizing: border-box;
+        line-height: 40px;
+        height: 40px;
+        background-color: #f0f1f2;
+    }
+
+    .Personal .innercontent1 .name {
+        border: none;
+        position: relative;
+        line-height: 40px;
+        height: 40px;
+        margin: 6px auto;
+    }
+
+    .input-title {
+        font-size: 14px;
+        padding: 0 10px;
+        line-height: 1.6;
+    }
+
+    .icongeren {
+        position: absolute;
+        left: 5px;
+        top: -2px;
+    }
+
+    .submit-btn {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 40px;
+    }
+
+    .btn_big1 {
+        border-radius: 20px;
+    }
+
+    .bg {
+        /*position: absolute;*/
+        /*left: 0;*/
+        /*right: 0;*/
+        /*bottom: 120px;*/
+        margin-top: 100px;
+        text-align: right;
+        padding: 0 10px;
+    }
+
+    .bg img {
+        width: 40%;
+        height: auto;
+    }
+
+    .username {
+        font-size: 14px;
+        padding: 0 10px;
+        line-height: normal;
+        color: #999999;
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1477791_xew34bzyzb.css"/>
+<script type="text/javascript" src="__PUBLIC__/static/js/layer/layer.js"></script>
+<body>
+<header>
+    <div class="tab_nav">
+        <div class="h-mid">宝励会员信息确认</div>
+    </div>
+</header>
+<div class="Personal">
+    <div id="tbh5v0">
+        <div class="innercontent1">
+            <form method="post" action="" id="edit_profile" onSubmit="return checkinfo()">
+                <div class="input-title">账号</div>
+                <div class="name">
+                    <input type="text" name="name" id="name" oninput="value=value.replace(/[^\d]/g,'')"
+                           placeholder="请输入宝励登录账号进行绑定！"
+                           class="c-f-text">
+                    <i class="iconfont icongeren"></i>
+                </div>
+                <div class="username">姓名: <span id="is_name">暂无</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话: <span
+                        id="is_phone">暂无</span></div>
+                <div class="field submit-btn">
+                    <input type="submit" value="确认" class="btn_big1"/>
+                </div>
+                <div class="bg">
+                    <img src="__STATIC__/images/baoli-bg.png" alt="">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script language="javascript">
+  var flag = false
+  var msg = "";
+  function checkinfo() {
+    var name = $('#name').val();
+    if (name == '') {
+      layer.msg("账号不能为空");
+      return false;
+    }
+    var pattern = /^1[3456789]\d{9}$/;
+    if (!pattern.test(name)) {
+      layer.msg("请输入正确的手机号");
+      return false;
+    }
+    if (!flag) {
+      layer.msg(msg);
+      return false;
+    }
+    return true;
+  }
+
+  $("#name").bind("input onpropertychange", function () {
+
+    var name = $("#name").val();
+    if (name.length == 11) {
+      $.getJSON('/index.php?m=Mobile&c=Baoli&a=getName&name=' + name, function (data) {
+        if (data.code) {
+          flag = true
+          $(".username").html('姓名: <span>' + data.data.username + '</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联系电话: <span>' + data.data.name + '</span>')
+        } else {
+            msg=data.data;
+          $(".username").html(data.data)
+        }
+      });
+    }
+
+  })
+</script>
+</body>
+</html>
