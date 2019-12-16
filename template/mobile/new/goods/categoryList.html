@@ -11,6 +11,9 @@
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/catalog.css"/>
     <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
     <script src="__PUBLIC__/js/global.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/wx.js"></script>
+
+
     <style>
         /* 公共样式表css */
         html, body {
@@ -209,12 +212,12 @@
             -ms-flex-align: center;
             align-items: center;
             height: 44px;
-            width: 60%;
-            margin-left: 25%;
+            width: 100%;
+            
         }
 
         .aui-center-title {
-            text-align: left;
+            text-align: center;
             width: 100%;
             white-space: nowrap;
             overflow: hidden;
@@ -614,15 +617,15 @@
 <body>
 <section class="aui-flexView">
     <header class="aui-navBar aui-navBar-fixed">
-        <a href="javascript:;" class="aui-navBar-item" style="min-width: 15%; margin-right: -36%;">
+        <!-- <a href="javascript:;" class="aui-navBar-item" style="min-width: 15%; margin-right: -36%;">
             <i class="icon icon-return"></i>
-        </a>
+        </a> -->
         <div class="aui-center">
             <span class="aui-center-title">商品分类</span>
         </div>
-        <a href="javascript:;" class="aui-navBar-item">
+        <!-- <a href="javascript:;" class="aui-navBar-item">
             <i class="icon icon-more"></i>
-        </a>
+        </a> -->
     </header>
     <section class="aui-scrollView">
         <div class="m-scrolltab" data-ydui-scrolltab>
@@ -653,11 +656,11 @@
                         <!--</div>-->
                         <a class="aui-flex-box" href="javascript:;">
                             <div class="aui-flex-box-bd">实时分类推荐</div>
-                            <div class="aui-flex-box-fr">热销榜</div>
+                            <!-- <div class="aui-flex-box-fr">热销榜</div> -->
                         </a>
                         <div class="aui-flex-links">
                             <foreach name="is_hot" item="vo" key="k">
-                                <a href="javascript:;" class="aui-flex-links-item">
+                                <a href="{:U('Mobile/Goods/goodsList',array('id'=>$vo[id]))}" class="aui-flex-links-item">
                                     <div class="aui-flex-links-img">
                                         <img src="{:C('qiniu.url')}{$vo.image}">
                                     </div>

@@ -1,0 +1,22 @@
+<div class="com_top">
+    <h2><a href="{:U('Mobile/User/userinfo')}">设置</a></h2>
+    <p class="tuij_cas">
+        <if condition="$user['username'] eq ''">
+            {$user['nickname']}<else/>{$user['username']}
+        </if>
+        <if condition="$Request.session.referrer neq ''">
+            <br />
+            <span>由({$Request.session.referrer})推荐</span>
+            <elseif condition="$Request.session.referrer_name neq ''"/>
+            <br />
+            <span>由({$Request.session.referrer_name})推荐</span>
+        </if>
+    </p>
+    <dl>
+        <dt>
+            <img src="{$user['head_pic']|default=" __STATIC__/images/user68.jpg"}">
+
+        <dd>{$level_name}</dd>
+        </dt>
+    </dl>
+</div>

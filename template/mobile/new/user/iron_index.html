@@ -1,0 +1,70 @@
+<include file="public/header"/>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<style type="text/css">
+    #notice_shopentry
+    {
+        border-top: 1px solid #eee;
+    }
+    #wdl,#tc{
+        text-align: center;background: crimson;color: white;font-size: 15px;line-height:3;border-radius: 5pt;margin-top: 270pt;
+    }
+    .Wallet a{
+        width: 95%;
+
+    }
+</style>
+
+<body>
+<div id="tbh5v0">
+    <div class="user_com">
+
+        <include file="public/iron_topnav"/>
+
+        <div class="Wallet">
+            <ul>
+                <li class="bain1"><a href="{:U('Mobile/User/account')}"><strong>￥{$user['user_money']}元</strong><span>余额</span></a> </li>
+                <li class="bain2"><strong>{$user['frozen_funds']}</strong><span>冻结奖金</span></li>
+            </ul>
+            <a href="{:U('Mobile/User/account')}"><em class="Icon Icon1"></em><dl><dt>我的钱包</dt><dd style="color:#aaaaaa;">查看我的钱包</dd></dl></a>
+        </div>
+        <div class="Wallet">
+            <a href="{:U('Mobile/User/bonus_list')}" ><em class="Icon Icon2"></em><dl class="b"><dt>我的奖励</dt><dd>查看奖励</dd></dl></a>
+            <a href="{:U('Mobile/User/withdrawals')}"><em class="Icon Icon1"></em><dl><dt class="b">申请提现</dt><dd>&nbsp;</dd></dl></a>
+            <!-- <dl href="{:U('Distribut/index')}"><em class="Icon Icon6"></em><dl><dt>分享收益</dt><dd>&nbsp;</dd></dl></a> -->
+            <a href="#" id="tc" type="button" >退出登录</a>
+            <a href="{:U('Mobile/User/login')}" id="wdl" type="button" >未登录？去登录！</a>
+            
+        </div>
+    </div>
+    <include file="public/footer"/>
+</div>
+<script  type="text/javascript">
+    $(function(){
+        var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+        if(keys.length>3){
+            $("#wdl").hide()
+        }
+        if(keys.length<=3){
+            $("#tc").hide()
+        }
+        $("#tc").click(function(){
+            window.location.reload()
+            var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+            if (keys) {
+                for (var i = keys.length; i--;) {
+                    document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString();//清除当前域名下的,例如：m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=' + document.domain + ';expires=' + new Date(0).toUTCString();//清除当前域名下的，例如 .m.kevis.com
+                    document.cookie = keys[i] + '=0;path=/;domain=kevis.com;expires=' + new Date(0).toUTCString();//清除一级域名下的或指定的，例如 .kevis.com
+                   
+                }
+            }
+            alert('退出成功');
+        })
+    })
+        
+       
+        </script>
+
+
+</body>
+</html>

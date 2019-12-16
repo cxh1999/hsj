@@ -80,7 +80,11 @@ label{
   border-radius: 5pt
 }
 .order-buy .address{
-  border-radius: 5pt
+  border-radius: 5pt;
+  margin-top: 50px;
+}
+.header{
+  position:fixed
 }
 </style>
 <body style="background: rgb(235, 236, 237);position:relative;">
@@ -185,7 +189,6 @@ label{
                       </label>
                     </td>
                     </tr>
-
                 </table>
               </div>
             </li>
@@ -216,7 +219,7 @@ label{
                    <input id="user_money" name="user_money"  type="text"   placeholder="输入余额" onpaste="this.value=this.value.replace(/[^\d.]/g,'')" onkeyup="this.value=/^\d+\.?\d{0,2}$/.test(this.value) ? this.value : ''" class="txt1" style="width:100px;"/>
                    <input name="validate_bonus" type="button" value="✔" onClick="ajax_order_price();" class="BonusButton" style=" display: -webkit-inline-box; line-height: 1
                    "/>
-                 	<p style="text-align: -webkit-right;">您的可用余额<em id="ye" style="color:#E85B4D; ;">￥{$user['user_money']}</em></p>
+                 	<p style="text-align: -webkit-right;">您的可用余额&nbsp;￥<em id="ye" style="color:#E85B4D; ;">{$user['user_money']}</em></p>
                  </label>
             </li>
             <li style="display: none">
@@ -342,8 +345,10 @@ label{
 // })
 
   $(".BonusButton").click(function(e){
+    var ye=$("#ye")
     var ab=$("#user_money")
-    if(ab[0].value>0){
+    
+    if(ab[0].value>0 && ab[0].value<=ye[0].innerHTML){
       $(this).css("background","#e31939");
         e.stopPropagation();
       }else{$(this).css("background","#989696");

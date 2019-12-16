@@ -15,6 +15,7 @@
     <script type="text/javascript" src="__STATIC__/js/jquery.json.js"></script>
     <script type="text/javascript" src="__STATIC__/js/touchslider.dev.js"></script>
     <script type="text/javascript" src="__STATIC__/js/layer.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/wx.js"></script>
     <script src="__PUBLIC__/js/global.js"></script>
     <script src="__PUBLIC__/js/mobile_common.js"></script>
     <style>
@@ -322,16 +323,23 @@
 <div id="page" class="showpage">
     <div class="head-nav">
         <a href="/mobile/index/region.html" class="top_address" id="reg"><i class="iconfont iconlocation location"></i> <span id="add_content">获取中...</span> <i class="iconfont iconjiantou2"></i></a>
+        <span href="javascript:void(0)" class="logo">
+            <div class="index_search_mid head-search">
+                <span class="icon" style="margin-left: 30%;"><img  class="img" src="__STATIC__/images/xin/icosousuo.png"></span>
+                <input style="width:70%;margin-left: 30%;
+                " type="text" id="search_text" class="search_text" value="请输入您所搜索的商品"/>
+            </div>
+        </span>
     </div>
     <div>
         <header id="header">
             <!--<span href="javascript:void(0)" class="logo">{$tpshop_config['shop_info_store_name']}</span>-->
-            <span href="javascript:void(0)" class="logo">
-  <div class="index_search_mid head-search">
-  <span class="icon"><img class="img" src="__STATIC__/images/xin/icosousuo.png"></span>
-    <input type="text" id="search_text" class="search_text" value="请输入您所搜索的商品"/>
-  </div>
-</span>
+        <!-- <span href="javascript:void(0)" class="logo">
+            <div class="index_search_mid head-search">
+                <span class="icon"><img class="img" src="__STATIC__/images/xin/icosousuo.png"></span>
+                <input type="text" id="search_text" class="search_text" value="请输入您所搜索的商品"/>
+            </div>
+        </span> -->
         </header>
 
         <div id="scrollimg" class="scrollimg">
@@ -458,41 +466,41 @@
         <script>
 
 
-          // 倒计时
-          function GetRTime2() {
-            //var text = GetRTime('2016/02/27 17:34:00');
-          
-            <tpshop
-            sql = "select * from __PREFIX__goods as g inner join __PREFIX__flash_sale as f on g.goods_id = f.goods_id and g.is_on_sale = 1 and g.goods_state =1 limit 3"
-            key = "k"
-            item = 'v' >
-            var text
-            {
-              $v[goods_id]
-            }
-            = GetRTime('{$v.end_time|date="Y/m/d H:i:s",###}');
+        //   // 倒计时
+        //   function GetRTime2() {
+        //     //var text = GetRTime('2016/02/27 17:34:00');
+        //   <
+        //     tpshop
+        //     sql = "select * from __PREFIX__goods as g inner join __PREFIX__flash_sale as f on g.goods_id = f.goods_id and g.is_on_sale = 1 and g.goods_state =1 limit 3"
+        //     key = "k"
+        //     item = 'v' >
+        //     var text
+        //     {
+        //       $v[goods_id]
+        //     }
+        //     = GetRTime('{$v.end_time|date="Y/m/d H:i:s",###}');
 
-            if (typeof (text{
-              $v[goods_id]
-            }
-          ) ==
-            "undefined"
-          )
-            $("#surplus_text{$v[goods_id]}").text('活动已结束');
-          else
-            $("#surplus_text{$v[goods_id]}").text(text
-            {
-              $v[goods_id]
-            }
-          )
-            ;
+        //     if (typeof (text{
+        //       $v[goods_id]
+        //     }
+        //   ) ==
+        //     "undefined"
+        //   )
+        //     $("#surplus_text{$v[goods_id]}").text('活动已结束');
+        //   else
+        //     $("#surplus_text{$v[goods_id]}").text(text
+        //     {
+        //       $v[goods_id]
+        //     }
+        //   )
+        //     ;
 
-          <
-            /tpshop>
-          }
+        //   <
+        //     /tpshop>
+        //   }
 
-          setInterval(GetRTime2, 1000);
-        </script>
+        //   setInterval(GetRTime2, 1000);
+        // </script>
 
 
 <!--        <div class="floor_images">-->
@@ -736,22 +744,22 @@
         <!--        </div>-->
         <script type="text/javascript">
           //防止广告为空时, JS报错
-          var adEmpty =
-          <
-            ? php echo(empty($_REQUEST[v.ad_link]) ? "1" : "0");
-            ?
-          >
-          ;
-          if (adEmpty != "1") {
-            TouchSlide({
-              slideCell: "#index_banner",
-              titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
-              mainCell: ".bd ul",
-              effect: "leftLoop",
-              autoPage: true,//自动分页
-              autoPlay: true //自动播放
-            });
-          }
+        //   var adEmpty =
+        //   <
+        //     ? php echo(empty($_REQUEST[v.ad_link]) ? "1" : "0");
+        //     ?
+        //   >
+        //   ;
+        //   if (adEmpty != "1") {
+        //     TouchSlide({
+        //       slideCell: "#index_banner",
+        //       titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+        //       mainCell: ".bd ul",
+        //       effect: "leftLoop",
+        //       autoPage: true,//自动分页
+        //       autoPlay: true //自动播放
+        //     });
+        //   }
         </script>
 
         <script type="text/javascript">

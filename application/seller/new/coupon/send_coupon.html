@@ -41,18 +41,18 @@
                         <td><a onclick="doconfirm()" title="确定发送优惠券" class="ncbtn ncbtn-aqua">确定发送优惠券</a></td>
                         <th class="w120">                
 	                        <select name="level_id" id="level_id" class="w120">
-			                    <option value="0">所有会员</option>
+			                    <!-- <option value="0">所有会员</option> -->
 			                    <option value="-1">店铺关注会员</option>
-			                    <foreach name="level" item="vo">
+			                    <!-- <foreach name="level" item="vo">
 			                        <option value="{$vo['level_id']}" <if condition="$vo[level_id] eq $level_id">selected</if>> {$vo['level_name']}</option>
-			                    </foreach>
+			                    </foreach> -->
 			                </select>
                	 		</th>
                         <td class="w100"><input style="width: 90px;" class="text" type="text" name="nickname" value="{$nickname}" placeholder="会员昵称"/></td>
                         <th class="w70">手机号码</th>
                         <td class="w100"><input style="width: 90px;" class="text" type="text"  name="mobile" value="" /></td>
-                        <th class="w80">email</th>
-                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="" name="email"/></td>
+                        <!-- <th class="w80">email</th>
+                        <td class="w100"><input style="width: 90px;" class="text" type="text" value="" name="email"/></td> -->
                         <td class="w70 tc"><label class="submit-border"><input type="submit" class="submit" value="搜索" onclick="ajax_get_table('search-form2',1)"/></label></td>
                     </tr>
                 </form>

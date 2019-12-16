@@ -23,7 +23,7 @@
 <body>      
 <div id="tbh5v0">
 <div class="user_com">
-    <include file="public/uer_topnav"/>
+    <if condition="$_SESSION['loginType'] eq 2"><include file="public/iron_topnav"><else/><include file="public/uer_topnav"></if>
 
 <div class="endorse_hend">
 	<p>我&nbsp;&nbsp;&nbsp;&nbsp;要&nbsp;&nbsp;&nbsp;&nbsp;提&nbsp;&nbsp;&nbsp;&nbsp;现&nbsp;&nbsp;&nbsp;&nbsp;</p>
@@ -74,9 +74,18 @@
 </div>
 <include file="public/footer"/>
 </div>
-<include file="public/footer_nav"/>
+<if condition="$_SESSION['loginType'] neq 2">
+    <include file="public/footer_nav"/>
+</if>
 </body>
 <script>
+	$(function(){
+		var ua = navigator.userAgent.toLowerCase();
+        var isWeixin = ua.indexOf('micromessenger') != -1;
+        if (!isWeixin) {
+            $("body").hide()
+        }
+	})
 // 表单验证提交
 function checkSubmit(){
 	console.log('ddd');
@@ -90,7 +99,7 @@ function checkSubmit(){
 		alert('提现金额必填');
 		return false;
 	}
-	if(money < {$tpshop_config['basic_min']|default=100} || money > {$user['user_money']})
+	if(money < {$tpshop_config['basic_min']|default=100} || money > {$user['user_money']}>)
 	{
 		//alert("每次最少提现额度{$tpshop_config['distribut_min']},你的账户余额{$user['user_money']}");
 		//return false;

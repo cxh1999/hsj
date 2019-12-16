@@ -102,6 +102,7 @@ if(!$.cookie('tpshopActionParam') && $.cookie('admin_type') != 1){
 			});
 		}});
 
+
 		$(function(){
 			$(".formText .input-text").focus(function(){
 				$(this).parent().addClass("focus");
@@ -129,8 +130,14 @@ if(!$.cookie('tpshopActionParam') && $.cookie('admin_type') != 1){
 				$(this).prev().hide();
 			});
 		});
-
+       
         $(function(){
+            document.body.addEventListener('keyup', function (e) {
+    //判断按键code值
+    if (e.keyCode == '13') {
+        $(".sub").click();
+    }
+})
             $('.submit_span .sub').on('click',function(){
                 $('.code').show();
             });

@@ -1,5 +1,8 @@
+
 <include file="public/head"/>
+
 <div class="ncsc-layout wrapper">
+    
     <include file="public/left"/>
     <div id="layoutRight" class="ncsc-layout-right">
         <div class="ncsc-path"><i class="icon-desktop"></i>商家管理中心<i class="icon-angle-right"></i>促销<i class="icon-angle-right"></i>红包管理
@@ -22,14 +25,18 @@
             <table class="ncsc-default-table">
                 <thead>
                 <tr>
-                    <th class="w20"></th>
-                    <th class="w100 tl">红包名称</th>
-                    <th class="w100">红包指定类型</th>
-                    <th class="w100">红包发放金额</th>
-                    <th class="w100">红包发放个数</th>
-                    <th class="w100">发放起始日期</th>
-                    <th class="w60">状态</th>
-                    <th class="w200">操作</th>
+                    <th class="w10"></th>
+                    <th class="w80 tl">红包名称</th>
+                    <th class="w80">红包指定类型</th>
+                    <th class="w70">红包发放金额</th>
+                    <th class="w70">红包发放个数</th>
+                    <th class="w80">发放起始日期</th>
+                    <th class="w50">状态</th>
+                    <th class="w40">支付</th>
+                    <th class="w40">曝光率</th>
+                    <th class="w40">精准率</th>
+                    <th class="w40">转发率</th>
+                    <th class="w150">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,7 +48,11 @@
                         <td>{$list.one_money}</td>
                         <td>{$list.createnum}</td>
                         <td>{$list.send_start_time|date='Y-m-d',###}</td>
-                        <td><img width="20" height="20" src="__PUBLIC__/images/<if condition='$list[status] eq 1'>yes.png<else />cancel.png</if>"/></td>
+                        <td class="tcdjl"><img width="20" height="20" src="__PUBLIC__/images/<if condition='$list[status] eq 1'>yes.png<else />cancel.png</if>"/></td>
+                        <td ><img width="20" height="20" src="__PUBLIC__/images/<if condition='$list.pay_status eq 1'>yes.png<else />cancel.png</if>"/></td>
+                        <td>{$list.drainage_num}</td>
+                        <td>{$list.send_num}</td>
+                        <td>{$list.reposted}</td>
                         <td class="nscs-table-handle">
                             <if condition="$list[type] eq 3">
                                   <!--<span><a href="{:U('Redpacket/make_coupon',array('id'=>$list['id'],'type'=>$list['type']))}" class="btn-bluejeans"><i class="icon-plane"></i><p>发放</p></a></span>-->
@@ -65,9 +76,10 @@
                             <span><a data-url="{:U('Redpacket/del_coupon',array('id'=>$list['id']))}" onclick="delfun(this)" class="btn-grapefruit"><i class="icon-trash"></i>
                                 <p>删除</p></a></span>
                         </td>
-                    </tr>
                 </volist>
+                
                 </tbody>
+               
                 <tfoot>
                 <tr>
                     <td colspan="20">
@@ -77,10 +89,28 @@
                 </tfoot>
             </table>
         </div>
+        
     </div>
 </div>
 <include file="public/foot"/>
+
 <script>
+    // $(".tcdjl").click(function tcdjl(data){
+    //     layer.tips(`<table border=1;>
+    //                        <tr >
+    //                             <td>曝光率</td>
+    //                             <td>查看率</td>
+    //                             <td>转发率</td>
+                                
+    //                         </tr>
+    //                         <tr >
+    //                                 <td>{$list.drainage_num}</td>
+    //                                 <td>{$list.send_num}</td>
+    //                                 <td>{$list.reposted}</td>
+    //                         </tr>
+    //                   </table>`, this);
+      
+    // })
     $('.send_user').click(function(){
         var url = $(this).attr('data-url');
         layer.open({

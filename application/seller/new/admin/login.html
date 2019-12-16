@@ -138,6 +138,12 @@
 				$(this).parent('.memory_user').removeClass("checked");
 			}
 		});
+        document.body.addEventListener('keyup', function (e) {
+                //判断按键code值
+                if (e.keyCode == '13') {
+                    $(".login-submit").click();
+                }
+            })
 		
         function checkLogin(){
             var username = $('#username').val();

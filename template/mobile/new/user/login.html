@@ -64,9 +64,14 @@
 	</div>
 <script type="text/javascript">
 
+document.body.addEventListener('keyup', function (e) {
+                //判断按键code值
+                if (e.keyCode == '13') {
+                    $(".btn_big1").click();
+                }
+            })
 function checkSubmit()
 {
-	
 	var username = $.trim($('#username').val());
 	var password = $.trim($('#password').val());
 	var referurl = $('#referurl').val();
@@ -136,5 +141,5 @@ function checkSubmit()
      }
 
 </script>	
-</body>
+
 </html>

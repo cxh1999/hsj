@@ -45,11 +45,14 @@
         <div class="header">
             <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
             <div class="h-mid">奖励详情</div>
-            <div class="h-right">
-                <aside class="top_bar">
-                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
-                </aside>
-            </div>
+            <if condition="$_SESSION['loginType'] neq 2">
+                <div class="h-right">
+                    <aside class="top_bar">
+                        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
+                                href="javascript:;"></a></div>
+                    </aside>
+                </div>
+            </if>
         </div>
     </div>
 </header>
@@ -89,7 +92,9 @@
             </li>
         </ul>
     </div>
+    <if condition="$_SESSION['loginType'] neq 2">
     <include file="public/footer_nav"/>
+    </if>
 </div>
 </body>
 </html>

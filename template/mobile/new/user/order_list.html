@@ -1,4 +1,5 @@
 <include file="public/header"/>
+<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
 <body>
 <style type="text/css">
 .anniu span{
@@ -128,7 +129,7 @@
                  <strong><img src="__STATIC__/images/icojiantou1.png" /></strong>
               </a>  
           </h2>
-         	<a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">
+         	<span href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">
 	          <volist name="list.goods_list" id="good">
 		          <dl>  
 		          <dt style="width: 25%;">
@@ -146,11 +147,14 @@
 				      <dd class="pice" style="float:right">                  
               	<em>
                 <!--   <if condition="($list[return_btn] eq 1) and ($good[is_send] lt 2)"></if>     -->  
-                  <if condition="$list.pay_status eq 1 and in_array($list['order_status'], array(0, 1)) and $list.shipping_status neq 1">
+                  <if condition="$list.pay_status eq 1 and in_array($list['order_status'], array(0, 1)) and $list.shipping_status eq 0 and $list.is_return eq 0">
                     <a href="{:U('Mobile/User/return_goods',array('order_id'=>$list[order_id],'order_sn'=>$list[order_sn],'goods_id'=>$good[goods_id],'spec_key'=>$good['spec_key']))}" style="color:#999;">申请退款</a>
                   </if>
-                  <if condition="$list.shipping_status eq 1 and $list.order_status eq 1">
+                  <if condition="$list.shipping_status eq 1 and $list.order_status eq 1 and $list.is_return eq 0">
                     <a href="{:U('Mobile/User/return_goods',array('order_id'=>$list[order_id],'order_sn'=>$list[order_sn],'goods_id'=>$good[goods_id],'spec_key'=>$good['spec_key']))}" style="color:#999;">申请退款</a>
+                  </if>
+                  <if condition="$list.is_return eq 1">
+                    <span style="color:#999;">已退款</span>
                   </if>
                 </em>
               </dd>                    
@@ -163,7 +167,7 @@
                 <if condition="$list.pay_btn eq 1"><a href="{:U('Mobile/Cart/cart4',array('order_id'=>$list['order_id']))}">立即付款</a></if>
                 <if condition="$list.receive_btn eq 1"><a href="{:U('Mobile/User/order_confirm',array('id'=>$list['order_id']))}">确认收货</a></if>    
                 <!--<if condition="$list.comment_btn eq 1"><a href="{:U('/Mobile/User/order_detail',array('id'=>$list['order_id']))}">评价</a></if>-->
-                <if condition="$list.comment_btn eq 1"><a href="{:U('Mobile/User/comment_list',array('order_id'=>$list['order_id'],'store_id'=>$list['store_id'],'goods_id'=>$vo['goods_id']))}">评价</a></if>
+                <if condition="$list.comment_btn eq 1"><a href="{:U('Mobile/User/comment_list',array('order_id'=>$list['order_id'],'store_id'=>$list['store_id'],'goods_id'=>$good['goods_id']))}">评价</a></if>
                 <if condition="$list.shipping_btn eq 1"><a href="http://www.kuaidi100.com/" target="_blank">查看物流</a></if>
                 <if condition="$list.return_btn eq 1"><a href="tel:{$storeList[$list['store_id']]['store_phone']}">联系客服</a></if>                        
           </div>

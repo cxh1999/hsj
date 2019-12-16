@@ -1,4 +1,6 @@
+
 <include file="public/header"/>
+<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
 <body>
 <header>
   <div class="tab_nav">
@@ -36,7 +38,13 @@
                 <dl>
                     <dt>
                         <a href="{:U('Goods/goodsInfo',array('id'=>$list[goods_id]))}">
-                            <img src="{$list.goods_id|goods_thum_images=200,200}" style="width:4rem; height:4rem;">
+                            <if condition="$list[original_img] neq ''">
+                                <img src="{:C('qiniu.url')}{$list[original_img]}"
+                                     alt="">
+                                <else/>
+                                <img src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png"
+                                     alt="">
+                            </if>
                         </a>
                     </dt>
                     <dd>
@@ -71,7 +79,7 @@
                     <dd>
                         <i>
                             <a href="{:U('mobile/Store/index',array('store_id'=>$list[store_id]))}">
-                            <img src="{$list.store_logo}"  style="width: 6.332rem; height: 2.25rem;">
+                            <img src="{:C('qiniu.url')}{$list.store_logo}}"  style="width: 6.332rem; height: 2.25rem;">
                             </a>
                         </i>
                         <em><a href="{:U('mobile/Store/index',array('store_id'=>$list[store_id]))}">进店逛逛</a></em>
@@ -96,7 +104,7 @@
         <div style="" class="pagenav-wrapper" >
             <div class="pagenav-content">
                 <div >
-                    <div class="p-next">--您还没有收藏--</div>
+                    <div class="p-next" style=" opacity:0.4;">--您还没有收藏--</div>
                 </div>
             </div>
         </div>

@@ -1,4 +1,5 @@
 <include file="public/header"/>
+<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
 <style type="text/css">
     .jsstar{list-style: none;
         margin: 0px;padding: 0px;
@@ -95,7 +96,13 @@
     <div class="pj pj1">
         <dl>
             <dt><a href="{:U('Mobile/Goods/goodsInfo',array('id'=>$no_comment_goods['goods_id']))}" target="_self">
-                <img src="{$no_comment_goods.goods_id|goods_thum_images=200,200}" width="50"/>
+                <if condition="$no_comment_goods[original_img] neq ''">
+                    <img src="{:C('qiniu.url')}{$no_comment_goods[original_img]}"
+                         alt="">
+                    <else/>
+                    <img src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png"
+                         alt="">
+                </if>
                 </a>
             </dt>
             <dd>

@@ -1,11 +1,13 @@
 <include file="public/header"/>
+<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
+
 <body>      
 <div id="tbh5v0">
 <div class="user_com">
-<include file="public/uer_topnav"/>
+    <if condition="$_SESSION['loginType'] eq 2"><include file="public/iron_topnav"><else/><include file="public/uer_topnav"></if>
 
 <div class="endorse_hend">
-	<p>{$nickname}发展的直推（{$count}）人</p>
+	<p>{$nickname}的粉丝（{$count}）人</p>
 </div>
 
 <div class="Wallet">
@@ -49,7 +51,9 @@
 </div>
 <include file="public/footer"/>
 </div>
-<include file="public/footer_nav"/>
+<if condition="$_SESSION['loginType'] neq 2">
+    <include file="public/footer_nav"/>
+</if>
 </body>
 <script>
 

@@ -1,0 +1,87 @@
+<include file="public/header"/>
+<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
+
+<body>
+<div id="tbh5v0">
+    <div class="user_com">
+        <if condition="$_SESSION['loginType'] eq 2"><include file="public/iron_topnav"><else/><include file="public/uer_topnav"></if>
+
+        <div class="endorse_hend">
+            <p>{$nickname}的粉丝商家（{$count}）</p>
+        </div>
+
+        <div class="Wallet">
+            <div class="endorse_dyr">
+                <form action="{:U('Distribut/lower_list',array('user_id'=>$user_id,'nickname'=>$nickname))}" method="post" id="filter_form">
+                    <input class="endor_text" type="text" name="q" />
+                    <input class="endor_but" type="button"  onClick="ajax_search();" value="搜索"/>
+                </form>
+            </div>
+            <div class="endorse_dyr bg_gray" id="ajax_return">
+                <foreach name="list" item="v" >
+                    <div class="endorse_num">
+                        <div class="hend_endor">
+                            <if condition="$store_id eq ''">
+                                <img src="{$v['store_logo']|default="__STATIC__/images/hend_none.png"}" width="60" height="60" />
+                                <else/>
+                                <a href="{:U('Distribut/store_list',array('user_id'=>$v['user_id'],'nickname'=>$v['nickname']))}">
+                                    <img src="{$v['store_logo']|default="__STATIC__/images/hend_none.png"}" width="60" height="60" />
+                                </a>
+                            </if>
+                        </div>
+                        <div class="sec_endor">
+                            <p>店铺名：<span>{$v['store_name']}</span></p>
+                            <p>店主ID：<span>{$v['user_id']}</span></p>
+                            <p>店铺ID：<span>{$v['store_id']}</span></p>
+                            <p>加盟时间：<span>{$v['store_time']|date="Y-m-d",###}</span></p>
+                        </div>
+                    </div>
+
+                </foreach>
+                <empty name="list">
+                    <div id="list_0_0" class="font12">您现在还没数据！</div>
+                </empty>
+            </div>
+            <notempty name="list">
+                <p style="text-align: center;" id="getmore"><a href="javascript:void(0)" onClick="ajax_sourch_submit()">点击加载更多</a></p>
+            </notempty>
+        </div>
+
+
+    </div>
+    <include file="public/footer"/>
+</div>
+<if condition="$_SESSION['loginType'] neq 2">
+    <include file="public/footer_nav"/>
+</if>
+</body>
+<script>
+
+    var  page = 1;
+    /*** ajax 提交表单 查询订单列表结果*/
+    function ajax_sourch_submit()
+    {
+        page += 1;
+        $.ajax({
+            type : "POST",
+            url:"/index.php?m=Mobile&c=Distribut&a=store_list&user_id={$user_id}&nickname={$nickname}&is_ajax=1&p="+page,//+tab,
+            data : $('#filter_form').serialize(),// 你的formid 搜索表单 序列化提交
+            success: function(data)
+            {
+                if($.trim(data) == '')
+                    $('#getmore').hide();
+                else{
+                    $("#ajax_return").append(data);
+                    $('#getmore').show();
+                }
+            }
+        });
+    }
+    /*点击搜索按钮*/
+    function ajax_search(){
+        page = 0;
+        $('#ajax_return').html('');
+        ajax_sourch_submit();
+    }
+</script>
+</html>

@@ -1,4 +1,6 @@
 <include file="public/header"/>
+<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
+
 <body>
 <header>
 <div class="tab_nav">
@@ -18,8 +20,14 @@
 			<div class="touchweb-com_searchListBox" id="goods_list">
 		   		<li>
 						<a href="/Mobile/Goods/goodsInfo/id/115.html" class="item">
-							<div class="pic_box">
-								<img src="{$goods[goods_id]|goods_thum_images=400,400}">
+							<div class="pic_box" >
+								<if condition="$goods[original_img] neq ''">
+									<img  style="width: 100%" src="{:C('qiniu.url')}{$goods[original_img]}"
+										 alt="">
+									<else/>
+									<img  style="width: 100%" src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_200.png"
+										 alt="">
+								</if>
 							</div>
 							<div class="title_box">{$goods['goods_name']}</div>
 						</a>
