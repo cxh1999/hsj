@@ -259,6 +259,15 @@
     background: red;
     border-radius: 50%;
         }
+        .qgdjs{
+            text-align: center;
+            position:fixed;
+            background: rgba(116, 73, 73, 0.58);
+            z-index: 999;
+            font-size: 15px;
+            border-radius: 15px;
+            right: 15px;
+        }
     </style>
     <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_1477791_3w6ydb5gfqn.css"/>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
@@ -541,7 +550,65 @@
 <!--                </adv>-->
 <!--            </strong>-->
 <!--        </div>-->
-
+            <!-- <div class="qgdjs" >
+                <span>限时抢购倒计时</span><br>
+                <span class="joind"></span>天
+                <span class="joinh"></span>:
+                <span class="joinm"></span>:
+                <span class="joins"></span>
+            </div>
+                <script type="text/javascript">
+                
+                   $(function(){
+                       $('.qgdjs').click(function(){
+                        window.location.href="./notice.html"
+                       })
+                    var setTimer = null;
+                    var chazhi = 0;
+                    //差值计算
+                    //例子(模拟)
+                    chazhi = 0.00* 86400000;
+                    //真实时间(注意月份需减掉1，否则时间会计算错误)
+                    //chazhi = (new Date(year,month-1,day,hour,minute,second)) - (new Date()); //计算剩余的毫秒数
+                    //chazhi = (new Date(2018,8-1,6,6,6,6)) - (new Date());
+                     
+                    //执行函数部分
+                    countFunc(chazhi);
+                    setTimer = setInterval(function() {
+                    chazhi = chazhi - 1000;
+                    countFunc(chazhi);
+                    }, 1000);
+                    function countFunc(leftTime) {
+                    if(leftTime >= 0) {
+                     var days = parseInt(leftTime / 1000 / 60 / 60 / 24, 10); //计算剩余的天数 
+                     var hours = parseInt(leftTime / 1000 / 60 / 60 % 24, 10); //计算剩余的小时 
+                     var minutes = parseInt(leftTime / 1000 / 60 % 60, 10); //计算剩余的分钟 
+                     var seconds = parseInt(leftTime / 1000 % 60, 10); //计算剩余的秒数 
+                     days = checkTime(days);
+                     hours = checkTime(hours);
+                     minutes = checkTime(minutes);
+                     seconds = checkTime(seconds);
+                     $(".joind").html(days);
+                     $(".joinh").html(hours);
+                     $(".joinm").html(minutes);
+                     $(".joins").html(seconds);
+                    } else {
+                     clearInterval(setTimer);
+                     $(".joind").html("00");
+                     $(".joinh").html("00");
+                     $(".joinm").html("00");
+                     $(".joins").html("00");
+                     $(".qgdjs").hide()
+                    }
+                    }
+                    function checkTime(i) { //将0-9的数字前面加上0，例1变为01 
+                    if(i < 10) {
+                     i = "0" + i;
+                    }
+                    return i;
+                    }
+                   })
+                   </script> -->
         <section class="index_floor">
             <div class="floor_body1 set">
                 <h2>精品推荐
@@ -763,6 +830,9 @@
         </script>
 
         <script type="text/javascript">
+
+                
+
           var url = "index.php?m=Mobile&c=Index&a=ajaxGetMore";
           $(function () {
             //$('#J_ItemList').more({'address': url});

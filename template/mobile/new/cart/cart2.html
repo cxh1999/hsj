@@ -157,9 +157,9 @@ label{
                     </li>
                 </if>  
             </foreach>
-			<li class="flow_youhui_no" style="display: none">
+			<li class="flow_youhui_no" style="display: block">
               <div class="checkout_other">
-                <div class="jmbag" href="javascript:void(0);" onClick="showCheckoutOther(this);"><span class="right_arrow_flow"></span>使用优惠券</div>
+                <div class="jmbag" style="font-weight: bold;" href="javascript:void(0);" onClick="showCheckoutOther(this);"><span  class="right_arrow_flow"></span >使用优惠券</div>
                 <table class="subbox_other sub_bonus" width="100%">
                   <tr>
                     <td  colspan="2">
@@ -174,13 +174,13 @@ label{
                      </select>
                     </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                     <td>
                     &nbsp;或 &nbsp;
                     <input type="radio" class="radio vam ma-ri-10" name="couponTypeSelect[{$v[store_id]}]"  value="2"  onClick="ajax_order_price();javascript:document.getElementById('Bonus_span_0').style.display='block';" />
                     <a href="javascript:void(0);"  class="a_other1_h" id="Bonus_a_0">直接输入优惠券</a>
                     </td>
-                    </tr>
+                    </tr> -->
                     <tr>
                     <td>
                       <label id="Bonus_span_0" style="display:none;">

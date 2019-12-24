@@ -1,275 +1,116 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta name="Generator" content="tpshop" />
-<meta charset="utf-8">
-<meta name="format-detection" content="telephone=no">
-<meta name="viewport" content="minimal-ui=yes,width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<title>优惠活动-{$tpshop_config['shop_info_store_title']}</title>
-<meta http-equiv="keywords" content="{$tpshop_config['shop_info_store_keyword']}" />
-<meta name="description" content="{$tpshop_config['shop_info_store_desc']}" />
-<link rel="stylesheet" type="text/css" href="__STATIC__/css/public.css"/>
-<link rel="stylesheet" type="text/css" href="__STATIC__/css/group_buy.css"/>
-<script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
-<script type="text/javascript" src="__STATIC__/js/layer.js" ></script>
-
-<script src="__PUBLIC__/js/global.js"></script>
-<script src="__PUBLIC__/js/mobile_common.js"></script>
-<script >
-/*var Tday = new Array();
-var daysms = 24 * 60 * 60 * 1000
-var hoursms = 60 * 60 * 1000
-var Secondms = 60 * 1000
-var microsecond = 1000
-var DifferHour = -1
-var DifferMinute = -1
-var DifferSecond = -1
-
-function clock11(key)
-{
-   var time = new Date()
-   var hour = time.getHours()
-   var minute = time.getMinutes()
-   var second = time.getSeconds()
-   var timevalue = ""+((hour > 12) ? hour-12:hour)
-   timevalue +=((minute < 10) ? ":0":":")+minute
-   timevalue +=((second < 10) ? ":0":":")+second
-   timevalue +=((hour >12 ) ? " PM":" AM")
-   var convertHour = DifferHour
-   var convertMinute = DifferMinute
-   var convertSecond = DifferSecond
-   var Diffms = Tday[key].getTime() - time.getTime()
-   DifferHour = Math.floor(Diffms / daysms)
-   Diffms -= DifferHour * daysms
-   DifferMinute = Math.floor(Diffms / hoursms)
-   Diffms -= DifferMinute * hoursms
-   DifferSecond = Math.floor(Diffms / Secondms)
-   Diffms -= DifferSecond * Secondms
-   var dSecs = Math.floor(Diffms / microsecond)
-
-  if(convertHour != DifferHour) e="<span class=hour>"+DifferHour+"</span>天";
-   if(convertMinute != DifferMinute) f="<span class=min>"+DifferMinute+"</span>时";
-   if(convertSecond != DifferSecond) g="<span class=sec>"+DifferSecond+"</span>分";
-     h="<span class=msec>"+dSecs+"</span>秒";
-     if (DifferHour>0) {e=e}
-     else {e=''}
-     document.getElementById("jstimerBox"+key).innerHTML = e + f + g + h;
-}*/
-
-</script>
-    <style>
-        .ellipsis {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .list-wrapper {
-            padding: 10px;
-        }
-
-        .list-item {
-            margin-bottom: 10px;
-            border-bottom: 1px solid #dddddd;
-            display: flex;
-            padding-bottom: 10px;
-        }
-
-        .list-item .left {
-            width: 100px;
-            height: 100px;
-            overflow: hidden;
-            min-width: 100px;
-            min-height: 100px;
-            border-radius: 5px;
-        }
-
-        .list-item .left img {
-            width: 100%;
-            height: auto;
-        }
-
-        .list-item .right {
-            width: 100%;
-            padding: 0 15px;
-            overflow: hidden;
-        }
-
-        .right .title {
-            font-size: 15px;
-            margin-top: -10px;
-        }
-
-        .right .top {
-            margin-top: -12px;
-            color: #FF2233;
-            font-size: 14px;
-        }
-
-        .right .top .price {
-            font-size: 15px;
-
-        }
-        .old-price {
-            font-size: 10px;
-            margin-left: 6px;
-            text-decoration: line-through;
-        }
-
-        .right .desc {
-            line-height: 1.6;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .right .desc .dist {
-            font-size: 13px;
-        }
-
-        .right .bottom {
-            color: #999;
-            font-size: 12px;
-        }
-        .sale-num {
-            color: #999;
-        }
-
-        .discount {
-            height: 14px;
-            line-height: 14px;
-            font-size: 12px;
-            color: #fff;
-            width: 35px;
-            text-align: center;
-            position: relative;
-            background: #e12228;
-            margin-right: 8px;
-            padding: 0 6px;
-        }
-
-        .discount:after {
-            content: "";
-            width: 0;
-            height: 0;
-            overflow: hidden;
-            font-size: 0;
-            display: inline-block;
-            border-left: 4px solid #e12228;
-            border-bottom: 4px dashed transparent;
-            position: absolute;
-            bottom: -3px;
-            left: 0
-        }
-        .sg_g_time:before {
-            margin-right: 4px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>花手眷</title>
 </head>
-<body style="background:#FFF;">
-<div class="tab_nav">
-  <div class="header">
-    <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
-    <div class="h-mid">优惠活动</div>
-    <div class="h-right">
-      <aside class="top_bar">
-        <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
-      </aside>
-    </div>
-  </div>
-</div>
-<include file="public/menu"/>
-<h3 class="sg_box_tit">优惠活动</h3>
-<script>
-      // 倒计时
-      function GetRTime2(){
-        //var text = GetRTime('2016/02/27 17:34:00');
-      <foreach name="prom_list" item="v" key="k" >
-        var text{$v[goods_id]} = GetRTime('{$v.end_time|date="Y/m/d H:i:s",###}');
-        $("#surplus_text{$v[goods_id]}").text(text{$v[goods_id]});
-      </foreach>
-      }
-      setInterval(GetRTime2,1000);
+<style>
+html{
+    height: 100%;
+    
+}
+body{
+    background: white;
+}
+.van-row{
+    background:burlywood;
+    margin: 10px;
+    height: 15%;
+}
+
+.van-cell{
+    padding: 0;
+}
+.yhj{
+    background: rgba(206, 172, 128, 0.32);
+    border-radius: 10px;
+}
+.yhj>div{
+    display: inline-block
+}
+.van-panel{
+    width: 75%;
+    float: right;
+}
+.van-button{
+    top:-25px;
+    left: 25px;
+}
+.sjyhj{
+    padding: 10px;
+    height: 130px;
+}
+.yhj_1{
+    padding: 5px 15px 10px 15px;
+    line-height: 1;
+    border-right: 1px solid rgba(191, 145, 112, 0.22);
+
+}
+.van-button{
+    border-radius: 20px;
+    background: rgba(239, 77, 77, 0.68);
+    color: white;
+}
+img{
+    width: 15%;
+}
+</style>
+<body>
+    
+    <template id="app">
+            <van-tabs title-active-color="red">
+                    <van-tab   v-for="index in fenlei" :key="index" :title="index" >
+                        <!-- 商家优惠眷 -->
+                        <div v-for="i of 8 " :key="i" class="sjyhj">
+                            <img src="__STATIC__/images/xin/icosousuo.png" alt="1">
+                            <van-panel title="汤师傅" desc="4.1分 | ￥45/人 | 龙湖0.1km" >
+                                    <div class="yhj">
+                                        <div class="yhj_1">
+                                            <p>￥90元代100元眷</p>
+                                            <small>周一至周末可用</small>
+                                        </div>
+                                        <div>
+                                            <van-button v-on:click="buy(i)" size="small" >立即抢购</van-button>
+                                        </div>
+                                    </div>
+                            </van-panel>
+                        </div>  
+                    </van-tab>
+            </van-tabs>
+    </template>
+    
+    <script>
+       var app = new Vue({
+            el: '#app',
+                    data: {
+                    fenlei:['美食','医疗','美容','住宿','娱乐'],
+                    fenlei1:[]
+                },
+                methods: {
+                buy:function(val){
+                    console.log(val)
+                    },
+                },
+                created() {
+                  axios({
+                        method:'post',
+                        url:'/mobile/Activity/store_class'
+                    }).then(function(res){
+                      this.fenlei1=res.data
+                      console.log(fenlei1)
+                    });
+
+                },
+                })
     </script>
-<ul class="list-wrapper">
-
-<!-- 
-<foreach name="prom_list" item="v" key="k">
-    <li class="list-item">
-        <div class="left">
-          <if condition="$v[prom_img] neq ''">
-            <a href="{:U('/Mobile/Goods/goodsInfo',array('id'=>$v[goods_id]))}">
-              <img src="{:C('qiniu.url')}{$v[prom_img]}"
-                alt="">
-            </a>
-          <else/>
-            <a href="{:U('/Mobile/Goods/goodsInfo',array('id'=>$v[goods_id]))}">
-              <img src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png"
-                alt="">
-            </a>  
-          </if>
-        </div>
-        <div class="right">
-            <div class="title">{$v[goods_name]}</div>
-            <div class="top">
-                <i class="discount" style="display:;">优惠</i>
-                <span class="price">￥{$v[shop_price]}元</span>
-                <span class="old-price">￥{$v[market_price]}元</span>
-            </div>
-            <div class="desc">
-                <div class="sale-num">{$v[click_count]}人已浏览</div>
-            </div>
-            <div class="bottom ellipsis" >
-
-                <span class="sg_g_time last_g_time" id="jstimerBox31">
-                 倒计时<span id="surplus_text{$v[goods_id]}"></span>
-               </span>
-
-            </div>
-        </div>
-    </li>
-</foreach> -->
-
-
-</ul>
-
- <a href="javascript:;" class="get_more" style="text-align:center; display:block;">
-<img src='__STATIC__/images/category/loader.gif' width="12" height="12"> </a>
-<div id="getmore" style="font-size:.24rem;text-align: center;color:#888;padding:.25rem .24rem .4rem;">
-   <a href="javascript:void(0)" onClick="getMoreList()">点击加载更多</a>
- </div>
-
-<script>
-function goTop(){
-  $('html,body').animate({'scrollTop':0},600);
-}
-
-
-$(function(){
-  getMoreList();
-});
-
-var page = 1;
-function getMoreList(){
-  $('.get_more').show();
-  $.ajax({
-    type : "get",
-    url:"/index.php?m=Mobile&c=Activity&a=ajaxDiscountListGetMore&p="+page,
-    dataType:'json',
-    success: function(data)
-    {
-      if(data){
-        $(".list-wrapper").append(data);
-        page++;
-        $('.get_more').hide();
-      }else{
-        $('.get_more').hide();
-        $('#getmore').remove();
-      }
-    }
-  });
-}
-</script>
-<a href="javascript:goTop();" class="gotop"><img src="__STATIC__/images/topup.png"></a>
-<include file="public/footer"/>
-<include file="public/footer_nav"/>
 </body>
 </html>

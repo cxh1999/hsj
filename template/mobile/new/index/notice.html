@@ -1,21 +1,103 @@
 <!DOCTYPE html>
-<script type="text/javascript" src="__STATIC__/js/wx.js"></script>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>功能开发中</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 引入样式文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+    <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+    <title>花手眷</title>
 </head>
 <style>
-    img{
-        width: 100%;
-        height: 100%;
-    }
+html{
+    height: 100%;
+    
+}
+body{
+    background: white;
+}
+.van-row{
+    background:burlywood;
+    margin: 10px;
+    height: 15%;
+}
+
+.van-cell{
+    padding: 0;
+}
+.yhj{
+    background: rgba(206, 172, 128, 0.32);
+    border-radius: 10px;
+}
+.yhj>div{
+    display: inline-block
+}
+.van-panel{
+    width: 75%;
+    float: right;
+}
+.van-button{
+    top:-25px;
+    left: 25px;
+}
+.sjyhj{
+    padding: 10px;
+    height: 130px;
+}
+.yhj_1{
+    padding: 5px 15px 10px 15px;
+    line-height: 1;
+    border-right: 1px solid rgba(191, 145, 112, 0.22);
+
+}
+.van-button{
+    border-radius: 20px;
+    background: rgba(239, 77, 77, 0.68);
+    color: white;
+}
+img{
+    width: 15%;
+}
 </style>
 <body>
-    <div>
-        <img src="{:C('qiniu.url')}{$address}">
-    </div>
-
+    <template id="app">
+            <van-tabs title-active-color="red">
+                    <van-tab   v-for="index in fenlei" :key="index" v-bind:title="index" >
+                        <!-- 商家优惠眷 -->
+                        <div v-for="i of 8 " :key="i" class="sjyhj">
+                            <img src="__STATIC__/images/xin/icosousuo.png" alt="1">
+                            <van-panel title="汤师傅" desc="4.1分 | ￥45/人 | 龙湖0.1km" >
+                                    <div class="yhj">
+                                        <div class="yhj_1">
+                                            <p>￥90元代100元眷</p>
+                                            <small>周一至周末可用</small>
+                                        </div>
+                                        <div>
+                                            <van-button v-on:click="buy(i)" size="small" >立即抢购</van-button>
+                                        </div>
+                                    </div>
+                            </van-panel>
+                        </div>  
+                    </van-tab>
+            </van-tabs>
+    </template>
+    
+    <script>
+       var app = new Vue({
+            el: '#app',
+                    data: {
+                    fenlei:['美食','医疗','美容','住宿','娱乐'],
+                },
+                methods: {
+                buy:function(val){
+                    console.log(val)
+                    }
+                },
+                
+                })
+    </script>
 </body>
 </html>
