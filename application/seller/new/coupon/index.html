@@ -24,11 +24,12 @@
                 <tr>
                     <th class="w20"></th>
                     <th class="w120 tl">代金券名称</th>
+                    <th class="w100">发放类型</th>
                     <th class="w100">优惠券类型</th>
                     <th class="w50">面额</th>
                     <th class="w80">使用需满金额</th>
                     <th class="w50">发放总量</th>
-                    <th class="w50">已发放数</th>
+                    <th class="w50">已领取数</th>
                     <th class="w50">已使用</th>
                     <th class="w120">使用截止日期</th>
                     <th class="w200">操作</th>
@@ -40,6 +41,7 @@
                         <td></td>
                         <td class="tl">{$list.name}</td>
                         <td>{$coupons[$list[type]]}</td>
+                        <td><if condition="$list.couponType eq 0">线上<else/>线下</if></td>
                         <td>{$list.money}</td>
                         <td>{$list.condition}</td>
                         <td>{$list.createnum}</td>
@@ -47,12 +49,10 @@
                         <td>{$list.use_num}</td>
                         <td>{$list.use_end_time|date='Y-m-d',###}</td>
                         <td class="nscs-table-handle">
-                            <if condition="$list[type] eq 3">
+                            <if condition="$list[release_status] eq 0">
                                   <span><a href="{:U('Coupon/make_coupon',array('id'=>$list['id'],'type'=>$list['type']))}" class="btn-bluejeans"><i class="icon-plane"></i><p>发放</p></a></span>
-                            <elseif condition="$list[type] eq 1"/>
-                                  <span><a class="btn-bluejeans send_user" data-url="{:U('Coupon/send_coupon',array('cid'=>$list[id]))}"><i class="icon-plane"></i><p>发放</p></a></span>
-                            <else/>
-                                  <span><a class="btn-disabled" onclick="layer.msg('该优惠券类型为'+'{$coupons[$list[type]]}'+'，不能手动发放',{icon:2})" ><i class="icon-plane"></i><p>发放</p></a></span>
+                            <elseif condition="$list[release_status] eq 1"/>
+                                  <span><a class="btn-bluejeans send_user" data-url="{:U('Coupon/send_coupon',array('cid'=>$list[id]))}"><i class="icon-plane"></i><p>结束</p></a></span>
                             </if>
                             <span><a href="{:U('Coupon/coupon_list',array('id'=>$list['id']))}" class="btn-bluejeans"><i class="icon-search"></i>
                                 <p>详细</p></a></span>

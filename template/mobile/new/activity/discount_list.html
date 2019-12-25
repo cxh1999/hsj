@@ -4,22 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/activity.css">   
+    <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/layer.js" ></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
     <!-- 引入样式文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
     <!-- 引入 Vue 和 Vant 的 JS 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js
+    "></script>
     <title>花手眷</title>
 </head>
 <style>
+.header{
+    position: fixed;
+}
 html{
     height: 100%;
-    
 }
 body{
     background: white;
+}
+.van-panel__content>small{
+    font-size: 11px;
+    color: rgba(50, 50, 51, 0.65);
 }
 .van-row{
     background:burlywood;
@@ -42,16 +54,18 @@ body{
     float: right;
 }
 .van-button{
-    top:-25px;
-    left: 25px;
+    top:-20px;
+    left: 50%;
+    margin-left: -25%;
 }
 .sjyhj{
     padding: 10px;
-    height: 130px;
+    height: 150px;
+    line-height: 1;
 }
 .yhj_1{
     padding: 5px 15px 10px 15px;
-    line-height: 1;
+    line-height: 2;
     border-right: 1px solid rgba(191, 145, 112, 0.22);
 
 }
@@ -60,31 +74,54 @@ body{
     background: rgba(239, 77, 77, 0.68);
     color: white;
 }
+.van-tabs--line .van-tabs__wrap {
+    margin-top: 45px;
+}
+.zwyhj{
+    text-align: center;
+    color: rgba(0, 0, 0, 0.23);
+}
 img{
-    width: 15%;
+    width: 20%;
 }
 </style>
 <body>
-    
+        <div class="tab_nav">
+                <div class="header">
+                  <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+                  <div class="h-mid">优惠卷</div>
+                  <div class="h-right">
+                    <aside class="top_bar">
+                      <div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+                    </aside>
+                  </div>
+                </div>
+              </div>
+              <include file="public/menu"/>
     <template id="app">
             <van-tabs title-active-color="red">
-                    <van-tab   v-for="index in fenlei" :key="index" :title="index" >
+                    <van-tab    v-for="index in fenlei" :key="index.sc_id" :title="index.sc_name" >
                         <!-- 商家优惠眷 -->
-                        <div v-for="i of 8 " :key="i" class="sjyhj">
-                            <img src="__STATIC__/images/xin/icosousuo.png" alt="1">
-                            <van-panel title="汤师傅" desc="4.1分 | ￥45/人 | 龙湖0.1km" >
+                        <div v-if="index.sc_id==a.sc_id" v-for="(a,i) of  Coupon" :key="a.sc_id" class="sjyhj">
+                            <img :src="'{:C('qiniu.url')}/'+a.store_logo" alt="">
+                            <van-panel :title="a.store_name" >
+                                 <small>{{a.store_desccredit}}分 | 已领取{{a.send_num}}个 | 龙湖1km <span v-if="a.couponType==0">网上商城使用</span><span v-else>实体店消费</span></small> 
                                     <div class="yhj">
                                         <div class="yhj_1">
-                                            <p>￥90元代100元眷</p>
+                                            <small>满{{a.condition}}减{{a.money}}</small><br>
                                             <small>周一至周末可用</small>
                                         </div>
                                         <div>
-                                            <van-button v-on:click="buy(i)" size="small" >立即抢购</van-button>
+                                            <van-button v-if="a.receive==0" v-on:click="buy(i)" size="small" >立即领取</van-button>
+                                            <van-button v-else  size="small" disabled>已领取</van-button>
                                         </div>
                                     </div>
                             </van-panel>
-                        </div>  
+                        </div> 
                     </van-tab>
+                    <div class="zwyhj" >
+                            暂无更多优惠卷...
+                    </div>
             </van-tabs>
     </template>
     
@@ -92,23 +129,37 @@ img{
        var app = new Vue({
             el: '#app',
                     data: {
-                    fenlei:['美食','医疗','美容','住宿','娱乐'],
-                    fenlei1:[]
+                    fenlei:[],
+                    Coupon:[],
+
                 },
                 methods: {
                 buy:function(val){
                     console.log(val)
                     },
+                
+               
                 },
-                created() {
-                  axios({
+                mounted(){
+                    axios({
                         method:'post',
                         url:'/mobile/Activity/store_class'
-                    }).then(function(res){
-                      this.fenlei1=res.data
-                      console.log(fenlei1)
+                        }).then((res)=>{
+                            this.fenlei=res.data[0]
+                            console.log(this.fenlei)
+                       
                     });
-
+                    axios({
+                        method:"post",
+                        url:'/mobile/Activity/couponList'
+                        }).then((res)=>{
+                        this.Coupon=res.data[0]
+                        console.log(this.Coupon)
+                        var time=new Date(1581817067)
+                        console.log(time)
+                        var times=new Date(1576315295)
+                        console.log(times)
+                    })
                 },
                 })
     </script>
