@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/public.css"/>
     <link rel="stylesheet" type="text/css" href="__STATIC__/css/activity.css">   
@@ -33,6 +33,9 @@ body{
     font-size: 11px;
     color: rgba(50, 50, 51, 0.65);
 }
+.time{
+    font-size: 11px;
+}
 .van-row{
     background:burlywood;
     margin: 10px;
@@ -45,6 +48,7 @@ body{
 .yhj{
     background: rgba(206, 172, 128, 0.32);
     border-radius: 10px;
+    position: relative;
 }
 .yhj>div{
     display: inline-block
@@ -62,17 +66,24 @@ body{
     padding: 10px;
     height: 150px;
     line-height: 1;
+    position: relative;
 }
 .yhj_1{
     padding: 5px 15px 10px 15px;
-    line-height: 2;
+    line-height: 1;
     border-right: 1px solid rgba(191, 145, 112, 0.22);
+    width:50%
 
 }
 .van-button{
-    border-radius: 20px;
+    position: absolute;
+    transform: translate(-25%,-50%);
     background: rgba(239, 77, 77, 0.68);
     color: white;
+    top: 50%;
+    left: 100%;
+    border-radius: 10px;
+    font-size: 52%;
 }
 .van-tabs--line .van-tabs__wrap {
     margin-top: 45px;
@@ -80,9 +91,17 @@ body{
 .zwyhj{
     text-align: center;
     color: rgba(0, 0, 0, 0.23);
+    
 }
 img{
-    width: 20%;
+    position: absolute;
+    width: 16%;
+    top: 15%;
+    left: 5%;
+}
+.money{
+    font-size: 70%;
+    color: red;
 }
 </style>
 <body>
@@ -96,24 +115,24 @@ img{
                     </aside>
                   </div>
                 </div>
-              </div>
+        </div>
               <include file="public/menu"/>
     <template id="app">
             <van-tabs title-active-color="red">
                     <van-tab    v-for="index in fenlei" :key="index.sc_id" :title="index.sc_name" >
                         <!-- 商家优惠眷 -->
                         <div v-if="index.sc_id==a.sc_id" v-for="(a,i) of  Coupon" :key="a.sc_id" class="sjyhj">
-                            <img :src="'{:C('qiniu.url')}/'+a.store_logo" alt="">
+                            <a :href="'/mobile/Store/index/store_id/'+a.store_id+'.html'"><img  :src="'{:C('qiniu.url')}/'+a.store_logo" alt=""></a>
                             <van-panel :title="a.store_name" >
                                  <small>{{a.store_desccredit}}分 | 已领取{{a.send_num}}个 | 龙湖1km <span v-if="a.couponType==0">网上商城使用</span><span v-else>实体店消费</span></small> 
                                     <div class="yhj">
                                         <div class="yhj_1">
-                                            <small>满{{a.condition}}减{{a.money}}</small><br>
-                                            <small>周一至周末可用</small>
+                                            <small class="money">满{{a.condition}}减{{a.money}}</small><br>
+                                            <small class="time">{{a.use_start_time}}至<br>{{a.use_end_time}}可用</small>
                                         </div>
                                         <div>
-                                            <van-button v-if="a.receive==0" v-on:click="buy(i)" size="small" >立即领取</van-button>
-                                            <van-button v-else  size="small" disabled>已领取</van-button>
+                                            <van-button v-if="a.receive==0" v-on:click="buy(i)" size="small" :disabled=disabled >{{play}}</van-button>
+                                            <van-button v-if="a.receive==1"  size="small" disabled>已领取</van-button>
                                         </div>
                                     </div>
                             </van-panel>
@@ -129,36 +148,45 @@ img{
        var app = new Vue({
             el: '#app',
                     data: {
+                    // 导航
                     fenlei:[],
+                    // 优惠卷
                     Coupon:[],
-
+                    play:'立即领取',
+                    disabled:false,
                 },
                 methods: {
+                    // 点击领取，发请求传值给后端，领取后提示
                 buy:function(val){
-                    console.log(val)
+                    var id=this.Coupon[val].id,store_id=this.Coupon[val].store_id,coupontype=this.Coupon[val].couponType,type=this.Coupon[val].type
+                    axios.post('/mobile/Activity/receiveCoupon',{id,store_id,coupontype,type}).then((res)=>{
+                        if(res.data.code==1){
+                            this.play="已领取"
+                            this.disabled=true
+                            this.$toast(res.data.msg);
+                            return false
+                        }else{
+                            this.$toast(res.data.msg);
+                        }
+                    })
                     },
-                
-               
                 },
-                mounted(){
+                created() {
+                    // 页面导航数据请
                     axios({
                         method:'post',
                         url:'/mobile/Activity/store_class'
                         }).then((res)=>{
                             this.fenlei=res.data[0]
                             console.log(this.fenlei)
-                       
                     });
+                    // 页面优惠卷数据请求
                     axios({
                         method:"post",
                         url:'/mobile/Activity/couponList'
                         }).then((res)=>{
                         this.Coupon=res.data[0]
                         console.log(this.Coupon)
-                        var time=new Date(1581817067)
-                        console.log(time)
-                        var times=new Date(1576315295)
-                        console.log(times)
                     })
                 },
                 })

@@ -1,4 +1,30 @@
 <include file="public/head"/>
+<style>
+.sydjq{
+    background: #36BC9B;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    position: absolute;
+    top: -2px;
+    left: 750px;
+}
+.tc{
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    font-size: 20px;
+    border-bottom: 1px solid;
+}
+.tcsr{
+    border: 0 !important;
+}
+.layui-layer-btn{
+    position: absolute;
+    top: 45%;
+    left: 37%;
+}
+</style>
 <div class="ncsc-layout wrapper">
     <include file="public/left"/>
     <div id="layoutRight" class="ncsc-layout-right">
@@ -10,7 +36,9 @@
                     <li class="active"><a href="{:U('coupon/index')}">代金券列表</a></li>
                 </ul>
                 <!--<a href="" style="right:100px" class="ncbtn ncbtn-mint" title="新增虚拟商品抢购"><i class="icon-plus-sign"></i>新增虚拟抢购</a>-->
+                
                 <a href="{:U('Coupon/coupon_info')}" class="ncbtn ncbtn-mint" title="新增代金券"><i class="icon-plus-sign"></i>添加代金券</a>
+                <a href="#" class="sydjq">使用代金券</a>
             </div>
             <div class="alert alert-block mt10 mb10">
 	            <ul>
@@ -49,17 +77,22 @@
                         <td>{$list.use_num}</td>
                         <td>{$list.use_end_time|date='Y-m-d',###}</td>
                         <td class="nscs-table-handle">
-                            <if condition="$list[release_status] eq 0">
-                                  <span><a href="{:U('Coupon/make_coupon',array('id'=>$list['id'],'type'=>$list['type']))}" class="btn-bluejeans"><i class="icon-plane"></i><p>发放</p></a></span>
+                            <if condition="$list[release_status] eq 0 or $list[release_status] eq -1">
+                                  <span><a href="{:U('Coupon/make_coupon',array('id'=>$list['id'],'type'=>$list['type']))}" class="btn-bluejens"><i class="icon-plane"></i><p>发放</p></a></span>
                             <elseif condition="$list[release_status] eq 1"/>
-                                  <span><a class="btn-bluejeans send_user" data-url="{:U('Coupon/send_coupon',array('cid'=>$list[id]))}"><i class="icon-plane"></i><p>结束</p></a></span>
+                                  <span><a href="{:U('Coupon/send_coupon',array('cid'=>$list[id]))}" class="btn-bluejens"><i class="icon-plane"></i><p>结束</p></a></span>
                             </if>
                             <span><a href="{:U('Coupon/coupon_list',array('id'=>$list['id']))}" class="btn-bluejeans"><i class="icon-search"></i>
                                 <p>详细</p></a></span>
+                            <if condition="$list['release_status'] eq 1">
+                                <span><a class="btn-disabled" onclick="layer.msg('该优惠券发放中,不能编辑',{icon:2})" ><i class="icon-plane"></i><p>编辑</p></a></span>
+                                <span><a class="btn-disabled" onclick="layer.msg('该优惠券发放中,不能删除',{icon:2})" ><i class="icon-plane"></i><p>删除</p></a></span>
+                            <else/>
                             <span><a href="{:U('Coupon/coupon_info',array('id'=>$list['id']))}" class="btn-bluejeans"><i class="icon-edit"></i>
                                 <p>编辑</p></a></span>
                             <span><a data-url="{:U('Coupon/del_coupon',array('id'=>$list['id']))}" onclick="delfun(this)" class="btn-grapefruit"><i class="icon-trash"></i>
                                 <p>删除</p></a></span>
+                            </if>
                         </td>
                     </tr>
                 </volist>
@@ -77,18 +110,51 @@
 </div>
 <include file="public/foot"/>
 <script>
-    $('.send_user').click(function(){
-        var url = $(this).attr('data-url');
-        layer.open({
-            type: 2,
-            title: '发放优惠券',
-            shadeClose: true,
-            shade: 0.5,
-            area: ['1020px', '85%'],
-            content: url,
-        });
-    });
-
+    // $('.send_user').click(function(){
+    //     var url = $(this).attr('data-url');
+    //     layer.open({
+    //         type: 2,
+    //         title: '发放优惠券',
+    //         shadeClose: true,
+    //         shade: 0.5,
+    //         area: ['1020px', '85%'],
+    //         content: url,
+    //     });
+    // });
+        $('.sydjq').click(function(){
+            layer.open({
+                        area: ['500px', '300px'],
+                        type: 1,
+                        title: false,
+                        closeBtn: 0,
+                        shadeClose: true,
+                        skin: 'yourclass',
+                        content: `<form name="input" class="tc" action="html_form_action.php" method="get">
+                                   输入优惠卷码: <input class="tcsr" type="text" name="code"></form><br>
+                                   `,
+                                   btn: ['使用优惠卷'] ,
+                                   btn1:function(){
+                                       var nr=$('.tcsr').val()
+                                       console.log(nr)
+                                       $.ajax({
+                                        // 1 请求方式 post或者get
+                                        type:'post',
+                                        // 2 请求地址
+                                        url:'/seller/Coupon/use_coupon ',
+                                        //3 参数
+                                        data:{
+                                            code:nr
+                                        },
+                                        // 4 回调函数
+                                        success:function(backData){
+                                            console.log(backData);
+                                        }
+                                    });
+                                   }
+                                   
+                        });
+        })
+        
     function delfun(obj){
         if(confirm('确认删除')){
             $.ajax({
