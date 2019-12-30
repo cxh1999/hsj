@@ -63,10 +63,13 @@ body{
     margin-left: -25%;
 }
 .sjyhj{
-    padding: 10px;
-    height: 150px;
+    height: 140px;
     line-height: 1;
     position: relative;
+    margin: 10px;
+    border: 1px dashed rgba(0, 0, 0, 0.34);
+    padding: 5px;
+    border-radius: 10px;
 }
 .yhj_1{
     padding: 5px 15px 10px 15px;
@@ -100,7 +103,7 @@ img{
     left: 5%;
 }
 .money{
-    font-size: 70%;
+    font-size: 65%;
     color: red;
 }
 </style>
@@ -124,14 +127,14 @@ img{
                         <div v-if="index.sc_id==a.sc_id" v-for="(a,i) of  Coupon" :key="a.sc_id" class="sjyhj">
                             <a :href="'/mobile/Store/index/store_id/'+a.store_id+'.html'"><img  :src="'{:C('qiniu.url')}/'+a.store_logo" alt=""></a>
                             <van-panel :title="a.store_name" >
-                                 <small>{{a.store_desccredit}}分 | 已领取{{a.send_num}}个 | 龙湖1km <span v-if="a.couponType==0">网上商城使用</span><span v-else>实体店消费</span></small> 
+                                 <small>{{a.store_desccredit}}分 | 已领取{{a.send_num}}个 | 距你{{a.km}}km <span v-if="a.couponType==0">网上使用</span><span v-else>实体店消费</span></small> 
                                     <div class="yhj">
                                         <div class="yhj_1">
                                             <small class="money">满{{a.condition}}减{{a.money}}</small><br>
                                             <small class="time">{{a.use_start_time}}至<br>{{a.use_end_time}}可用</small>
                                         </div>
                                         <div>
-                                            <van-button v-if="a.receive==0" v-on:click="buy(i)" size="small" :disabled=disabled >{{play}}</van-button>
+                                            <van-button v-if="a.receive==0" v-on:click="buy(i)" size="small" >立即领取</van-button>
                                             <van-button v-if="a.receive==1"  size="small" disabled>已领取</van-button>
                                         </div>
                                     </div>
@@ -152,26 +155,41 @@ img{
                     fenlei:[],
                     // 优惠卷
                     Coupon:[],
-                    play:'立即领取',
-                    disabled:false,
                 },
                 methods: {
-                    // 点击领取，发请求传值给后端，领取后提示
+                    // 点击领取，发请求传值给后端，领取后提示,如果receive=0发送请求，否则不发请求
                 buy:function(val){
-                    var id=this.Coupon[val].id,store_id=this.Coupon[val].store_id,coupontype=this.Coupon[val].couponType,type=this.Coupon[val].type
-                    axios.post('/mobile/Activity/receiveCoupon',{id,store_id,coupontype,type}).then((res)=>{
+                    var id=this.Coupon[val].id,store_id=this.Coupon[val].store_id,coupontype=this.Coupon[val].couponType,type=this.Coupon[val].type,receive=this.Coupon[val].receive
+                    if(receive==0){
+                        axios.post('/mobile/Activity/receiveCoupon',{id,store_id,coupontype,type}).then((res)=>{
                         if(res.data.code==1){
-                            this.play="已领取"
-                            this.disabled=true
                             this.$toast(res.data.msg);
+                            axios({
+                            method:"post",
+                            url:'/mobile/Activity/couponList'
+                            }).then((res)=>{
+                            this.Coupon=res.data[0]
+                            console.log(this.Coupon)
+                            });
                             return false
                         }else{
                             this.$toast(res.data.msg);
                         }
                     })
+                    }else if(receive==1){
+                        this.$toast('已领取过了!')
+                    }
                     },
                 },
-                created() {
+                mounted() {
+                    // 页面优惠卷数据请求
+                    axios({
+                        method:"post",
+                        url:'/mobile/Activity/couponList'
+                        }).then((res)=>{
+                        this.Coupon=res.data[0]
+                        console.log(this.Coupon)
+                    });
                     // 页面导航数据请
                     axios({
                         method:'post',
@@ -180,14 +198,12 @@ img{
                             this.fenlei=res.data[0]
                             console.log(this.fenlei)
                     });
-                    // 页面优惠卷数据请求
-                    axios({
-                        method:"post",
-                        url:'/mobile/Activity/couponList'
-                        }).then((res)=>{
-                        this.Coupon=res.data[0]
-                        console.log(this.Coupon)
-                    })
+                },
+                created() {
+                    
+                   
+                   
+                    
                 },
                 })
     </script>

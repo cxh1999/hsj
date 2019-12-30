@@ -78,7 +78,7 @@ function moveBalloon(w) {
     var u = global[B + "_aw"];
     var A = global[B + "_cw"];
     var s = w.scrollLeft / (A - document.body.clientWidth);
-    D.style.left = s * (D.parentElement.clientWidth - D.offsetWidth) + "px";
+    // D.style.left = s * (D.parentElement.clientWidth - D.offsetWidth) + "px";
     r.style.left = s * (r.parentElement.clientWidth - r.offsetWidth) + "px";
     t.style.left = s * (t.parentElement.clientWidth - t.offsetWidth * 100 / 96) + "px";
     var z = s * A;

@@ -135,7 +135,6 @@
                                    btn: ['使用优惠卷'] ,
                                    btn1:function(){
                                        var nr=$('.tcsr').val()
-                                       console.log(nr)
                                        $.ajax({
                                         // 1 请求方式 post或者get
                                         type:'post',
@@ -143,13 +142,20 @@
                                         url:'/seller/Coupon/use_coupon ',
                                         //3 参数
                                         data:{
-                                            code:nr
+                                            num:nr
                                         },
                                         // 4 回调函数
-                                        success:function(backData){
-                                            console.log(backData);
+                                        success:function(red){
+                                            if(red.code==1){
+                                                alert(red.msg)
+                                                // console.log(red)
+                                                return false
+                                            }else{
+                                               alert(red.msg)
+                                            // console.log(red)
+                                            }
                                         }
-                                    });
+                                    },JSON);
                                    }
                                    
                         });

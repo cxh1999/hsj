@@ -1,5 +1,10 @@
 <include file="public/header"/>
-
+<link rel="stylesheet" type="text/css" href="__STATIC__/css/public.css"/>
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/activity.css">   
+    <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/layer.js" ></script>
+    <script src="__PUBLIC__/js/global.js"></script>
+    <script src="__PUBLIC__/js/mobile_common.js"></script>
 <style>
     .top-img {
         width: 100%;
@@ -47,12 +52,44 @@
 
     .img-wrap {
         margin-top: 5px;
+        background:#f6ecda !important;
     }
-    .img-wrap{
+    .com_top{
         display: none !important;
     }
+    .uer_topnav{
+        display:none !important;
+    }
+    .ss_million{
+        display: none !important;
+    }
+    #img2{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      
+    }
+    img {
+    image-rendering: -moz-crisp-edges; /* Firefox */
+    image-rendering: -o-crisp-edges; /* Opera */
+    image-rendering: -webkit-optimize-contrast; /* Webkit (non-standard naming) */
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor; /* IE (non-standard property) */
+}
 </style>
 <body>
+        <div class="tab_nav">
+                <div class="header">
+                  <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+                  <div class="h-mid">二维码分享</div>
+                  <div class="h-right">
+                    <aside class="top_bar">
+                      <div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+                    </aside>
+                  </div>
+                </div>
+        </div>
 <div id="tbh5v0">
     <div class="user_com">
         <if condition="$_SESSION['loginType'] eq 2"><include file="public/iron_topnav"><else/><include file="public/uer_topnav"></if>
@@ -101,6 +138,7 @@
                     <div class="wrap-right">
                         <p>商客共享第一平台</p>
                         <p>360行无缝链接</p>
+                        <p>注：长按图片保存二维码分享</p>
 <!--                        <p>测试</p>-->
                     </div>
                 </div>

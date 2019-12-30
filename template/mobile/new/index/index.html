@@ -19,7 +19,6 @@
     <script src="__PUBLIC__/js/global.js"></script>
     <script src="__PUBLIC__/js/mobile_common.js"></script>
     <style>
-        
         .showpage {
             background-color: #fff;
         }
@@ -137,7 +136,7 @@
         }
 
         /*
-        
+
         .index_floor {
             border: none;
         }
@@ -166,7 +165,7 @@
             /*border-radius: 5px;*/
 
         .entry-list {
-            padding: 10px 10px 0 10px;
+            /* padding: 10px 10px 0 10px; */
             width: auto;
         }
 
@@ -237,18 +236,37 @@
             overflow: hidden;
         }
 
+        .entry-nav{
+            overflow: auto;
+        }
+
+        /* 金刚区 */
         .entry-list ul {
-            /*padding: 0 15px;*/
             width: auto;
+            overflow: -webkit-paged-x;
+            height: 182px;
+            /* width: 150%; */
+            overflow-x: visible;
+        }
+        .entry-list a{
+            /* width: 16% */
+            width: 25%;
+        }
+        
+
+
+        .entry-list{
+            padding-bottom: 0;
         }
 
         .entry-list a img {
             width: 40px;
+            height: 40px;
         }
 
         .entry-nav {
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-            border-radius: 10px;
+            /* border-radius: 10px; */
         }
 
         .entry-list a span {
@@ -310,35 +328,33 @@
     </script>
     <if condition="$address eq ''">
         <script>
-            var city = getUrlParam('city')
-            if (city == null) {
-                wx.config(
-                    {$jsConfig}
-                );
-                wx.ready(function () {
-                    wx.getLocation({
-                        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-                        success: function (res) {
-                            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                            $(function () {
-                                $("#lat").val(latitude);
-                                $("#long").val(longitude);
-                                address(latitude, longitude)
-                            })
-                        }
-                    });
+            wx.config(
+                {$jsConfig}
+            );
+            wx.ready(function () {
+                wx.getLocation({
+                    type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                    success: function (res) {
+                        var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                        var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                        $(function () {
+                            $("#lat").val(latitude);
+                            $("#long").val(longitude);
+                            address(latitude, longitude)
+                        })
+                    }
                 });
-            } else {
-                $(function () {
-                    add(city)
-                });
-            }
+            });
         </script>
         <else/>
         <script>
+            var city = getUrlParam('city')
             $(function () {
-                add("{$address.city}");
+                if (city == null) {
+                    add("{$address.city}");
+                } else {
+                    add(city);
+                }
             });
         </script>
     </if>
@@ -366,9 +382,7 @@
                 city.lat = lat;
                 city.lang = long;
                 loc(city);
-                $('#add_content').html(city.city)
-                var url = "/index.php?m=Mobile&c=index&a=region&city=" + city;
-                $('#reg').attr('href', url);
+                add(city.city)
             }
         });
         var coord = new qq.maps.LatLng(lat, long);
@@ -380,15 +394,11 @@
         }, "json");
     }
 </script>
-<script>
-    $('#reg').click(function (e) {
-        console.log(1);
-    })
-</script>
 <div id="page" class="showpage">
     <div class="head-nav">
-        <a href="/mobile/index/region.html" class="top_address" id="reg"><i class="iconfont iconlocation location"></i>
-            <span id="add_content">获取中...</span> <i class="iconfont iconjiantou2"></i></a>
+        <a href="/mobile/index/region.html" class="top_address" id="reg" style="z-index:2;"><i
+                class="iconfont iconlocation location"></i> <span id="add_content">获取中...</span> <i
+                class="iconfont iconjiantou2"></i></a>
         <span href="javascript:void(0)" class="logo">
             <div class="index_search_mid head-search">
                 <span class="icon" style="margin-left: 30%;"><img class="img" src="__STATIC__/images/xin/icosousuo.png"></span>
@@ -452,6 +462,34 @@
                             </a>
                         </li>
                     </foreach>
+                    <!-- <li>
+                        <a href="#">
+                            <img alt="无" onclick=""
+                                 src="{:C('qiniu.url')}/606f1c6bf7ef2f381af94ea91afa34d7.png">
+                            <span>关闭绑定</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="无" onclick=""
+                                 src="{:C('qiniu.url')}/606f1c6bf7ef2f381af94ea91afa34d7.png">
+                            <span>关闭绑定</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="无" onclick=""
+                                 src="{:C('qiniu.url')}/606f1c6bf7ef2f381af94ea91afa34d7.png">
+                            <span>关闭绑定</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="无" onclick=""
+                                 src="{:C('qiniu.url')}/606f1c6bf7ef2f381af94ea91afa34d7.png">
+                            <span>关闭绑定</span>
+                        </a>
+                    </li> -->
                     <!--<if condition="$Think.session.user.openid eq 'oHtlg5j_bfqgaBq4CfAn3Z6tPz9s'">-->
                     <!--<if condition="$fige eq 1">-->
                     <!--<li>-->
@@ -668,7 +706,7 @@
                </script> -->
         <section class="index_floor">
             <div class="floor_body1 set">
-                <h2>精品推荐
+                <h2>9块9包邮
                     <!--<div class="geng"> <a href="{:U('Goods/search',array('q'=>'精品'))}">更多</a> <span></span></div>-->
                 </h2>
                 <div id="scroll_best" class="scroll_hot">
@@ -1014,17 +1052,17 @@
     $('#searchtype').val($(this).attr('0'));
 </script>
 <script>
-    function getUrlParam(name) {
-        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-        var result = window.location.search.substr(1).match(reg)
-        return result ? decodeURIComponent(result[2]) : null
-    }
-
-    $(function () {
-        var city = getUrlParam('city')
-        var url = "/index.php?m=Mobile&c=index&a=region&city=" + city;
-        $('#reg').attr('href', url);
-    })
+    // function getUrlParam(name) {
+    //     var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+    //     var result = window.location.search.substr(1).match(reg)
+    //     return result ? decodeURIComponent(result[2]) : null
+    // }
+    //
+    // $(function () {
+    //     var city = getUrlParam('city')
+    //     var url = "/index.php?m=Mobile&c=index&a=region&city=" + city;
+    //     $('#reg').attr('href', url);
+    // })
 </script>
 <script src="__PUBLIC__/js/jqueryUrlGet.js"></script><!--获取get参数插件-->
 <script> set_first_leader(); //设置推荐人 </script>

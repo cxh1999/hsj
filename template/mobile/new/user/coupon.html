@@ -42,6 +42,7 @@
 		margin: 10px;
 		background: rgba(206, 172, 128, 0.32);
     	border-radius: 10px;
+		border: 1px dashed rgba(0, 0, 0, 0.34);
 	}
 	.sjyhj{
 		margin-left: 28%;
@@ -88,6 +89,10 @@
 		padding: 9px;
 		border-radius: 11px;
 	}
+	.zwyhj{
+    text-align: center;
+    color: rgba(0, 0, 0, 0.23);
+	}
 		
 </style>
 <body>
@@ -105,8 +110,8 @@
     <include file="public/menu"/>
     <template id="app">
 			<div>
-				<div v-for="(index,i) in fenlei" :key="index.sc_id" class="sjname2">
-						<img src="http://qiniu.baoliy168.com//4ae7cc0324b919c46d775302ac8ec202.jpg" alt="">
+				<div v-if="fenlei!=''" v-for="(index,i) in fenlei" :key="index.sc_id" class="sjname2">
+						<img :src="'{:C('qiniu.url')}/'+index.store_logo" alt="">
 						<div class="sjyhj">
 							<small class='nema'>{{index.store_name}} | <small v-if="index.couponType==0">注：网上使用</small><small v-else>注：实体店消费</small></small><br>
 							<small class="money">满{{index.condition}}减{{index.money}}</small><br>
@@ -114,8 +119,11 @@
 						</div>
 						<div class="play">
 							<a class="button" v-if="index.couponType==0" :href="'/mobile/Store/index/store_id/'+index.store_id+'.html'">立即使用</a>
-							<van-button v-if="index.couponType==1" v-on:click="play(i)"  type="warning" size="small" >立即使用</van-button>
+							<a v-if="index.couponType==1" v-on:click="play(i)"  class="button" >立即使用</a>
 						</div>
+				</div>
+				<div v-if="fenlei==''" class="zwyhj" >
+						暂无更多优惠卷...
 				</div>
 			</div>
     </template>
@@ -130,7 +138,7 @@
 					play:function(val){
 						if(this.fenlei[val].couponType==1){
 						this.$dialog.alert({
-							title:"请实体店出示此码:",	
+							title:"请到实体店出示此码:",	
 							message: this.fenlei[val].code
 							});							
 						}

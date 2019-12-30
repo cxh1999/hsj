@@ -20,57 +20,44 @@
     <title>花手眷</title>
 </head>
 <style>
-.van-cell-group{
-	margin-bottom: 25px;
+html{
+    height: 100%;
 }
-.van-panel__footer {
-	text-align: end;
+.str_index{
+    margin: 2%;
+   
 }
-.van-cell__title{
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    width: 50%;
-	margin-left: 18%;
-}
-.van-cell__label{
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-	width: 70%;
-}
-.van-panel__footer{
-	position: absolute;
-    top: 45%;
-    left: 65%;
-	padding: 0;
-}
-.zwyhj{
-    text-align: center;
-    color: rgba(0, 0, 0, 0.23);
-}
-.van-panel__content{
-	position: absolute;
-    top: 20%;
-    left: 5%;
+.van-row{
+    margin-bottom: 5%;
+    margin-top: 8%;
+    position: relative;
 }
 img{
-	width: 45px;
-    height: 45px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    /* position: fixed; */
-    /* left: 3%; */
-}
 
-span{
-	line-height: 1;
+}
+.van-col--20 {
+    background: aliceblue;
+    border-radius: 10px;
+    word-wrap: break-word;
+    padding: 5%;
+    font-size: 70%;
+}
+small{
+    position: absolute;
+    top: -30px;
+    font-size: 45%;
+    left: 50%;
+    transform: translate(-45%,0);
 }
 </style>
 <body>
         <div class="tab_nav">
                 <div class="header">
                   <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
-                  <div class="h-mid">我的消息</div>
+                  <div class="h-mid">消息详情</div>
                   <div class="h-right">
                     <aside class="top_bar">
                       <div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
@@ -78,50 +65,30 @@ span{
                   </div>
 				</div>
         </div>
-              <include file="public/menu"/>
     <template id="app">
-		<div >
-			<van-panel v-if="fenlei!=''" v-for='index in fenlei' :key="index.id" :title="index.store_name" :desc="index.message"  :status="index.send_time.slice(0,10)">
-					<img :src="'{:C('qiniu.url')}/'+index.store_logo"  alt="">
-					<div slot="footer">
-						<van-button size="mini" v-on:click='delect(index.store_id)' type="danger">详情</van-button>
-						<van-button size="mini" v-on:click='str(index.id)' type="danger">删除</van-button>
-					</div>
-			</van-panel>
-				<div class="zwyhj">暂无更多消息</div>			
-		</div>
+            <div class="str_index">
+                   
+                    <van-row v-if="index.store_id==id" v-for="index in fenlei"> 
+                            <small>{{index.send_time}}</small>
+                            <van-col span="4">
+                                <a :href="'/mobile/Store/index/store_id/'+index.store_id+'.html'"><img :src="'{:C('qiniu.url')}/'+index.store_logo" alt=""></a>
+                            </van-col>
+                            <van-col span="20" >
+                                <p>{{index.store_name}}</p>
+                                <a>{{index.message}}</a>
+                            </van-col>
+                    </van-row>
+            </div>
     </template>
-    <include file="public/footer_nav"/>
     <script>
        var app = new Vue({
             el: '#app',
                     data: {
-						fenlei:"",
-						
+                   fenlei:'',
+                   id:''
                 },
                 methods: {
-					delect:function(val){
-						window.location.href=`http://skhcenter.baoliy168.com/mobile/User/message_str.html?id=${val}`;
-					},
-					str:function(val){
-						var id=val
-						axios.post('/mobile/user/me_delete',{id}).then((res)=>{
-                        if(res.data.code==1){
-							this.$toast(res.data.data);
-                            axios({
-							method:'post',
-							url:'/mobile/user/message'
-							}).then((res)=>{
-							this.fenlei=res.data.data
-							// console.log(this.fenlei)
-							event.stopPropagation(); 
-							});
-							return false
-							}else{
-							this.$toast(res.data.data);
-							}
-						})
-					}
+					
                 },
                 mounted() {
 					// 页面数据请求
@@ -132,9 +99,15 @@ span{
                            this.fenlei=res.data.data
 						   console.log(this.fenlei)
                     	});
+                        this.id=window.location.href.split('=')[1]
+                        console.log(this.id)
+                   
                 },
                 created() {
-					
+                    
+                   
+                   
+                    
                 },
                 })
     </script>

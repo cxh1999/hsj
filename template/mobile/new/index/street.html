@@ -1,267 +1,219 @@
-<!DOCTYPE html >
-<html>
-<head>
-    <meta name="Generator" content="TPSHOP"/>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>店铺街</title>
-    <meta name="Keywords" content=""/>
-    <meta name="Description" content=""/>
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-    <link rel="stylesheet" type="text/css" href="__STATIC__/css/ecsmart.css"/>
-    <link rel="stylesheet" href="__STATIC__/css/stores.css">
-    <link rel="stylesheet" href="__STATIC__/css/public.css">
-    <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
-    <script type="text/javascript" src="__STATIC__/js/wx.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                <link rel="stylesheet" type="text/css" href="__STATIC__/css/public.css"/>
+                <link rel="stylesheet" type="text/css" href="__STATIC__/css/activity.css">   
+                <script type="text/javascript" src="__STATIC__/js/jquery.js"></script>
+                <script type="text/javascript" src="__STATIC__/js/layer.js" ></script>
+                <script type="text/javascript" src="__STATIC__/js/wx.js"></script>
+                <script src="__PUBLIC__/js/global.js"></script>
+                <script src="__PUBLIC__/js/mobile_common.js"></script>
+                <!-- 引入样式文件 -->
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.2/lib/index.css">
+                <!-- 引入 Vue 和 Vant 的 JS 文件 -->
+                <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/vant@2.2/lib/vant.min.js"></script>
+                <script src="https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js
+                "></script>
+                <title>花手眷</title>
+            </head>
+<style>
+html{
+    height: 100%;
+}
+.van-tabs__content{
+    position: relative;
+}
+.img_tx{
+    width: 20%;
+}
 
-    <style>
-        @media screen {
-            * {
-                -webkit-tap-highlight-color: transparent;
-                /*overflow: hidden;*/
-            }
-
-            .goods_nav {
-                width: 30%;
-                float: right;
-                right: 5px;
-                overflow: hidden;
-                position: fixed;
-                margin-top: -20px;
-                z-index: 9999999
-            }
-            .page_guide_container {
-                overflow: hidden;
-            }
-            .index_taocan dl dt {
-                height: 100px;
-            }
-            .index_taocan dl dt img {
-                height: 100%;width: 100%;
-            }
-        }
-        .rzs_info dl dt a{
-            height: 80pt;
-        }
-        .rzs_info dl dd strong{
-            line-height: 50px;
-        }
-    </style>
-    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script>
-        wx.config(
-            {$jsConfig}
-        );
-        wx.ready(function () {
-            wx.getLocation({
-                success: function (res) {
-                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-                    $(function () {
-                        $('#latitude').val(latitude);
-                        $('#longitude').val(longitude);
-                        getStreetList();
-                    });
-                }
-            });
-        });
-    </script>
-    <script type="text/javascript">
-        // $(function () {
-        //     getStreetList();
-        // });
-
-        var page = 1;//页数
-        var cat_id = '';//店铺分类id
-        /**
-         * 加载分类店铺
-         */
-        function setCat_id(id) {
-            $("#store_list").html('');
-            page = 1;
-            cat_id = id;
-            getStreetList();
-        }
-        /**
-         * 加载店铺
-         */
-        function getStreetList() {
-            $('.get_more').show();
-            var latitude=$('#latitude').val();
-            var longitude=$('#longitude').val();
-            $.ajax({
-                type: "get",
-                url: "/index.php?m=Mobile&c=Index&a=ajaxStreetList&p=" + page + "&sc_id=" + cat_id+"&lat="+latitude+"&long="+longitude,
-                dataType: 'html',
-                success: function (data) {
-                    if (data) {
-                        $("#store_list").append(data);
-                        page++;
-                        $('.get_more').hide();
-                    } else {
-                        $('.get_more').hide();
-                        $('#getmore').remove();
-                    }
-                }
-            });
-        }
-    </script>
-    <script src="__PUBLIC__/js/seller/common.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var cart_cn = getCookie('cn');
-            if (cart_cn == '') {
-                $.ajax({
-                    type: "GET",
-                    url: "/index.php?m=Home&c=Cart&a=header_cart_list", //+tab,
-                    success: function (data) {
-                        cart_cn = getCookie('cn');
-                    }
-                });
-            }
-            if (cart_cn == ""){
-                cart_cn=0
-            }
-            $('#tp_cart_info').html(cart_cn);
-        });
-    </script>
-</head>
-<body style=" background:#F5F5F5">
-<span class="sanjiao"></span>
-<header>
-    <div class="tab_nav">
-        <div class="header">
-            <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
-            <div class="h-mid">店铺街</div>
-            <div class="h-right">
-                <aside class="top_bar">
-                    <div onClick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a
-                            href="javascript:;"></a></div>
-                </aside>
-            </div>
-        </div>
-    </div>
-</header>
-<include file="public/menu"/>
-
-<div class="Packages">
-    <div class="all"><a class="sele" target="_self" href="{:U('Mobile/index/street')}" style="color:#FFF"><span>全部</span></a></div>
-    <div class="page_guide_slider">
-        <div class="page_guide_balloon" style=" display:none">
-            <div class="page_guide_bar">
-                <div class="page_guide_progress">
-                    <div></div>
+.van-row{
+    text-align: center;
+    border-bottom: 1px #8b45131f solid;
+    padding-bottom: 7px;
+    
+}
+.names{
+    display: inline-block;
+    position: absolute;
+    left: 25%;
+    top: 5%;
+}
+.button>a{
+    text-decoration: none;
+    padding: 2% 6% 2% 6%;
+    /* background: cornflowerblue; */
+    margin: 15px;
+    border-radius: 15px;
+    /* color: white; */
+    border: 1px solid;
+}
+.button{
+    text-align: center;
+    margin: 20px;
+}
+.img_sp{
+    width: 100%;
+}
+.money{
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,125%);
+    background: #15161694;
+    width: 50%;
+    color: #fafafa;
+    line-height: 2;
+    font-weight: bold;
+}
+.van-col--8{
+    position: relative;
+    font-size: 12px;
+    color: #10101091;
+    margin-bottom: 10px;
+}
+.van-col--8>.pf{
+    color:red
+}
+.index_sp{
+    overflow: hidden;
+    height: 127px;
+}
+.header_tb{
+    position: relative;
+    height: 70px;
+}
+.index_st{
+    padding: 10px 10px 0;
+    border-bottom: 10px solid #d6d1cd4f;
+}
+.name_sp{
+    width: 100%;
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.form_dz{
+    font-size: 13px;
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+.img_bg{
+    height: 100px;
+    width: 100%;
+    overflow: hidden;
+}
+.name_dp{
+    font-size: 18px;
+}
+</style>
+<body>
+        <div class="tab_nav">
+                <div class="header">
+                  <div class="h-left"><a class="sb-back" href="javascript:history.back(-1)" title="返回"></a></div>
+                  <div class="h-mid">店铺街</div>
+                  <div class="h-right">
+                    <aside class="top_bar">
+                      <div onclick="show_menu();$('#close_btn').addClass('hid');" id="show_more"><a href="javascript:;"></a> </div>
+                    </aside>
+                  </div>
                 </div>
-            </div>
         </div>
-        <div class="page_guide_container" onMouseDown="pageGuideMousedown(this,event)"
-             onMouseMove="pageGuideMousemove(this,event)" onMouseUp="pageGuideMouseup(this,event)"
-             onMouseOut="pageGuideMouseout(this,event)" ontouchstart="pageGuideTouchstart(this,event)"
-             ontouchmove="pageGuideTouchmove(this,event)" ontouchend="pageGuideTouchend(this,event)">
-
-            <div class="page_guide_items" style=" position:relative">
-
-                <div class="page_guide_item">
-                    <div class="page_guide_item_text">
-                        <a class="" target="_self" href="javascript:setCat_id(0)">精选</a></div>
-                </div>
-                <input type="hidden" value="" id="latitude">
-                <input type="hidden" value="" id="longitude">
-                <volist name="store_class" id="sc">
-                    <div class="page_guide_item">
-                        <div class="page_guide_item_text">
-                            <a class="" target="_self" href="javascript:setCat_id({$sc['sc_id']})">{$sc['sc_name']}</a></div>
+      
+    <template id="app">
+            <van-tabs title-active-color="red">
+                    <van-tab    v-for="a in fenlei"   :key="a.sc_id" :title="a.sc_name">
+                        
+                    <div v-if="a.sc_id==index.sc_id" v-for="(index,i) in commodity" :key="i" class="index_st"> 
+                    <!-- 头部 --> 
+                    <div style=" margin-bottom: 5%;">
+                        <div class="header_tb">
+                            <img v-if="index.store_logo!=null" class="img_tx"  :src="'{:C('qiniu.url')}'+index.store_logo" alt="">
+                            <img v-else class="img_tx" src="{:C('yuming.url')}public/images/icon_goods_thumb_empty_300.png" alt="">
+                            <div class="names">
+                                <span class="name_dp">店铺：{{index.store_name}}</span><br>
+                                <small class="form_dz">所在地：{{index.store_address}}</small>
+                            </div>
+                        </div>
+                        <!-- 平分 -->
+                        <van-row gutter="20">
+                                <van-col span="8">宝贝质量:<span class="pf">{{index.store_deliverycredit}}</span></van-col>
+                                <van-col span="8">卖家服务:<span class="pf">{{index.store_desccredit}}</span></van-col>
+                                <van-col span="8">物流质量:<span class="pf">{{index.store_servicecredit}}</span></van-col>
+                              </van-row>
+                        </van-tab>
+                        <!-- 商品 -->
+                        <div>
+                            <small>共{{index.goods_array.goods_count}}件商品</small>
+                            <van-row v-if="index.goods_array.goods_count!=0" class="index_sp" gutter="20" >
+                                    <van-col  span="8" v-for="(index,i) of index.goods_array.goods_list" :key="index.goods_id">
+                                        <div class="img_bg">
+                                            <a :href="'/Mobile/Goods/goodsInfo/id/'+index.goods_id+'.html'"><img class="img_sp" :src="'{:C('qiniu.url')}'+index.original_img" alt=""></a>
+                                        </div>
+                                        <small class="money">￥{{index.shop_price}}</small>
+                                        <span class="name_sp">{{index.goods_name}}</span>
+                                    </van-col>
+                                   
+                            </van-row>
+                        </div>
+                        <div class="button">
+                            <a href="tel:{{index.store_phone}}">联系客服</a>
+                            <a :href="'/mobile/Store/index/store_id/'+index.store_id+'.html'">进入店铺</a>
+                        </div>
                     </div>
-                    <div id="street_cat{$sc['sc_id']}"></div>
-                </volist>
-            </div>
-        </div>
-
-    </div>
-</div>
-<div id="store_list">
-</div>
-<!--<script type="text/javascript">-->
-  <!--$(function () {-->
-    <!--getStreetList();-->
-  <!--});-->
-
-  <!--var page = 1;//页数-->
-  <!--var cat_id = '';//店铺分类id-->
-  <!--/**-->
-   <!--* 加载分类店铺-->
-   <!--*/-->
-  <!--function setCat_id(id) {-->
-    <!--$("#store_list").html('');-->
-    <!--page = 1;-->
-    <!--cat_id = id;-->
-    <!--getStreetList();-->
-  <!--}-->
-  <!--/**-->
-   <!--* 加载店铺-->
-   <!--*/-->
-  <!--function getStreetList() {-->
-    <!--$('.get_more').show();-->
-    <!--$.ajax({-->
-      <!--type: "get",-->
-      <!--url: "/index.php?m=Mobile&c=Index&a=ajaxStreetList&p=" + page + "&sc_id=" + cat_id,-->
-      <!--dataType: 'html',-->
-      <!--success: function (data) {-->
-        <!--if (data) {-->
-          <!--$("#store_list").append(data);-->
-          <!--page++;-->
-          <!--$('.get_more').hide();-->
-        <!--} else {-->
-          <!--$('.get_more').hide();-->
-          <!--$('#getmore').remove();-->
-        <!--}-->
-      <!--}-->
-    <!--});-->
-  <!--}-->
-<!--</script>-->
-<div class="floor_body2">
-    <div id="J_ItemList">
-        <ul class="product single_item info">
-        </ul>
-        <a href="javascript:;" class="get_more" style="text-align:center; display:block;">
-            <img src='__STATIC__/images/category/loader.gif' width="12" height="12"> </a>
-    </div>
-    <div id="getmore" style="font-size:.24rem;text-align: center;color:#888;padding:.25rem .24rem .4rem;">
-        <a href="javascript:void(0)" onClick="getStreetList()">点击加载更多</a>
-    </div>
-</div>
-<div style="height:100px; line-height:50px; clear:both;"></div>
-<!--<div class="footer">-->
-    <!--<div class="links" id="TP_MEMBERZONE">-->
-        <!--<if condition="$user_id gt 0">-->
-            <!--<a href="{:U('User/index')}"><span>{$user.nickname}</span></a><a href="{:U('User/logout')}"><span>退出</span></a>-->
-            <!--<else/>-->
-            <!--<a href="{:U('User/login')}"><span>登录</span></a><a href="{:U('User/reg')}"><span>注册</span></a>-->
-        <!--</if>-->
-        <!--<a href="#"><span>反馈</span></a><a href="javascript:window.scrollTo(0,0);"><span>回顶部</span></a>-->
-    <!--</div>-->
-    <!--<ul class="linkss">-->
-        <!--<li>-->
-            <!--<a href="#">-->
-                <!--<i class="footerimg_1"></i>-->
-                <!--<span>客户端</span></a></li>-->
-        <!--<li>-->
-            <!--<a href="javascript:;"><i class="footerimg_2"></i><span class="gl">触屏版</span></a></li>-->
-        <!--<li><a href="{:U('Home/Index/index')}" class="goDesktop"><i class="footerimg_3"></i><span>电脑版</span></a></li>-->
-    <!--</ul>-->
-    <!--<p class="mf_o4">备案号:{$tpshop_config['shop_info_record_no']}<br/>&copy; 2005-2016 TPshop多商户V1.2 版权所有，并保留所有权利。</p>-->
-<!--</div>-->
-
-<include file="public/footer_nav"/>
-<script>
-  function goTop() {
-    $('html,body').animate({'scrollTop': 0}, 600);
-  }
-</script>
-<a href="javascript:goTop();" class="gotop"><img src="__STATIC__/images/topup.png"></a>
-<script type="text/javascript">
-  // reg_package();
-</script>
-<script src="__STATIC__/js/slider.js" type="text/javascript"></script>
+                </div>  
+            </van-tabs>
+    </template>
+    
+    <script>
+       var app = new Vue({
+            el: '#app',
+                    data: {
+                    // 导航
+                    fenlei:'',
+                    commodity:''
+                },
+                methods: {
+             
+                },
+                mounted() {
+                     // 页面导航数据请
+                     axios({
+                        method:'post',
+                        url:'/mobile/Activity/store_class'
+                        }).then((res)=>{
+                            this.fenlei=res.data[0]
+                            console.log(this.fenlei)
+                    });
+                    axios({
+                        method:'psot',
+                        url:'/mobile/Index/streetList'
+                    }).then((res)=>{
+                        this.commodity=res.data.data
+                        console.log(this.commodity)
+                    },JSON)
+                    
+                },
+                created() {
+                    
+                   
+                   
+                    
+                },
+                })
+    </script>
 </body>
 </html>
